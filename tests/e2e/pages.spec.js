@@ -84,3 +84,14 @@ test('text assets are gzipped, versioned assets are cached for a year', async ({
   expect(css.headers()['cache-control']).toContain('immutable');
   expect((await css.text()).length).toBeGreaterThan(50_000);
 });
+
+test('images carry a tiny blurred placeholder, and it is replaced by the real picture', async ({ page }) => {
+  await page.goto('/gallery.html');
+  const info = await page.evaluate(() => {
+    const imgs = [...document.querySelectorAll('img[data-lqip]')];
+    return { n: imgs.length, sample: imgs[0]?.getAttribute('style') || '', bytes: Math.max(...imgs.map((i) => (i.getAttribute('style') || '').length)) };
+  });
+  expect(info.n).toBeGreaterThan(20);
+  expect(info.sample).toContain('background-image:url(data:image/webp;base64,');
+  expect(info.bytes).toBeLessThan(900);
+});

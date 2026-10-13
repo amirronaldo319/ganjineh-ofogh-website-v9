@@ -396,7 +396,9 @@ def expand_img(m):
     srcset = ", ".join(f"assets/img/{f['file']} {f['w']}w" for f in files)
     parts = [f'src="assets/img/{big["file"]}"', f'srcset="{srcset}"', f'width="{big["w"]}"', f'height="{big["h"]}"',
              'decoding="async"', 'loading="eager" fetchpriority="high"' if eager else 'loading="lazy"',
-             f'style="background-color:{info["color"]}"']
+             f'style="background-color:{info["color"]}' + (f';background-image:url({info["lqip"]});background-size:cover' if info.get("lqip") else "") + '"']
+    if info.get("lqip"):
+        parts.append("data-lqip")
     if "alt=" not in attrs:
         parts.append('alt=""')
     img = "<img " + " ".join(parts) + (" " + attrs if attrs else "") + ">"

@@ -68,6 +68,11 @@ Added on top of layers I–II (all compositor-only; nothing runs under `prefers-
 - **Hero exit:** as you scroll away, the text lifts off and the tower settles back, driven by the scroll itself (CSS scroll-driven animation; static where unsupported).
 - **Card highlight:** a soft light follows the pointer across an apartment card; the brand rule lengthens on hover.
 
+## Finish
+
+- **Blurred placeholders:** every image has a ~190-character WebP data URI behind it (`python3 tools/build_lqip.py`, run after `build_images.py`), so a slow connection shows the picture's shapes and colours at once and the sharp image fades in over them.
+- **Typography:** `text-wrap: pretty` on paragraphs and captions (fewer orphaned last words); photographs are eased by 6% at dusk; no tap flash on phones.
+
 ## Sharing, printing and share cards
 
 - **Share cards:** every page has its own 1200×630 card per language (`assets/og/<page>-<lang>.jpg`, drawn by `tools/build_og_pages.mjs`, which `build_site.py` runs and which redraws only what changed). A link pasted into WhatsApp, Telegram or X shows that page's picture and title.

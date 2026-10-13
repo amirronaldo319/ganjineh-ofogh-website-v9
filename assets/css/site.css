@@ -1275,7 +1275,7 @@ html:not([data-theme="dusk"]) .header.is-dark.is-stuck { background: color-mix(i
 .visit.is-lit::after { opacity: 1; }
 
 /* images announce themselves while they load */
-.js img[loading="lazy"]:not(.is-loaded) { background-image: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, .3) 50%, transparent 80%);
+.js img[loading="lazy"]:not(.is-loaded):not([data-lqip]) { background-image: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, .3) 50%, transparent 80%);
   background-size: 220% 100%; background-repeat: no-repeat; animation: imgShimmer 1.5s linear infinite; }
 @keyframes imgShimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
 
@@ -1316,7 +1316,7 @@ html:not([data-theme="dusk"]) .header.is-dark.is-stuck { background: color-mix(i
 @media (prefers-reduced-motion: reduce) {
   .hero::after, .phero::before, .confirm-mark circle, .confirm-mark path, .ref-group, .dl-card, .steps li { animation: none !important; }
   .confirm-mark circle, .confirm-mark path { stroke-dashoffset: 0; }
-  .js img[loading="lazy"]:not(.is-loaded) { animation: none; background-image: none; }
+  .js img[loading="lazy"]:not(.is-loaded):not([data-lqip]) { animation: none; background-image: none; }
   .totop { transition: none; }
 }
 
@@ -1437,3 +1437,10 @@ html:not([data-theme="dusk"]) .header.is-dark.is-stuck { background: color-mix(i
     @keyframes heroExitArt { to { scale: 1.06; translate: 0 36px; } }
   }
 }
+
+
+/* ═════════════════════ Finish: typography and comfort ═════════════════════ */
+p, li, .lede, figcaption { text-wrap: pretty; }                  /* fewer orphaned last words */
+html[data-theme="dusk"] .frame img { filter: brightness(.94) contrast(1.03); }   /* photographs sit more comfortably on a dark page */
+a, button, summary, .btn, .tool, .pin { -webkit-tap-highlight-color: transparent; }
+img[data-lqip] { background-position: center; background-repeat: no-repeat; }
