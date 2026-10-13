@@ -90,7 +90,7 @@ npm run test:visual                                        # screenshots: every 
 npm run test:visual:update                                 # accept a deliberate design change as the new baseline
 ```
 
-Last run: Chrome projects 136 passed (2 desktop-only/mobile-only skips); Safari desktop + iPhone 13 (WebKit) 136 passed (4 skips: Chromium-only clipboard and WebGL-detail tests).
+Last run: Chrome projects 166 passed (2 skips); Safari desktop + iPhone 13 (WebKit) all passed except the Chromium-only tests, which are skipped; visual 160 of 160 identical on a second run. Python: `python3 -m unittest discover -s tests` (notifier, brochure + inbox, monitor).
 WebKit here is Playwright's build, not a phone: it proves the layout, scripts and CSS work in Safari's engine, not that the 3D models run well on a real iPhone GPU.
 Visual baselines (160 full-page screenshots, about 360 MB) are rendered by Google Chrome on macOS into `tests/visual/__screenshots__/` and are not committed: after a fresh clone run `npm run test:visual:update` once to create them, then `npm run test:visual` compares.
 Lighthouse (mobile profile, simulated slow 4G, local server): accessibility, best practices and SEO 100 on every page tested; performance 82–100.
