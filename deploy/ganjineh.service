@@ -1,0 +1,22 @@
+[Unit]
+Description=Ganjineh Ofogh website (server.py behind Caddy)
+After=network.target
+
+[Service]
+User=ganjineh
+WorkingDirectory=/srv/ganjineh/site
+Environment=PORT=8000
+Environment=GO_TRUST_PROXY=1
+Environment=GO_DB_PATH=/srv/ganjineh/data/enquiries.sqlite3
+# Switch to 1 only when an enquiry destination and a responsible person are confirmed.
+Environment=GO_ACCEPT_ENQUIRIES=0
+ExecStart=/usr/bin/python3 server.py
+Restart=on-failure
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/srv/ganjineh/data
+
+[Install]
+WantedBy=multi-user.target

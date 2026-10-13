@@ -1,0 +1,14 @@
+{
+  "_help": "Fill what you have, leave the rest empty: nothing is rendered for an empty field, so no placeholder ever ships. Then run: python3 tools/build_site.py",
+  "phone": "",
+  "phone_display": "",
+  "whatsapp": "",
+  "telegram": "",
+  "eitaa": "",
+  "rubika": "",
+  "instagram": "",
+  "email": "",
+  "hours_fa": "",
+  "hours_en": "",
+  "analytics": { "src": "", "domain": "" }
+}

@@ -1,0 +1,75 @@
+<!--page key="contact" nav="contact" title_fa="تماس با فروش · برج گنجینه افق" title_en="Contact sales · Ganjineh Ofogh" desc_fa="رزرو بازدید خصوصی، درخواست بروشور یا گفت‌وگو با مشاور فروش برج گنجینه افق." desc_en="Arrange a private viewing, request the brochure or speak with a sales advisor at Ganjineh Ofogh." og="entrance" scripts="jalali.js,contact.js" -->
+<section class="phero" id="appointment">
+  <div class="wrap phero__grid phero__grid--wide">
+    <div>
+      <nav class="crumbs" aria-label="مسیر صفحه" en-aria-label="Breadcrumb"><a href="index.html" en="Home">صفحه اصلی</a><span aria-hidden="true">/</span><span en="Contact">تماس</span></nav>
+      <span class="eyebrow" en="Private sales enquiries">درخواست‌های خصوصی فروش</span>
+      <h1 class="display" style="margin-block-start:1.1rem;font-size:clamp(2.4rem,5.6vw,5rem)" en="How can we be with you?">چگونه می‌توانیم همراه شما باشیم؟</h1>
+      <p class="lede" style="margin-block-start:1.6rem" en="Choose how you would like to reach us. We ask only for what that request needs.">راه ارتباطی خود را انتخاب کنید. فقط اطلاعات لازم برای همان درخواست را می‌پرسیم.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="route-grid rv" role="group" aria-label="نوع درخواست" en-aria-label="Request type">
+      <button type="button" class="route-card" data-route="visit" aria-pressed="true"><span class="idx">۰۱</span><span class="route-title" en="Private viewing">رزرو بازدید خصوصی</span><p en="An in-person, phone or video visit to the project">بازدید حضوری، تلفنی یا تصویری از پروژه</p></button>
+      <button type="button" class="route-card" id="brochure" data-route="brochure" aria-pressed="false"><span class="idx">۰۲</span><span class="route-title" en="Request the brochure">درخواست بروشور</span><p en="Receive the full project brochure">دریافت بروشور کامل معرفی پروژه</p></button>
+      <button type="button" class="route-card" data-route="advisor" aria-pressed="false"><span class="idx">۰۳</span><span class="route-title" en="Speak with an advisor">صحبت با مشاور</span><p en="A sales advisor calls you to answer your questions">تماس مشاور فروش برای پاسخ به پرسش‌های شما</p></button>
+    </div>
+    <div class="contact-wrap" style="margin-block-start:clamp(32px,5vw,64px)">
+      <form id="enquiry-form" action="/api/enquiries" method="post" novalidate>
+        <input type="hidden" name="route" value="visit">
+        <input type="hidden" name="page" value="contact.html">
+        <div class="hp-field" aria-hidden="true"><label for="website" en="Website">وب‌سایت</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <p class="form-status" id="form-status" role="status" aria-live="polite" en="Checking whether requests can be submitted…">در حال بررسی امکان ارسال درخواست…</p>
+        <div class="field-row">
+          <div class="field"><label for="name" en="Full name">نام و نام خانوادگی</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="mobile" en="Mobile number">شماره موبایل</label><input id="mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" pattern="[0-9۰-۹٠-٩+() -]{10,18}" required><span class="field-error" id="mobile-error"></span></div>
+        </div>
+        <div class="field">
+          <label for="residence-interest" en="Residence of interest (optional)">واحد موردنظر (اختیاری)</label>
+          <select id="residence-interest" name="residence-interest">
+            <option value="" en="Not decided yet">هنوز مشخص نیست</option>
+            <option value="residence-1" en="Apartment 1 · 143.25 m²">واحد ۱ · ۱۴۳٫۲۵ متر مربع</option>
+            <option value="residence-2" en="Apartment 2 · 150 m²">واحد ۲ · ۱۵۰ متر مربع</option>
+            <option value="residence-3" en="Apartment 3 · 166 m²">واحد ۳ · ۱۶۶ متر مربع</option>
+            <option value="residence-4" en="Apartment 4 · 162 m²">واحد ۴ · ۱۶۲ متر مربع</option>
+          </select>
+        </div>
+        <div data-route-fields="visit">
+          <fieldset>
+            <legend en="Type of visit">نوع بازدید</legend>
+            <div class="radio-row">
+              <label><input type="radio" name="visit-type" value="in-person" checked><span en="In person">حضوری</span></label>
+              <label><input type="radio" name="visit-type" value="phone"><span en="By phone">تلفنی</span></label>
+              <label><input type="radio" name="visit-type" value="video"><span en="Video call">تماس تصویری</span></label>
+            </div>
+          </fieldset>
+          <div class="field-row">
+            <div class="field"><label for="visit-date" en="Suggested date">تاریخ پیشنهادی</label><input id="visit-date" name="visit-date" type="date"></div>
+            <div class="field"><label for="visit-time" en="Suggested time">ساعت پیشنهادی</label><input id="visit-time" name="visit-time" type="time"></div>
+          </div>
+        </div>
+        <div data-route-fields="brochure" hidden>
+          <div class="field"><label for="email" en="Email, to send the brochure">ایمیل، برای ارسال بروشور</label><input id="email" name="email" type="email" autocomplete="email" dir="ltr"></div>
+        </div>
+        <div data-route-fields="advisor" hidden>
+          <div class="field"><label for="message" en="Your question (optional)">سؤال شما (اختیاری)</label><textarea id="message" name="message"></textarea></div>
+        </div>
+        <label class="consent"><input type="checkbox" name="consent" value="yes" required><span en="By submitting, I allow my details to be kept only to follow up this request.">با ثبت این درخواست، اجازه می‌دهم اطلاعاتم فقط برای پیگیری همین درخواست نگهداری شود.</span></label>
+        <button type="submit" class="btn" data-submit-label disabled en="Send viewing request">ارسال درخواست بازدید</button>
+      </form>
+      <aside class="rv">
+        <span class="eyebrow" en="When enquiries open">زمان آغاز پذیرش</span>
+        <ol class="process">
+          <li><b>۰۱</b><p en="Once intake is active, your request is recorded and passed to the sales team for review.">پس از فعال شدن پذیرش، درخواست شما ثبت و برای بررسی به تیم فروش ارجاع می‌شود.</p></li>
+          <li><b>۰۲</b><p en="The sales team calls to arrange details with you.">تیم فروش برای هماهنگی با شما تماس می‌گیرد.</p></li>
+          <li><b>۰۳</b><p en="The time and type of visit are settled in that conversation.">زمان و نوع بازدید بر اساس هماهنگی نهایی می‌شود.</p></li>
+        </ol>
+        {{channels}}
+        {{channels_note}}
+      </aside>
+    </div>
+  </div>
+</section>

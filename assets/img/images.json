@@ -1,0 +1,1182 @@
+{
+ "hero": {
+  "w": 3840,
+  "h": 3840,
+  "color": "#86735c",
+  "files": [
+   {
+    "file": "hero-2200.webp",
+    "w": 2200,
+    "h": 2200,
+    "kb": 730
+   },
+   {
+    "file": "hero-1200.webp",
+    "w": 1200,
+    "h": 1200,
+    "kb": 354
+   },
+   {
+    "file": "hero-720.webp",
+    "w": 720,
+    "h": 720,
+    "kb": 155
+   },
+   {
+    "file": "hero-480.webp",
+    "w": 480,
+    "h": 480,
+    "kb": 73
+   }
+  ]
+ },
+ "panorama": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#806c57",
+  "files": [
+   {
+    "file": "panorama-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 354
+   },
+   {
+    "file": "panorama-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 154
+   },
+   {
+    "file": "panorama-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 104
+   },
+   {
+    "file": "panorama-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 50
+   }
+  ]
+ },
+ "facade": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#937b63",
+  "files": [
+   {
+    "file": "facade-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 203
+   },
+   {
+    "file": "facade-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 89
+   },
+   {
+    "file": "facade-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 59
+   },
+   {
+    "file": "facade-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 30
+   }
+  ]
+ },
+ "plaza": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#947350",
+  "files": [
+   {
+    "file": "plaza-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 282
+   },
+   {
+    "file": "plaza-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 122
+   },
+   {
+    "file": "plaza-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 83
+   },
+   {
+    "file": "plaza-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 40
+   }
+  ]
+ },
+ "entrance": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#89684a",
+  "files": [
+   {
+    "file": "entrance-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 280
+   },
+   {
+    "file": "entrance-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 125
+   },
+   {
+    "file": "entrance-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 86
+   },
+   {
+    "file": "entrance-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 42
+   }
+  ]
+ },
+ "garden": {
+  "w": 3840,
+  "h": 2880,
+  "color": "#6f6736",
+  "files": [
+   {
+    "file": "garden-2000.webp",
+    "w": 2000,
+    "h": 1500,
+    "kb": 778
+   },
+   {
+    "file": "garden-1000.webp",
+    "w": 1000,
+    "h": 750,
+    "kb": 294
+   },
+   {
+    "file": "garden-720.webp",
+    "w": 720,
+    "h": 540,
+    "kb": 158
+   },
+   {
+    "file": "garden-480.webp",
+    "w": 480,
+    "h": 360,
+    "kb": 74
+   }
+  ]
+ },
+ "terrace": {
+  "w": 3840,
+  "h": 2161,
+  "color": "#78685f",
+  "files": [
+   {
+    "file": "terrace-2000.webp",
+    "w": 2000,
+    "h": 1126,
+    "kb": 355
+   },
+   {
+    "file": "terrace-1000.webp",
+    "w": 1000,
+    "h": 563,
+    "kb": 124
+   },
+   {
+    "file": "terrace-720.webp",
+    "w": 720,
+    "h": 405,
+    "kb": 65
+   },
+   {
+    "file": "terrace-480.webp",
+    "w": 480,
+    "h": 270,
+    "kb": 29
+   }
+  ]
+ },
+ "villa": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#886f55",
+  "files": [
+   {
+    "file": "villa-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 348
+   },
+   {
+    "file": "villa-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 145
+   },
+   {
+    "file": "villa-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 96
+   },
+   {
+    "file": "villa-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 46
+   }
+  ]
+ },
+ "studio": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#a28772",
+  "files": [
+   {
+    "file": "studio-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 204
+   },
+   {
+    "file": "studio-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 95
+   },
+   {
+    "file": "studio-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 67
+   },
+   {
+    "file": "studio-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 34
+   }
+  ]
+ },
+ "interior-view": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#a4896d",
+  "files": [
+   {
+    "file": "interior-view-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 256
+   },
+   {
+    "file": "interior-view-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 101
+   },
+   {
+    "file": "interior-view-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 66
+   },
+   {
+    "file": "interior-view-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 31
+   }
+  ]
+ },
+ "interior-shelf": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#866a4e",
+  "files": [
+   {
+    "file": "interior-shelf-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 242
+   },
+   {
+    "file": "interior-shelf-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 106
+   },
+   {
+    "file": "interior-shelf-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 73
+   },
+   {
+    "file": "interior-shelf-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 36
+   }
+  ]
+ },
+ "site-diagram": {
+  "w": 1152,
+  "h": 1440,
+  "color": "#bdc2b8",
+  "files": [
+   {
+    "file": "site-diagram-900.webp",
+    "w": 900,
+    "h": 1125,
+    "kb": 14
+   },
+   {
+    "file": "site-diagram-720.webp",
+    "w": 720,
+    "h": 900,
+    "kb": 11
+   },
+   {
+    "file": "site-diagram-480.webp",
+    "w": 480,
+    "h": 600,
+    "kb": 8
+   }
+  ]
+ },
+ "lobby": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#92836a",
+  "files": [
+   {
+    "file": "lobby-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 232
+   },
+   {
+    "file": "lobby-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 92
+   },
+   {
+    "file": "lobby-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 59
+   },
+   {
+    "file": "lobby-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 28
+   }
+  ]
+ },
+ "hall": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#907454",
+  "files": [
+   {
+    "file": "hall-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 245
+   },
+   {
+    "file": "hall-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 107
+   },
+   {
+    "file": "hall-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 71
+   },
+   {
+    "file": "hall-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 35
+   }
+  ]
+ },
+ "cinema": {
+  "w": 3840,
+  "h": 3541,
+  "color": "#3a3228",
+  "files": [
+   {
+    "file": "cinema-1800.webp",
+    "w": 1800,
+    "h": 1660,
+    "kb": 100
+   },
+   {
+    "file": "cinema-900.webp",
+    "w": 900,
+    "h": 830,
+    "kb": 37
+   },
+   {
+    "file": "cinema-720.webp",
+    "w": 720,
+    "h": 664,
+    "kb": 26
+   },
+   {
+    "file": "cinema-480.webp",
+    "w": 480,
+    "h": 443,
+    "kb": 13
+   }
+  ]
+ },
+ "fitness": {
+  "w": 3840,
+  "h": 3552,
+  "color": "#6d6554",
+  "files": [
+   {
+    "file": "fitness-1800.webp",
+    "w": 1800,
+    "h": 1665,
+    "kb": 241
+   },
+   {
+    "file": "fitness-900.webp",
+    "w": 900,
+    "h": 832,
+    "kb": 107
+   },
+   {
+    "file": "fitness-720.webp",
+    "w": 720,
+    "h": 666,
+    "kb": 78
+   },
+   {
+    "file": "fitness-480.webp",
+    "w": 480,
+    "h": 444,
+    "kb": 42
+   }
+  ]
+ },
+ "cafe": {
+  "w": 3840,
+  "h": 3025,
+  "color": "#776752",
+  "files": [
+   {
+    "file": "cafe-1800.webp",
+    "w": 1800,
+    "h": 1418,
+    "kb": 211
+   },
+   {
+    "file": "cafe-900.webp",
+    "w": 900,
+    "h": 709,
+    "kb": 92
+   },
+   {
+    "file": "cafe-720.webp",
+    "w": 720,
+    "h": 567,
+    "kb": 66
+   },
+   {
+    "file": "cafe-480.webp",
+    "w": 480,
+    "h": 378,
+    "kb": 35
+   }
+  ]
+ },
+ "lounge": {
+  "w": 1024,
+  "h": 1280,
+  "color": "#665946",
+  "files": [
+   {
+    "file": "lounge-1024.webp",
+    "w": 1024,
+    "h": 1280,
+    "kb": 190
+   },
+   {
+    "file": "lounge-700.webp",
+    "w": 700,
+    "h": 875,
+    "kb": 101
+   },
+   {
+    "file": "lounge-480.webp",
+    "w": 480,
+    "h": 600,
+    "kb": 52
+   }
+  ]
+ },
+ "living": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#a38769",
+  "files": [
+   {
+    "file": "living-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 254
+   },
+   {
+    "file": "living-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 101
+   },
+   {
+    "file": "living-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 66
+   },
+   {
+    "file": "living-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 30
+   }
+  ]
+ },
+ "kitchen": {
+  "w": 1536,
+  "h": 1024,
+  "color": "#ad947f",
+  "files": [
+   {
+    "file": "kitchen-1536.webp",
+    "w": 1536,
+    "h": 1024,
+    "kb": 143
+   },
+   {
+    "file": "kitchen-900.webp",
+    "w": 900,
+    "h": 600,
+    "kb": 61
+   },
+   {
+    "file": "kitchen-720.webp",
+    "w": 720,
+    "h": 480,
+    "kb": 42
+   },
+   {
+    "file": "kitchen-480.webp",
+    "w": 480,
+    "h": 320,
+    "kb": 22
+   }
+  ]
+ },
+ "kitchen-detail": {
+  "w": 1122,
+  "h": 906,
+  "color": "#aea297",
+  "files": [
+   {
+    "file": "kitchen-detail-1122.webp",
+    "w": 1122,
+    "h": 906,
+    "kb": 71
+   },
+   {
+    "file": "kitchen-detail-700.webp",
+    "w": 700,
+    "h": 565,
+    "kb": 35
+   },
+   {
+    "file": "kitchen-detail-480.webp",
+    "w": 480,
+    "h": 388,
+    "kb": 19
+   }
+  ]
+ },
+ "bedroom": {
+  "w": 3840,
+  "h": 3087,
+  "color": "#7b6b59",
+  "files": [
+   {
+    "file": "bedroom-1800.webp",
+    "w": 1800,
+    "h": 1447,
+    "kb": 177
+   },
+   {
+    "file": "bedroom-900.webp",
+    "w": 900,
+    "h": 724,
+    "kb": 72
+   },
+   {
+    "file": "bedroom-720.webp",
+    "w": 720,
+    "h": 579,
+    "kb": 51
+   },
+   {
+    "file": "bedroom-480.webp",
+    "w": 480,
+    "h": 386,
+    "kb": 26
+   }
+  ]
+ },
+ "wardrobe": {
+  "w": 3840,
+  "h": 3601,
+  "color": "#74604d",
+  "files": [
+   {
+    "file": "wardrobe-1800.webp",
+    "w": 1800,
+    "h": 1688,
+    "kb": 182
+   },
+   {
+    "file": "wardrobe-900.webp",
+    "w": 900,
+    "h": 844,
+    "kb": 74
+   },
+   {
+    "file": "wardrobe-720.webp",
+    "w": 720,
+    "h": 675,
+    "kb": 53
+   },
+   {
+    "file": "wardrobe-480.webp",
+    "w": 480,
+    "h": 450,
+    "kb": 28
+   }
+  ]
+ },
+ "bath": {
+  "w": 1254,
+  "h": 1254,
+  "color": "#bdad9d",
+  "files": [
+   {
+    "file": "bath-1254.webp",
+    "w": 1254,
+    "h": 1254,
+    "kb": 106
+   },
+   {
+    "file": "bath-700.webp",
+    "w": 700,
+    "h": 700,
+    "kb": 31
+   },
+   {
+    "file": "bath-480.webp",
+    "w": 480,
+    "h": 480,
+    "kb": 16
+   }
+  ]
+ },
+ "study": {
+  "w": 1024,
+  "h": 1280,
+  "color": "#7a6a56",
+  "files": [
+   {
+    "file": "study-1024.webp",
+    "w": 1024,
+    "h": 1280,
+    "kb": 155
+   },
+   {
+    "file": "study-700.webp",
+    "w": 700,
+    "h": 875,
+    "kb": 82
+   },
+   {
+    "file": "study-480.webp",
+    "w": 480,
+    "h": 600,
+    "kb": 41
+   }
+  ]
+ },
+ "tower-day": {
+  "w": 1024,
+  "h": 1536,
+  "color": "#9f8870",
+  "files": [
+   {
+    "file": "tower-day-1024.webp",
+    "w": 1024,
+    "h": 1536,
+    "kb": 321
+   },
+   {
+    "file": "tower-day-700.webp",
+    "w": 700,
+    "h": 1050,
+    "kb": 176
+   },
+   {
+    "file": "tower-day-480.webp",
+    "w": 480,
+    "h": 720,
+    "kb": 92
+   }
+  ]
+ },
+ "tower-dusk": {
+  "w": 1024,
+  "h": 1536,
+  "color": "#7c6558",
+  "files": [
+   {
+    "file": "tower-dusk-1024.webp",
+    "w": 1024,
+    "h": 1536,
+    "kb": 268
+   },
+   {
+    "file": "tower-dusk-700.webp",
+    "w": 700,
+    "h": 1050,
+    "kb": 151
+   },
+   {
+    "file": "tower-dusk-480.webp",
+    "w": 480,
+    "h": 720,
+    "kb": 81
+   }
+  ]
+ },
+ "plan": {
+  "w": 984,
+  "h": 1067,
+  "color": "#cbc1b2",
+  "files": [
+   {
+    "file": "plan-984.webp",
+    "w": 984,
+    "h": 1067,
+    "kb": 106
+   },
+   {
+    "file": "plan-700.webp",
+    "w": 700,
+    "h": 759,
+    "kb": 60
+   },
+   {
+    "file": "plan-480.webp",
+    "w": 480,
+    "h": 520,
+    "kb": 35
+   }
+  ]
+ },
+ "apt1": {
+  "w": 1526,
+  "h": 768,
+  "color": "#9f8f7d",
+  "files": [
+   {
+    "file": "apt1-1526.webp",
+    "w": 1526,
+    "h": 768,
+    "kb": 174
+   },
+   {
+    "file": "apt1-900.webp",
+    "w": 900,
+    "h": 453,
+    "kb": 64
+   },
+   {
+    "file": "apt1-720.webp",
+    "w": 720,
+    "h": 362,
+    "kb": 42
+   },
+   {
+    "file": "apt1-480.webp",
+    "w": 480,
+    "h": 242,
+    "kb": 21
+   }
+  ]
+ },
+ "apt2": {
+  "w": 1214,
+  "h": 982,
+  "color": "#afa08d",
+  "files": [
+   {
+    "file": "apt2-1214.webp",
+    "w": 1214,
+    "h": 982,
+    "kb": 92
+   },
+   {
+    "file": "apt2-800.webp",
+    "w": 800,
+    "h": 647,
+    "kb": 47
+   },
+   {
+    "file": "apt2-720.webp",
+    "w": 720,
+    "h": 582,
+    "kb": 40
+   },
+   {
+    "file": "apt2-480.webp",
+    "w": 480,
+    "h": 388,
+    "kb": 22
+   }
+  ]
+ },
+ "apt3": {
+  "w": 1004,
+  "h": 1206,
+  "color": "#b0a18c",
+  "files": [
+   {
+    "file": "apt3-1004.webp",
+    "w": 1004,
+    "h": 1206,
+    "kb": 116
+   },
+   {
+    "file": "apt3-700.webp",
+    "w": 700,
+    "h": 841,
+    "kb": 56
+   },
+   {
+    "file": "apt3-480.webp",
+    "w": 480,
+    "h": 577,
+    "kb": 29
+   }
+  ]
+ },
+ "apt4": {
+  "w": 930,
+  "h": 1246,
+  "color": "#b4a696",
+  "files": [
+   {
+    "file": "apt4-930.webp",
+    "w": 930,
+    "h": 1246,
+    "kb": 91
+   },
+   {
+    "file": "apt4-700.webp",
+    "w": 700,
+    "h": 938,
+    "kb": 54
+   },
+   {
+    "file": "apt4-480.webp",
+    "w": 480,
+    "h": 643,
+    "kb": 28
+   }
+  ]
+ },
+ "helipad": {
+  "w": 1215,
+  "h": 1024,
+  "color": "#ab978b",
+  "files": [
+   {
+    "file": "helipad-1215.webp",
+    "w": 1215,
+    "h": 1024,
+    "kb": 104
+   },
+   {
+    "file": "helipad-800.webp",
+    "w": 800,
+    "h": 674,
+    "kb": 56
+   },
+   {
+    "file": "helipad-720.webp",
+    "w": 720,
+    "h": 607,
+    "kb": 48
+   },
+   {
+    "file": "helipad-480.webp",
+    "w": 480,
+    "h": 405,
+    "kb": 26
+   }
+  ]
+ },
+ "aerial": {
+  "w": 1448,
+  "h": 657,
+  "color": "#7d828a",
+  "files": [
+   {
+    "file": "aerial-1448.webp",
+    "w": 1448,
+    "h": 657,
+    "kb": 223
+   },
+   {
+    "file": "aerial-900.webp",
+    "w": 900,
+    "h": 408,
+    "kb": 105
+   },
+   {
+    "file": "aerial-720.webp",
+    "w": 720,
+    "h": 327,
+    "kb": 71
+   },
+   {
+    "file": "aerial-480.webp",
+    "w": 480,
+    "h": 218,
+    "kb": 33
+   }
+  ]
+ },
+ "model-view": {
+  "w": 1254,
+  "h": 1254,
+  "color": "#817061",
+  "files": [
+   {
+    "file": "model-view-1254.webp",
+    "w": 1254,
+    "h": 1254,
+    "kb": 397
+   },
+   {
+    "file": "model-view-800.webp",
+    "w": 800,
+    "h": 800,
+    "kb": 201
+   },
+   {
+    "file": "model-view-720.webp",
+    "w": 720,
+    "h": 720,
+    "kb": 171
+   },
+   {
+    "file": "model-view-480.webp",
+    "w": 480,
+    "h": 480,
+    "kb": 84
+   }
+  ]
+ },
+ "model-render": {
+  "w": 1800,
+  "h": 1800,
+  "color": "#c9cac4",
+  "files": [
+   {
+    "file": "model-render-1500.webp",
+    "w": 1500,
+    "h": 1500,
+    "kb": 73
+   },
+   {
+    "file": "model-render-800.webp",
+    "w": 800,
+    "h": 800,
+    "kb": 36
+   },
+   {
+    "file": "model-render-720.webp",
+    "w": 720,
+    "h": 720,
+    "kb": 31
+   },
+   {
+    "file": "model-render-480.webp",
+    "w": 480,
+    "h": 480,
+    "kb": 20
+   }
+  ]
+ },
+ "model-section": {
+  "w": 1800,
+  "h": 1800,
+  "color": "#c8c7c0",
+  "files": [
+   {
+    "file": "model-section-1500.webp",
+    "w": 1500,
+    "h": 1500,
+    "kb": 72
+   },
+   {
+    "file": "model-section-800.webp",
+    "w": 800,
+    "h": 800,
+    "kb": 35
+   },
+   {
+    "file": "model-section-720.webp",
+    "w": 720,
+    "h": 720,
+    "kb": 31
+   },
+   {
+    "file": "model-section-480.webp",
+    "w": 480,
+    "h": 480,
+    "kb": 19
+   }
+  ]
+ },
+ "model-floor": {
+  "w": 1800,
+  "h": 1800,
+  "color": "#e2dfd6",
+  "files": [
+   {
+    "file": "model-floor-1500.webp",
+    "w": 1500,
+    "h": 1500,
+    "kb": 55
+   },
+   {
+    "file": "model-floor-800.webp",
+    "w": 800,
+    "h": 800,
+    "kb": 26
+   },
+   {
+    "file": "model-floor-720.webp",
+    "w": 720,
+    "h": 720,
+    "kb": 23
+   },
+   {
+    "file": "model-floor-480.webp",
+    "w": 480,
+    "h": 480,
+    "kb": 14
+   }
+  ]
+ },
+ "model-shared": {
+  "w": 1800,
+  "h": 1800,
+  "color": "#dedcd3",
+  "files": [
+   {
+    "file": "model-shared-1500.webp",
+    "w": 1500,
+    "h": 1500,
+    "kb": 33
+   },
+   {
+    "file": "model-shared-800.webp",
+    "w": 800,
+    "h": 800,
+    "kb": 16
+   },
+   {
+    "file": "model-shared-720.webp",
+    "w": 720,
+    "h": 720,
+    "kb": 14
+   },
+   {
+    "file": "model-shared-480.webp",
+    "w": 480,
+    "h": 480,
+    "kb": 9
+   }
+  ]
+ },
+ "model-parking": {
+  "w": 1800,
+  "h": 1800,
+  "color": "#e8e5dc",
+  "files": [
+   {
+    "file": "model-parking-1500.webp",
+    "w": 1500,
+    "h": 1500,
+    "kb": 19
+   },
+   {
+    "file": "model-parking-800.webp",
+    "w": 800,
+    "h": 800,
+    "kb": 9
+   },
+   {
+    "file": "model-parking-720.webp",
+    "w": 720,
+    "h": 720,
+    "kb": 8
+   },
+   {
+    "file": "model-parking-480.webp",
+    "w": 480,
+    "h": 480,
+    "kb": 4
+   }
+  ]
+ }
+}

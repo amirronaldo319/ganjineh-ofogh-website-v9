@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="{{lang}}" dir="{{dir}}" class="no-js" data-page="{{key}}" data-base="{{base}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{title}}</title>
+<meta name="description" content="{{desc}}">
+<meta name="theme-color" content="#f2efe6" id="theme-color">
+{{robots}}
+<link rel="canonical" href="{{canonical}}">
+<link rel="alternate" hreflang="fa" href="{{url_fa}}">
+<link rel="alternate" hreflang="en" href="{{url_en}}">
+<link rel="alternate" hreflang="x-default" href="{{url_fa}}">
+<meta name="go-alt" content="{{alt_href}}" data-lang="{{other_lang}}">
+<meta property="og:site_name" content="برج گنجینه افق · Ganjineh Ofogh">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="{{locale}}">
+<meta property="og:locale:alternate" content="{{locale_alt}}">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{desc}}">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:image" content="https://ganjinehofogh.ir/assets/img/{{og}}.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="{{base}}favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="{{base}}{{css}}">
+{{preload}}
+<script>
+  // Language is the page's own (pages exist per language). A stored choice sends a visitor to the matching
+  // language of this page; theme and the home-page intro are decided here too, before first paint.
+  (function () {
+    var d = document.documentElement, lang = d.lang, theme = 'day';
+    try {
+      var sl = localStorage.getItem('ofogh-lang');
+      if ((sl === 'fa' || sl === 'en') && sl !== lang) {
+        var alt = document.querySelector('meta[name="go-alt"][data-lang="' + sl + '"]');
+        if (alt) { location.replace(new URL(alt.content, location.href).href + location.search + location.hash); return; }
+      }
+      var st = localStorage.getItem('ofogh-site-theme');
+      if (st === 'dusk' || st === 'day') theme = st; else if (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) theme = 'dusk';
+    } catch (e) {}
+    d.dataset.theme = theme;
+    d.classList.remove('no-js'); d.classList.add('js');
+    // First visit of the session, home page only: a short curtain intro (never under reduced motion or automation).
+    try {
+      var force = /[?&]intro=1/.test(location.search);
+      if (d.dataset.page === 'index' && (force || (!sessionStorage.getItem('ofogh-intro') && !navigator.webdriver)) &&
+          !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+        d.dataset.intro = '1'; sessionStorage.setItem('ofogh-intro', '1');
+      }
+    } catch (e) {}
+  })();
+</script>
+{{jsonld}}
+</head>

@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "python3 server.py",
+    "test": "playwright test",
+    "test:safari": "playwright test --project=safari-desktop --project=safari-iphone"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "lighthouse": "^13.4.1"
+  }
+}

@@ -1,0 +1,10 @@
+# Caddy terminates HTTPS (automatic certificates) and forwards to server.py on localhost.
+# server.py already sends its own security and cache headers; Caddy only adds compression.
+ganjinehofogh.ir {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:8000
+}
+
+www.ganjinehofogh.ir {
+	redir https://ganjinehofogh.ir{uri} permanent
+}
