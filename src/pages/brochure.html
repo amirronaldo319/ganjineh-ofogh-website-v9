@@ -1,0 +1,62 @@
+<!--page key="brochure" nav="contact" title_fa="دریافت بروشور · برج گنجینه افق" title_en="Get the brochure · Ganjineh Ofogh" desc_fa="نام و شماره‌ی موبایل خود را بگذارید و بروشور برج گنجینه افق را دریافت کنید." desc_en="Leave your name and mobile number to get the Ganjineh Ofogh project brochure." og="aerial" scripts="brochure.js" -->
+<section class="phero">
+  <div class="wrap phero__grid phero__grid--wide">
+    <div>
+      <nav class="crumbs" aria-label="مسیر صفحه" en-aria-label="Breadcrumb"><a href="index.html" en="Home">صفحه اصلی</a><span aria-hidden="true">/</span><span en="Brochure">بروشور</span></nav>
+      <span class="eyebrow" en="The project brochure">بروشور پروژه</span>
+      <h1 class="display" style="margin-block-start:1.1rem;font-size:clamp(2.4rem,5.6vw,5rem)" en="Take the brochure with you.">بروشور را همراه خود ببرید.</h1>
+      <p class="lede" style="margin-block-start:1.6rem" en="Leave your name and mobile number and we will provide the project brochure. Nothing else is asked.">نام و شماره‌ی موبایل خود را بگذارید تا بروشور پروژه را برایتان فراهم کنیم. چیز دیگری نمی‌پرسیم.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="contact-wrap">
+      <form id="brochure-form" action="/api/enquiries" method="post" novalidate>
+        <input type="hidden" name="route" value="download">
+        <input type="hidden" name="page" value="brochure.html">
+        <div class="hp-field" aria-hidden="true"><label for="website" en="Website">وب‌سایت</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <p class="form-status" id="form-status" role="status" aria-live="polite" en="Checking whether requests can be submitted…">در حال بررسی امکان ارسال درخواست…</p>
+        <div class="field-row">
+          <div class="field"><label for="name" en="Full name">نام و نام خانوادگی</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="mobile" en="Mobile number">شماره موبایل</label><input id="mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" pattern="[0-9۰-۹٠-٩+() -]{10,18}" required><span class="field-error" id="mobile-error"></span></div>
+        </div>
+        <div class="field">
+          <label for="residence-interest" en="Residence of interest (optional)">واحد موردنظر (اختیاری)</label>
+          <select id="residence-interest" name="residence-interest">
+            <option value="" en="Not decided yet">هنوز مشخص نیست</option>
+            <option value="residence-1" en="Apartment 1 · 143.25 m²">واحد ۱ · ۱۴۳٫۲۵ متر مربع</option>
+            <option value="residence-2" en="Apartment 2 · 150 m²">واحد ۲ · ۱۵۰ متر مربع</option>
+            <option value="residence-3" en="Apartment 3 · 166 m²">واحد ۳ · ۱۶۶ متر مربع</option>
+            <option value="residence-4" en="Apartment 4 · 162 m²">واحد ۴ · ۱۶۲ متر مربع</option>
+          </select>
+        </div>
+        <label class="consent"><input type="checkbox" name="consent" value="yes" required><span en="By submitting, I allow my details to be kept only to follow up this request.">با ثبت این درخواست، اجازه می‌دهم اطلاعاتم فقط برای پیگیری همین درخواست نگهداری شود. <a class="text-link" href="privacy.html" en="Privacy">حریم خصوصی</a></span></label>
+        <button type="submit" class="btn" data-submit-label disabled en="Get the brochure">دریافت بروشور</button>
+      </form>
+      <aside class="rv">
+        <div class="frame"><img data-img="hero" sizes="(max-width: 880px) 92vw, 36vw" alt="نمای برج گنجینه افق هنگام غروب." en-alt="The Ganjineh Ofogh tower at golden hour."></div>
+        <ol class="process" style="margin-block-start:1.6rem">
+          <li><b>۰۱</b><p en="You send your name and number. That is all we ask for.">نام و شماره‌ی خود را می‌فرستید. فقط همین را می‌پرسیم.</p></li>
+          <li><b>۰۲</b><p data-when="available" hidden en="The brochure is offered for download on the next page.">بروشور در صفحه‌ی بعد برای دانلود آماده است.</p><p data-when="pending" en="The sales team sends you the brochure.">تیم فروش بروشور را برای شما می‌فرستد.</p></li>
+          <li><b>۰۳</b><p en="Your details are kept only to follow up this request.">اطلاعات شما فقط برای پیگیری همین درخواست نگهداری می‌شود.</p></li>
+        </ol>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" aria-labelledby="bro-more">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="rv"><span class="eyebrow" en="Prefer to talk?">ترجیح می‌دهید صحبت کنید؟</span>
+        <h2 class="h2" id="bro-more" style="margin-block-start:1.1rem" en="A viewing or a call instead.">به‌جای آن، بازدید یا تماس</h2></div>
+      <p class="lede rv" en="Arrange a private viewing, or ask an advisor your questions.">یک بازدید خصوصی هماهنگ کنید یا پرسش‌های خود را از مشاور بپرسید.</p>
+    </div>
+    <div class="cta-row">
+      <a class="btn" href="contact.html#appointment" en="Private viewing">رزرو بازدید خصوصی</a>
+      <a class="btn btn--ghost" href="residences.html" en="View the residences">مشاهده‌ی واحدها</a>
+    </div>
+  </div>
+</section>

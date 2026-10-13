@@ -10,5 +10,11 @@
   "email": "",
   "hours_fa": "",
   "hours_en": "",
-  "analytics": { "src": "", "domain": "" }
+  "analytics": {
+    "src": "",
+    "domain": ""
+  },
+  "response_time_fa": "",
+  "response_time_en": "",
+  "_help_response": "Optional. Fill BOTH only with a reply time the sales team will keep, e.g. fa \"ظرف یک روز کاری\" / en \"within one working day\". Empty = the thank-you page states no time."
 }

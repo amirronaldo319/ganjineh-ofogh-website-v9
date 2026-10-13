@@ -24,3 +24,11 @@ test('desktop navigation marks the current section', async ({ page, isMobile }) 
   await page.goto('/en/residence-3.html');
   await expect(page.locator('.nav a[aria-current="page"]')).toHaveAttribute('href', 'residences.html');
 });
+
+test('landing on a #hash far down the page keeps the header reachable', async ({ page }) => {
+  await page.goto('/en/residence-2.html#plan');
+  await page.waitForFunction(() => !!window.ofogh);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(480);
+  await expect(page.locator('#header')).not.toHaveClass(/is-hidden/);
+  await expect(page.locator('#lang-btn')).toBeInViewport();
+});

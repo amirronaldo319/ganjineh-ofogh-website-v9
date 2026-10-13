@@ -9,7 +9,8 @@ Sources (all on the Desktop):
   MASTER   Ganjineh_Ofogh_Revised_Master.pdf               highest-resolution renders, corrected figures
   PROF     Ganjineh_Ofogh_Professional_Catalogue_55_Pages  interiors + concept model studies (earlier draft; its tower
                                                            renders show an older design and are NOT used)
-Writes assets/img/<name>-<width>.webp and assets/img/images.json (size + average colour for each file).
+Writes assets/img/<name>-<width>.webp (fallback) and <name>-<width>.avif (served first by <picture>), plus
+assets/img/images.json (size + average colour for each file). Pillow >= 11.3 is needed for AVIF.
 """
 import io
 import json
@@ -82,6 +83,11 @@ def quality(name):
     return 86 if name.startswith(("model", "plan", "apt", "site")) else 80
 
 
+def avif_quality(name):
+    # Line drawings need a higher setting than photographs to keep thin strokes crisp.
+    return 70 if name.startswith(("model", "plan", "apt", "site")) else 52
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     docs = {k: pymupdf.open(str(v)) for k, v in SRC.items()}
@@ -105,12 +111,16 @@ def main():
                 out = im
             fn = f"{name}-{w}.webp"
             out.save(OUT / fn, "WEBP", quality=quality(name), method=6)
-            files.append({"file": fn, "w": w, "h": h, "kb": round((OUT / fn).stat().st_size / 1024)})
+            av = f"{name}-{w}.avif"
+            out.save(OUT / av, "AVIF", quality=avif_quality(name), speed=6)
+            files.append({"file": fn, "avif": av, "w": w, "h": h,
+                          "kb": round((OUT / fn).stat().st_size / 1024), "avif_kb": round((OUT / av).stat().st_size / 1024)})
         meta[name] = {"w": w0, "h": h0, "color": "#%02x%02x%02x" % avg, "files": files}
-        print(f"{name:16s} {w0}x{h0}  " + "  ".join(f"{f['w']}px={f['kb']}KB" for f in files))
+        print(f"{name:16s} {w0}x{h0}  " + "  ".join(f"{f['w']}px={f['kb']}/{f['avif_kb']}KB" for f in files))
     (OUT / "images.json").write_text(json.dumps(meta, indent=1))
-    total = sum(f.stat().st_size for f in OUT.glob("*.webp"))
-    print(f"\n{len(JOBS)} images, {total / 1048576:.1f} MB total")
+    webp = sum(f.stat().st_size for f in OUT.glob("*.webp"))
+    avif = sum(f.stat().st_size for f in OUT.glob("*.avif"))
+    print(f"\n{len(JOBS)} images: WebP {webp / 1048576:.1f} MB, AVIF {avif / 1048576:.1f} MB")
 
 
 if __name__ == "__main__":

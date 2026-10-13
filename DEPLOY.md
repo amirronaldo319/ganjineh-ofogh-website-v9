@@ -51,10 +51,20 @@ curl -s https://ganjinehofogh.ir/api/status
 
 Only after an enquiry destination and a responsible person are confirmed: set `GO_ACCEPT_ENQUIRIES=1` in `/etc/systemd/system/ganjineh.service`, then `sudo systemctl daemon-reload && sudo systemctl restart ganjineh`. Export with `sudo -u ganjineh env GO_DB_PATH=/srv/ganjineh/data/enquiries.sqlite3 python3 server.py export > enquiries.csv`, and keep exports private.
 
+## Brochure, sales inbox, monitoring
+
+```bash
+sudo install -o ganjineh -g ganjineh -m 600 /path/to/final-brochure.pdf /srv/ganjineh/data/brochure.pdf   # then set GO_BROCHURE_PDF in ganjineh.service
+sudo systemctl edit ganjineh        # add:  [Service]  Environment=GO_ADMIN_PASSWORD=<a long passphrase>
+sudo cp /srv/ganjineh/site/deploy/ganjineh-monitor.* /etc/systemd/system/ && sudo systemctl enable --now ganjineh-monitor.timer
+```
+
+The sales inbox is then at `https://ganjinehofogh.ir/admin`. See README → Sales inbox, Monitoring and `launch/REDIRECTS.md`.
+
 ## Updating
 
 ```bash
 cd /srv/ganjineh/site && sudo -u ganjineh git pull && sudo systemctl restart ganjineh
 ```
 
-Restarting is required: the Content-Security-Policy hashes for inline scripts are computed when the server starts.
+Restart after a pull so new code is loaded. (The Content-Security-Policy hashes for inline scripts refresh themselves when a page changes.)

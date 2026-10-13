@@ -1,7 +1,14 @@
 # Caddy terminates HTTPS (automatic certificates) and forwards to server.py on localhost.
-# server.py already sends its own security and cache headers; Caddy only adds compression.
+# server.py already sends its own security and cache headers and gzips text; Caddy adds zstd and the redirects below.
+# X-Forwarded-Proto is set by reverse_proxy: server.py needs it (GO_TRUST_PROXY=1) before it will serve /admin.
 ganjinehofogh.ir {
 	encode zstd gzip
+
+	# one address per page (see launch/REDIRECTS.md)
+	redir /index.html / permanent
+	redir /en/index.html /en/ permanent
+	redir /en /en/ permanent
+
 	reverse_proxy 127.0.0.1:8000
 }
 

@@ -99,7 +99,7 @@
 
   /* ───────── scroll parallax: images drift inside their frames ───────── */
   var plx = [];
-  $$('.bleed > img').forEach(function (img) { img.classList.add('plx'); plx.push({ host: img.parentElement, el: img, k: 0.085, vis: false }); });
+  $$('.bleed > img, .bleed > picture > img').forEach(function (img) { img.classList.add('plx'); plx.push({ host: img.closest('.bleed'), el: img, k: 0.085, vis: false }); });
   $$('.split .frame, .intro__media .frame, .crown .frame, .exp__aside .frame, .arrival .frame, .mosaic .frame').forEach(function (f) {
     f.classList.add('plx'); plx.push({ host: f, el: f, k: 0.055, vis: false });
   });

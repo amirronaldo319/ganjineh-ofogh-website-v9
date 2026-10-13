@@ -10,6 +10,13 @@ Environment=GO_TRUST_PROXY=1
 Environment=GO_DB_PATH=/srv/ganjineh/data/enquiries.sqlite3
 # Switch to 1 only when an enquiry destination and a responsible person are confirmed.
 Environment=GO_ACCEPT_ENQUIRIES=0
+# Sales inbox at /admin (HTTPS only). Leave unset to keep it switched off. Put the real password in a drop-in instead of this file:
+#   sudo systemctl edit ganjineh   →   [Service] Environment=GO_ADMIN_PASSWORD=...
+# Environment=GO_ADMIN_PASSWORD=
+# The brochure PDF visitors download after leaving a number (kept outside the public folders; the default path is shown).
+# Environment=GO_BROCHURE_PDF=/srv/ganjineh/data/brochure.pdf
+# New-enquiry alerts: a webhook, or email. See README "Enquiry notifications".
+# Environment=GO_NOTIFY_WEBHOOK=https://...
 ExecStart=/usr/bin/python3 server.py
 Restart=on-failure
 NoNewPrivileges=true

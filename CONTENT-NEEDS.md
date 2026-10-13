@@ -11,3 +11,5 @@
 - Whether to use analytics, and which (off by default).
 - Hi-res original renders, plans and logo: see `ASSETS-REQUEST.md`.
 - A native Persian editor's pass over the Persian copy.
+- The final brochure PDF, and a reply time the sales team can keep.
+- Apartment orientation, views, floors and availability, if the compare page should show them (not supplied today).

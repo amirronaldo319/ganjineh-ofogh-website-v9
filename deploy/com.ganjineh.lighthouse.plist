@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Weekly Lighthouse run from a Mac (Monday 09:00), where Chrome and Node already exist.
+     Edit the two paths, then:  cp deploy/com.ganjineh.lighthouse.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.ganjineh.lighthouse.plist
+     Stop it with:  launchctl unload ~/Library/LaunchAgents/com.ganjineh.lighthouse.plist -->
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.ganjineh.lighthouse</string>
+  <key>WorkingDirectory</key><string>/Users/YOU/Desktop/Projects/Websites/V9</string>
+  <key>ProgramArguments</key><array><string>/usr/local/bin/node</string><string>tools/lighthouse_weekly.mjs</string><string>https://ganjinehofogh.ir</string></array>
+  <key>StartCalendarInterval</key><dict><key>Weekday</key><integer>1</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+  <key>StandardOutPath</key><string>/tmp/ganjineh-lighthouse.log</string>
+  <key>StandardErrorPath</key><string>/tmp/ganjineh-lighthouse.log</string>
+</dict></plist>

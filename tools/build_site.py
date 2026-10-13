@@ -109,7 +109,8 @@ def next_cta(spec):
     <div class="rv" style="--d:.1s"><div class="visit__acts">
       <a class="btn btn--light" href="{href}" en="{esc(en_b)}">{fa_b}</a>
       <a class="btn btn--lineLight" href="contact.html#appointment" en="Private viewing">رزرو بازدید خصوصی</a>
-    </div></div>
+    </div>
+    <p class="visit__more"><a class="text-link" href="brochure.html" en="Or take the brochure with you">یا بروشور را همراه ببرید</a></p></div>
   </div>
 </section>'''
 
@@ -207,6 +208,54 @@ def channels_note():
             'موقعیت پروژه: تهران، ازگل. اطلاعات تماس مستقیم هنوز برای انتشار تأیید نشده است.</p>')
 
 
+def compare_tool():
+    """Interactive side-by-side of two apartments. All four are in the markup (so it works without JavaScript);
+    compare.js shows the two the visitor picks. Only facts the project has supplied appear: area, bedrooms, plan shape, layout notes."""
+    def cell(a, fa, en, extra=""):
+        return f'<td data-apt="{a["n"]}"{extra} en="{esc(en)}">{fa}</td>'
+    head = "".join(f'<th scope="col" data-apt="{a["n"]}"><a href="residence-{a["n"]}.html" en="Apartment {a["n"]}">واحد {a["n_fa"]}</a></th>' for a in APARTMENTS)
+    pic = "".join(
+        f'<td data-apt="{a["n"]}"><a class="cmp-pic" href="residence-{a["n"]}.html"><img data-img="{a["img"]}" sizes="(max-width: 700px) 46vw, 30vw" '
+        f'alt="برش سه‌بعدی واحد {a["n_fa"]}." en-alt="Three-dimensional cut-away of Apartment {a["n"]}."></a></td>' for a in APARTMENTS)
+    area = "".join(cell(a, f'{a["area_fa"]} متر مربع', f'{a["area"]} m²', f' class="num" data-area="{a["area"]}"') for a in APARTMENTS)
+    bars = "".join(f'<td data-apt="{a["n"]}"><span class="bar" style="--w:{float(a["area"]) / 166 * 100:.1f}%"></span></td>' for a in APARTMENTS)
+    beds = "".join(cell(a, "۳", "3", ' class="num"') for a in APARTMENTS)
+    shape = "".join(cell(a, a["shape_fa"], a["shape_en"]) for a in APARTMENTS)
+    def note(title_en):
+        out = []
+        for a in APARTMENTS:
+            item = next(p for p in a["pts"] if p[1] == title_en)
+            out.append(cell(a, item[2], item[3]))
+        return "".join(out)
+    rows = [("Area (as supplied)", "مساحت (ارائه‌شده)", area), ("", "", bars), ("Bedrooms", "اتاق خواب", beds), ("Plan shape", "شکل پلان", shape),
+            ("Day zone", "فضای روز", note("Day zone")), ("Bedrooms laid out", "چیدمان اتاق‌های خواب", note("Bedrooms"))]
+    body = "".join(f'<tr><th scope="row"{"" if en else " class=cmp__blank"}{f" en={chr(34)}{en}{chr(34)}" if en else ""}>{fa}</th>{cells}</tr>' for en, fa, cells in rows)
+    options = lambda sel: "".join(f'<option value="{a["n"]}"{" selected" if a["n"] == sel else ""} en="Apartment {a["n"]} · {a["area"]} m²">واحد {a["n_fa"]} · {a["area_fa"]} متر مربع</option>' for a in APARTMENTS)
+    return f'''<div class="cmp" id="cmp" data-compare>
+  <div class="cmp__pick">
+    <label class="field"><span en="First apartment">واحد اول</span><select id="cmp-a" aria-controls="cmp-table">{options(1)}</select></label>
+    <label class="field"><span en="Second apartment">واحد دوم</span><select id="cmp-b" aria-controls="cmp-table">{options(2)}</select></label>
+  </div>
+  <p class="cmp__diff" id="cmp-diff" role="status" aria-live="polite"></p>
+  <div class="compare-wrap"><table class="compare cmp__table" id="cmp-table">
+    <thead><tr><td class="cmp__corner"></td>{head}</tr></thead>
+    <tbody><tr><th scope="row" class="cmp__blank" en="Plan">پلان</th>{pic}</tr>{body}
+    <tr><th scope="row" class="cmp__blank" en="Details">جزئیات</th>{"".join(f'<td data-apt="{a["n"]}"><a href="residence-{a["n"]}.html" en="View Apartment {a["n"]} →">مشاهده‌ی واحد {a["n_fa"]} ←</a></td>' for a in APARTMENTS)}</tr></tbody>
+  </table></div>
+  <p class="fine" en="Areas as supplied. Orientation, views and availability of each residence are not yet part of the supplied information; ask the sales team.">مساحت‌ها بر پایه‌ی اطلاعات ارائه‌شده است. جهت‌گیری، چشم‌انداز و موجودی هر واحد هنوز جزو اطلاعات ارائه‌شده نیست؛ از تیم فروش بپرسید.</p>
+</div>'''
+
+
+def response_when():
+    """'Expected reply' line for the thank-you page, only when the sales team has set a promise it can keep."""
+    fa, en = CFG.get("response_time_fa", "").strip(), CFG.get("response_time_en", "").strip()
+    if not (fa and en):
+        return ""
+    return f'<li class="when"><b en="Expected reply">زمان پاسخ‌گویی</b> <span en="{esc(en)}">{fa}</span></li>'
+
+
+COMPONENTS["response_when"] = response_when
+COMPONENTS["compare_tool"] = compare_tool
 COMPONENTS["channels"] = channels
 COMPONENTS["channels_note"] = channels_note
 
@@ -247,7 +296,7 @@ def build_assets():
     mini = esbuild(["--loader=css", "--minify"], bundle)
     (ROOT / "assets/css/site.min.css").write_text(mini if mini else bundle, encoding="utf-8")
     ASSET_VER["css"] = hashlib.sha1((mini or bundle).encode()).hexdigest()[:8]
-    for name in ("site", "motion", "contact", "confirmation", "jalali"):
+    for name in ("site", "motion", "contact", "confirmation", "jalali", "brochure", "compare"):
         src = ROOT / "assets/js" / f"{name}.js"
         if not src.exists():
             continue
@@ -278,7 +327,13 @@ def expand_img(m):
              f'style="background-color:{info["color"]}"']
     if "alt=" not in attrs:
         parts.append('alt=""')
-    return "<img " + " ".join(parts) + (" " + attrs if attrs else "") + ">"
+    img = "<img " + " ".join(parts) + (" " + attrs if attrs else "") + ">"
+    if not all("avif" in f for f in files):
+        return img
+    sizes = re.search(r'\ssizes="([^"]*)"', " " + attrs)
+    avif = ", ".join(f"assets/img/{f['avif']} {f['w']}w" for f in files)
+    source = f'<source type="image/avif" srcset="{avif}"' + (f' sizes="{sizes.group(1)}"' if sizes else "") + ">"
+    return f"<picture>{source}{img}</picture>"
 
 
 PERSIAN_NUM = re.compile(r"<(b|i|small|span|bdi|strong)((?:\s[^>]*)?)>([۰-۹٫٬]+)</\1>")
@@ -381,12 +436,15 @@ def build_page(meta, body, out_name, lang):
     if meta.get("preload"):
         info = META[meta["preload"]]
         files = sorted(info["files"], key=lambda f: f["w"])
-        srcset = ", ".join(f"assets/img/{f['file']} {f['w']}w" for f in files)
+        modern = all("avif" in f for f in files)
+        key, mime = ("avif", ' type="image/avif"') if modern else ("file", "")
+        srcset = ", ".join(f"assets/img/{f[key]} {f['w']}w" for f in files)
         small = next((f for f in files if f["w"] >= 700), files[0])
-        preload = (f'<link rel="preload" as="image" href="assets/img/{small["file"]}" imagesrcset="{srcset}" '
+        preload = (f'<link rel="preload" as="image"{mime} href="assets/img/{small[key]}" imagesrcset="{srcset}" '
                    f'imagesizes="(max-width: 880px) 86vw, 46vw" fetchpriority="high">')
-    fa_font = "Vazirmatn-normal-arabic.woff2"
-    preload += f'\n<link rel="preload" href="assets/fonts/{fa_font}" as="font" type="font/woff2" crossorigin>'
+    # Only the face the page's own language paints first: Vazirmatn for Persian, the serif display face for English.
+    first_font = "Vazirmatn-normal-arabic.woff2" if lang == "fa" else "SourceSerif4-normal-latin.woff2"
+    preload += f'\n<link rel="preload" href="assets/fonts/{first_font}" as="font" type="font/woff2" crossorigin>'
     scripts = [f'<script src="assets/js/site.min.js?v={ASSET_VER["site"]}" defer></script>',
                f'<script src="assets/js/motion.min.js?v={ASSET_VER["motion"]}" defer></script>']
     for extra in filter(None, meta.get("scripts", "").split(",")):
@@ -485,7 +543,7 @@ def main():
     public = [name for name, _, meta in built if not meta.get("noindex") and not name.startswith("en/")]
     order = ["index.html", "project.html", "architecture.html", "residences.html", "residence-1.html", "residence-2.html",
              "residence-3.html", "residence-4.html", "lifestyle.html", "location.html", "gallery.html", "developer.html",
-             "contact.html", "privacy.html"]
+             "compare.html", "brochure.html", "contact.html", "privacy.html"]
     urls = [u for u in order if u in public] + [u for u in public if u not in order]
     sm = ['<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
@@ -501,6 +559,20 @@ def main():
     total = sum(s for _, s, _ in built)
     print(f"{len(built)} pages ({len(built) // 2} per language), {total / 1024:.0f} KB HTML, sitemap {len(urls) * 2} URLs, "
           f"assets {'minified' if minified else 'NOT minified (esbuild unavailable)'}: css {ASSET_VER['css']} js {ASSET_VER['site']}")
+    inline_critical_css()
+
+
+def inline_critical_css():
+    """First-screen CSS goes inline and the full sheet stops blocking paint. Needs node + @playwright/test + Chrome;
+    without them the pages simply keep the blocking stylesheet link."""
+    node = shutil.which("node")
+    if not node or not (ROOT / "node_modules" / "@playwright" / "test").exists():
+        print("critical CSS: skipped (needs node and `npm install`); pages keep the blocking stylesheet")
+        return
+    result = subprocess.run([node, str(ROOT / "tools" / "build_critical.mjs")], cwd=ROOT, capture_output=True, text=True)
+    print((result.stdout.strip().splitlines() or ["critical CSS: no output"])[-1])
+    if result.returncode:
+        print("critical CSS: FAILED, pages keep the blocking stylesheet\n" + result.stderr.strip()[-400:])
 
 
 if __name__ == "__main__":

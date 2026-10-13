@@ -4,7 +4,7 @@ const { test, expect } = require('@playwright/test');
 const PAGES = [
   'index', 'project', 'architecture', 'residences',
   'residence-1', 'residence-2', 'residence-3', 'residence-4',
-  'lifestyle', 'location', 'gallery', 'developer', 'contact', 'privacy', 'thank-you',
+  'lifestyle', 'location', 'gallery', 'developer', 'contact', 'brochure', 'compare', 'privacy', 'thank-you',
 ];
 const url = (lang, name) => (lang === 'en' ? `/en/${name}.html` : `/${name}.html`);
 

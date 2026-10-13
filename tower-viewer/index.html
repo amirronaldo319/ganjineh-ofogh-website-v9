@@ -102,6 +102,8 @@ html[lang="fa"] .brand .kick { letter-spacing: 0; text-transform: none; font-siz
 .card .big { font-size: 16.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .card .sub { font-size: 12.5px; color: var(--muted); }
 .card input[type=range] { width: 100%; margin: 4px 0 2px; accent-color: var(--accent); height: 40px; }
+.card.tod { padding-block: 8px 4px; }
+.card.tod .row { padding-inline: 4px; }
 .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
 .chip { display: flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); font-size: 13px; cursor: pointer; }
 .chip i { width: 11px; height: 11px; border-radius: 50%; display: block; flex: none; }
@@ -280,6 +282,10 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
   <div class="pill opts" id="o-light" role="group" aria-label="Time of day" hidden>
     <button type="button" data-light="day" aria-pressed="true" data-i18n="lDay">Day</button><button type="button" data-light="golden" aria-pressed="false" data-i18n="lGolden">Golden</button><button type="button" data-light="night" aria-pressed="false" data-i18n="lNight">Night</button>
   </div>
+  <div class="card opts tod" id="o-tod" hidden>
+    <div class="row"><span class="sub" data-i18n="lDay">Day</span><span class="sub" data-i18n="lGolden">Golden</span><span class="sub" data-i18n="lNight">Night</span></div>
+    <input id="tod" type="range" min="0" max="100" step="1" value="0" aria-label="Time of day" data-i18n-aria="todAria">
+  </div>
   <div class="card opts" id="o-more" hidden>
     <div class="mrow">
       <span class="mlabel" data-i18n="mFloors">Typical floors</span>
@@ -418,7 +424,7 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
   var T = {
     en: {
       kick: 'Tehran / Ozgol · 3D model', tabView: 'View', tabLight: 'Light', tabFloors: 'Floors', tabMore: 'More',
-      vCorner: 'Corner', vStreet: 'Street', vBack: 'Back', vRoof: 'Roof', vPlan: 'Plan', lDay: 'Day', lGolden: 'Golden', lNight: 'Night',
+      vCorner: 'Corner', vStreet: 'Street', vBack: 'Back', vRoof: 'Roof', vPlan: 'Plan', lDay: 'Day', lGolden: 'Golden', lNight: 'Night', todAria: 'Time of day, from day through golden hour to night',
       mFloors: 'Typical floors', mSurr: 'Surroundings', mRotate: 'Rotate', mSources: 'Sources', mQuality: 'Quality',
       qAuto: 'Auto', qHigh: 'High', qLow: 'Battery saver', qHint: 'Auto lowers the resolution if the device struggles.',
       floor: 'Floor', typical: 'Typical floor', apt: 'Apt', apartment: 'Apartment', tapApt: 'Tap an apartment to see its layout.',
@@ -436,7 +442,7 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
     },
     fa: {
       kick: 'تهران / ازگل · مدل سه‌بعدی', tabView: 'نما', tabLight: 'نور', tabFloors: 'طبقات', tabMore: 'بیشتر',
-      vCorner: 'گوشه', vStreet: 'خیابان', vBack: 'پشت', vRoof: 'بام', vPlan: 'پلان', lDay: 'روز', lGolden: 'غروب', lNight: 'شب',
+      vCorner: 'گوشه', vStreet: 'خیابان', vBack: 'پشت', vRoof: 'بام', vPlan: 'پلان', lDay: 'روز', lGolden: 'غروب', lNight: 'شب', todAria: 'ساعت روز، از روز تا غروب و شب',
       mFloors: 'طبقات تیپ', mSurr: 'محیط اطراف', mRotate: 'چرخش', mSources: 'منابع', mQuality: 'کیفیت',
       qAuto: 'خودکار', qHigh: 'بالا', qLow: 'صرفه‌جویی باتری', qHint: 'در حالت خودکار، اگر دستگاه کند شود وضوح تصویر کم می‌شود.',
       floor: 'طبقه', typical: 'طبقه تیپ', apt: 'واحد', apartment: 'واحد', tapApt: 'برای دیدن چیدمان، روی یک واحد بزنید.',
@@ -458,7 +464,8 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
   var LANG = 'en';
   (function () {
     var sv = tryStore('ofogh-lang');
-    if (sv === 'fa' || sv === 'en') LANG = sv; else if (/^fa/i.test(navigator.language || '')) LANG = 'fa';
+    var ql = new URLSearchParams(location.search).get('lang');
+    if (ql === 'fa' || ql === 'en') LANG = ql; else if (sv === 'fa' || sv === 'en') LANG = sv; else if (/^fa/i.test(navigator.language || '')) LANG = 'fa';
   })();
   function digits(s) {
     if (LANG !== 'fa') return String(s);
@@ -646,13 +653,16 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
   }
   var curPreset = 'day', curState = cloneState(PRESETS.day), tweenL = null;
   applyState(curState);
+  var TOD_AT = { day: 0, golden: 50, night: 100 }, todDirty = false;
   function setLight(name, instant) {
-    if (name === curPreset && !instant) return;
+    if (name === curPreset && !instant && !todDirty) return;
+    todDirty = false;
     var from = curState, to = PRESETS[name]; curPreset = name;
     document.body.classList.toggle('night', name === 'night');
     sun.castShadow = to.shadow;
-    if (instant) { curState = cloneState(to); applyState(curState); updateEnv(); return; }
-    tweenL = { t0: performance.now(), dur: 1400, from: from, to: to };
+    var todEl = document.getElementById('tod'), todFrom = todEl ? +todEl.value : 0;
+    if (instant) { curState = cloneState(to); applyState(curState); updateEnv(); if (todEl) todEl.value = TOD_AT[name]; return; }
+    tweenL = { t0: performance.now(), dur: 1400, from: from, to: to, todFrom: todFrom, todTo: TOD_AT[name] };
   }
   // ================================================================ procedural surface patches
   // The model has no UVs, so surface detail is drawn from the world position (vWP). Everything fades with fwidth() so it
@@ -1166,10 +1176,26 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
   document.querySelectorAll('[data-light]').forEach(function (b) {
     b.onclick = function () { stopTour(); setLight(b.dataset.light); document.querySelectorAll('[data-light]').forEach(function (x) { press(x, x === b); }); };
   });
+  // Time of day: one slider blends the three tuned presets (day 0 → golden 50 → night 100), so the sun sweeps the model
+  // instead of snapping. The environment map is expensive to rebuild, so it is refreshed at most every 140 ms while dragging.
+  var todEl = $('tod'), todEnvAt = 0;
+  function todState(v) { var u = v / 100; return u <= 0.5 ? mix(PRESETS.day, PRESETS.golden, u * 2) : mix(PRESETS.golden, PRESETS.night, (u - 0.5) * 2); }
+  function todName(v) { return v < 25 ? 'lDay' : v < 75 ? 'lGolden' : 'lNight'; }
+  todEl.oninput = function () {
+    stopTour(); tweenL = null; todDirty = true;
+    var v = parseInt(this.value, 10);
+    curState = todState(v); applyState(curState);
+    sun.castShadow = curState.shadow; document.body.classList.toggle('night', v > 70);
+    document.querySelectorAll('[data-light]').forEach(function (x) { press(x, TOD_AT[x.dataset.light] === v); });
+    this.setAttribute('aria-valuetext', t(todName(v)));
+    var now = performance.now(); if (now - todEnvAt > 140) { todEnvAt = now; updateEnv(); }
+  };
+  todEl.onchange = function () { updateEnv(); };
   var tabs = document.querySelectorAll('[data-tab]');
   function showTab(name, focus) {
     tabs.forEach(function (tb) { var on = tb.dataset.tab === name; tb.setAttribute('aria-selected', on ? 'true' : 'false'); tb.tabIndex = on ? 0 : -1; if (on && focus) tb.focus(); });
     ['view', 'light', 'floors', 'more'].forEach(function (n) { $('o-' + n).hidden = (n !== name); });
+    $('o-tod').hidden = (name !== 'light');
     var wantFloors = name === 'floors';
     if (wantFloors !== floorOn) setFloorMode(wantFloors);
   }
@@ -1195,8 +1221,22 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
   $('lang-btn').onclick = function () { LANG = LANG === 'fa' ? 'en' : 'fa'; tryStore('ofogh-lang', LANG); applyLang(); toParent({ type: 'lang', lang: LANG }); };
   // ---- website bridge: the page can set language / light / view; the viewer reports language changes and readiness
   function toParent(m) { try { if (window.parent !== window) { m.src = 'ofogh-viewer'; window.parent.postMessage(m, '*'); } } catch (e) {} }
+  var siteReady = false;
+  // Open Floors mode on a given apartment and floor (from ?apt=2&floor=6 or the page), so a residence page can say
+  // "this is where it sits in the tower". Floors are typical: every floor repeats the same four apartments.
+  function openApartment(apt, floor) {
+    var id = /^apt[1-4]$/.test('' + apt) ? apt : /^[1-4]$/.test('' + apt) ? 'apt' + apt : null;
+    if (!id || !siteReady || !floorGroup) return;
+    skipIntro(); stopTour();
+    if (!floorOn) showTab('floors');
+    var f = parseInt(floor, 10);
+    if (f >= 1 && f <= nTyp && f !== floorIdx) setFloor(f);
+    if (selApt !== id) selectApt(id);
+    floorCamera(true);
+  }
   window.addEventListener('message', function (e) {
     var d = e.data; if (!d || d.src !== 'ofogh-site') return;
+    if (d.apt) openApartment(d.apt, d.floor);
     if (d.lang && d.lang !== LANG && (d.lang === 'en' || d.lang === 'fa')) { LANG = d.lang; tryStore('ofogh-lang', LANG); applyLang(); }
     if (d.light) { var lb = document.querySelector('[data-light="' + d.light + '"]'); if (lb && lb.getAttribute('aria-pressed') !== 'true') lb.click(); }
     if (d.view) { var vb = document.querySelector('[data-view="' + d.view + '"]'); if (vb) vb.click(); }
@@ -1345,7 +1385,10 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
     stage('ready', t('stReady'));
     toParent({ type: 'ready', lang: LANG });
     statusEl.classList.add('gone'); statusEl.setAttribute('aria-busy', 'false');
-    if (!/nointro/.test(location.hash)) startIntro();
+    siteReady = true;
+    var qs = new URLSearchParams(location.search);
+    if (qs.get('apt')) openApartment(qs.get('apt'), qs.get('floor'));
+    else if (!/nointro/.test(location.hash)) startIntro();
     loop();
   }).catch(function (e) { fail(t('bad')); console.error(e); });
 
@@ -1367,6 +1410,7 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
     if (tweenL) {
       var kl = Math.min(1, (now - tweenL.t0) / tweenL.dur), el = ease(kl);
       curState = mix(tweenL.from, tweenL.to, el); applyState(curState);
+      $('tod').value = Math.round(tweenL.todFrom + (tweenL.todTo - tweenL.todFrom) * el);
       if (kl >= 0.5 && !tweenL.mid) { tweenL.mid = true; updateEnv(); }
       if (kl >= 1) { curState = cloneState(tweenL.to); applyState(curState); tweenL = null; updateEnv(); }
     }

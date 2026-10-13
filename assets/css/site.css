@@ -606,7 +606,7 @@ html[lang="fa"] .info h3 { font-weight: 600; }
 
 /* full-bleed image with text */
 .bleed { position: relative; min-height: clamp(380px, 62vw, 680px); display: grid; align-items: end; color: #fff; overflow: hidden; isolation: isolate; }
-.bleed > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.bleed > img, .bleed > picture > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
 .bleed::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(8,14,12,.78), rgba(8,14,12,.15) 55%, transparent); }
 .bleed__in { padding-block: clamp(32px, 6vw, 80px); max-width: 52ch; }
 .bleed .h2 { color: #fff; }
@@ -899,8 +899,8 @@ html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--brass) 5
 .phero__art .arch { translate: calc(var(--mx, 0) * -7px) calc(var(--my, 0) * -6px); }
 
 /* scroll parallax: images drift a few percent inside their frames (translate/scale never fight hover transforms) */
-.plx > img, img.plx { scale: 1.12; translate: 0 var(--plx, 0px); will-change: translate; }
-.bleed > img.plx { scale: 1.18; }
+.plx > img, .plx > picture > img, img.plx { scale: 1.12; translate: 0 var(--plx, 0px); will-change: translate; }
+.bleed > img.plx, .bleed > picture > img.plx { scale: 1.18; }
 
 /* ── cards + frames: lift, light sweep ── */
 .card { transition: translate .7s var(--ease-out); }
@@ -1000,7 +1000,7 @@ html[lang="fa"] .footer__mark span { font-weight: 700; letter-spacing: 0; }
   .js .plan .pin { opacity: 1; scale: 1; transition: none; }
   .js .map .road path { stroke-dashoffset: 0; transition: none; }
   .js .map .park, .js .map-fig:not(.in) text { opacity: 1; }
-  .plx > img, img.plx { scale: 1.02; translate: none; }
+  .plx > img, .plx > picture > img, img.plx { scale: 1.02; translate: none; }
   @view-transition { navigation: none; }
 }
 
@@ -1141,3 +1141,45 @@ html[lang="fa"] .channels a span { letter-spacing: 0; text-transform: none; font
 .jdate__d.is-picked { background: var(--accent); color: var(--on-accent); }
 .jdate__foot { display: flex; justify-content: flex-end; margin-block-start: .5rem; font-size: .86rem; }
 .jdate__foot button { padding: .3rem .6rem; color: var(--ink-2); text-decoration: underline; text-underline-offset: .25em; }
+
+/* <picture> only carries the AVIF source; it must not create a box of its own */
+picture { display: contents; }
+
+/* ── thank-you: what happens next, brochure download ── */
+.next { margin-block-start: 2rem; }
+.next .h3 { font-size: 1.15rem; margin-block-end: .8rem; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; font-size: .96rem; color: var(--ink-2); }
+.steps li { display: grid; grid-template-columns: 7.5rem 1fr; gap: .8rem; padding-block: .55rem; border-block-end: 1px solid var(--line); }
+.steps li[hidden] { display: none; }
+.steps b { font-weight: 600; color: var(--brass-ink); font-size: .84rem; letter-spacing: .06em; }
+html[lang="fa"] .steps b { letter-spacing: 0; font-size: .9rem; }
+@media (max-width: 560px) { .steps li { grid-template-columns: 1fr; gap: .15rem; } }
+.dl-card { margin-block: 1.4rem; padding: 1.2rem 1.4rem; border: 1px solid var(--brass); background: color-mix(in srgb, var(--brass) 9%, var(--surface)); display: flex; flex-wrap: wrap; gap: .9rem 1.4rem; align-items: center; justify-content: space-between; }
+.dl-card[hidden] { display: none; }
+.dl-card__t { margin: 0; font-family: var(--font-display); font-size: 1.25rem; }
+.visit__more { margin-block-start: 1.1rem; font-size: .9rem; }
+.visit__more .text-link { color: inherit; }
+
+/* ── compare two apartments ── */
+.cmp__pick { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 720px; }
+@media (max-width: 560px) { .cmp__pick { grid-template-columns: 1fr; } }
+.cmp__diff { min-height: 1.7em; margin: .2rem 0 1.4rem; font-family: var(--font-display); font-size: clamp(1.15rem, 2.2vw, 1.5rem); color: var(--ink); }
+.cmp__table { min-width: 0; table-layout: fixed; }
+.cmp__table [hidden] { display: none; }
+.cmp__table .cmp__corner, .cmp__table tbody th[scope="row"] { width: 9.5rem; }
+.cmp__table tbody th.cmp__blank { font-size: 0; }          /* label stays for screen readers; the row shows no caption */
+.cmp-pic { display: block; background: var(--surface); border: 1px solid var(--line); }
+.cmp-pic img { width: 100%; height: auto; display: block; }
+.cmp__table td.num { font-family: var(--font-display); font-size: 1.35rem; }
+.bar { display: block; height: 6px; width: var(--w); background: var(--brass); border-radius: 3px; transform-origin: left center; }
+html[dir="rtl"] .bar { transform-origin: right center; }
+/* on a phone each row is a caption over the two chosen apartments, so both keep half the width */
+@media (max-width: 700px) {
+  .cmp__table, .cmp__table thead, .cmp__table tbody { display: block; }
+  .cmp__table tr { display: grid; grid-template-columns: 1fr 1fr; column-gap: .9rem; }
+  .cmp__table .cmp__corner { display: none; }
+  .cmp__table tbody th[scope="row"] { grid-column: 1 / -1; width: auto; padding-block: .8rem 0; border: 0; font-size: .78rem; }
+  .cmp__table tbody th.cmp__blank { display: none; }
+  .cmp__table td, .cmp__table th { font-size: .9rem; padding-inline: 0; }
+  .cmp__table tbody th[scope="row"] + td { grid-column: auto; }
+}

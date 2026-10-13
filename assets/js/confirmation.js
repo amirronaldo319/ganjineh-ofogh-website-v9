@@ -76,13 +76,13 @@
       return response.json();
     }).then(function (data) {
       if (!data || typeof data.exists !== 'boolean') throw new Error('Unexpected verification response');
-      return data.exists ? 'verified' : 'not-found';
+      return { state: data.exists ? 'verified' : 'not-found', route: typeof data.route === 'string' ? data.route : '', download: data.download === true };
     }).catch(function () {
       // Unreachable or static hosting: keep the number visible but make no claim about it.
-      return 'unverified';
-    }).then(function (state) {
+      return { state: 'unverified', route: '', download: false };
+    }).then(function (result) {
       if (timer) window.clearTimeout(timer);
-      return state;
+      return result;
     });
   }
 
@@ -98,11 +98,25 @@
     track('confirmation_viewed');
   }
 
+  // What happens next depends on what was asked for: show only the steps for this request, and the PDF when one is on offer.
+  function renderNext(result) {
+    var key = result.route === 'download' ? (result.download ? 'download-pdf' : 'download-wait') : result.route;
+    if (result.route === 'brochure' && result.download) key = 'brochure';
+    root.querySelectorAll('[data-for]').forEach(function (item) { item.hidden = item.getAttribute('data-for') !== key; });
+    var box = root.querySelector('[data-download]');
+    var link = root.querySelector('[data-download-link]');
+    if (box && link) {
+      box.hidden = !result.download;
+      if (result.download) link.setAttribute('href', '/api/brochure/' + encodeURIComponent(reference));
+    }
+  }
+
   function run(moveFocus) {
     show('checking');
-    verify(reference).then(function (state) {
-      show(state, moveFocus);
-      if (state === 'verified') recordView();
+    verify(reference).then(function (result) {
+      if (result.state === 'verified') renderNext(result);
+      show(result.state, moveFocus);
+      if (result.state === 'verified') recordView();
     });
   }
 

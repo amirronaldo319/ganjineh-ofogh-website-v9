@@ -25,12 +25,29 @@
           </button>
           <p class="ref-hint" en="Keep this number for any follow-up.">این شماره را برای پیگیری‌های بعدی نزد خود نگه دارید.</p>
         </div>
+      <div class="dl-card" data-download hidden>
+        <p class="dl-card__t" en="Your brochure is ready.">بروشور شما آماده است.</p>
+        <a class="btn" href="#" data-download-link en="Download the brochure (PDF)">دانلود بروشور (PDF)</a>
+      </div>
+      <section class="next" aria-labelledby="next-title">
+        <h2 class="h3" id="next-title" en="What happens next">بعد از این چه می‌شود</h2>
+        <ol class="steps">
+          <li><b en="Now">اکنون</b> <span en="Your request is recorded under the reference above.">درخواست شما با شماره پیگیری بالا ثبت شد.</span></li>
+          <li data-for="visit"><b en="Next">سپس</b> <span en="The sales team calls the number you gave to confirm a time for your visit.">تیم فروش با شماره‌ای که گذاشته‌اید تماس می‌گیرد تا زمان بازدید را با شما هماهنگ کند.</span></li>
+          <li data-for="advisor"><b en="Next">سپس</b> <span en="A sales advisor calls the number you gave to answer your questions.">مشاور فروش با شماره‌ای که گذاشته‌اید تماس می‌گیرد تا به پرسش‌های شما پاسخ دهد.</span></li>
+          <li data-for="brochure"><b en="Next">سپس</b> <span en="The sales team sends the brochure to the email you gave.">تیم فروش بروشور را به ایمیلی که داده‌اید می‌فرستد.</span></li>
+          <li data-for="download-pdf"><b en="Next">سپس</b> <span en="Download the brochure above. The sales team may also call to answer questions.">بروشور را از بالا دانلود کنید. ممکن است تیم فروش هم برای پاسخ به پرسش‌های شما تماس بگیرد.</span></li>
+          <li data-for="download-wait"><b en="Next">سپس</b> <span en="The sales team sends you the brochure.">تیم فروش بروشور را برای شما می‌فرستد.</span></li>
+          {{response_when}}
+          <li><b en="Nothing to pay">بدون هزینه</b> <span en="Sending this request does not commit you to anything.">ارسال این درخواست شما را به هیچ تعهدی وابسته نمی‌کند.</span></li>
+        </ol>
+      </section>
       <div class="cta-row">
         <a class="btn" href="residences.html" data-track="residences_clicked" en="View the residences">مشاهده‌ی واحدها</a>
         <a class="btn btn--ghost" href="location.html" data-track="location_clicked" en="Project location">موقعیت پروژه</a>
       </div>
       <ul class="quiet-links">
-        <li><a class="text-link" href="contact.html#brochure" data-track="brochure_clicked" en="Request the brochure">دریافت بروشور</a></li>
+        <li><a class="text-link" href="brochure.html" data-track="brochure_clicked" en="Get the brochure">دریافت بروشور</a></li>
         <li><a class="text-link" href="index.html" en="Back to the home page">بازگشت به صفحه اصلی</a></li>
       </ul>
       <p class="fine" style="margin-block-start:1.4rem" en="Your details are used only to respond to this request.">اطلاعات شما صرفاً برای پاسخ‌گویی به همین درخواست استفاده می‌شود. <a class="text-link" href="privacy.html">حریم خصوصی</a></p>

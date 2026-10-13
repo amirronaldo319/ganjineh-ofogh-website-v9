@@ -22,6 +22,7 @@ module.exports = defineConfig({
     env: {
       PORT: String(PORT),
       GO_ACCEPT_ENQUIRIES: '1',
+      GO_BROCHURE_PDF: path.join(__dirname, 'tests', 'fixtures', 'brochure-sample.pdf'),
       GO_DB_PATH: path.join(os.tmpdir(), `go-e2e-${process.pid}.sqlite3`),
     },
   },

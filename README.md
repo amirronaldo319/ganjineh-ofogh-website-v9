@@ -30,6 +30,46 @@ The two 3D viewers are shared by both languages (`/residences-3d/`, `/tower-view
 Then run `python3 tools/build_site.py`. A filled channel appears on the contact page as a call / WhatsApp / Telegram / Eitaa / Rubika / Instagram / email button and in the structured data.
 Analytics is off by default (no tracking). If you set `analytics.src`, also allow its origin to the CSP: `GO_CSP_SCRIPT_ORIGINS="https://…"` (and `GO_CSP_CONNECT_ORIGINS` if it beacons elsewhere).
 
+## Brochure download
+
+`/brochure.html` (and `/en/brochure.html`) asks for a name and a mobile number, stores the request as a `download` enquiry and sends the visitor to the thank-you page, which offers the PDF.
+The PDF is **not** in any public folder: put the final file at `var/brochure.pdf` (or point `GO_BROCHURE_PDF` at it). It is served only at `/api/brochure/<tracking reference>` to someone holding the reference of a stored brochure request, rate-limited, as an attachment. Until a PDF is on file the page says the sales team will send it, and nothing claims a download.
+
+## Sales inbox
+
+Set `GO_ADMIN_PASSWORD` (and optionally `GO_ADMIN_USER`, default `admin`) and open `/admin`. It lists every stored enquiry newest first (Tehran time, Jalali date), filters by status and type, lets the team set a status (جدید / تماس گرفته شد / قرار بازدید / بسته شد / هرزنامه) and a note, shows which brochure requests were downloaded, and exports CSV (Excel-safe, with formula-injection protection).
+It is off without the password, answers 404 over plain HTTP outside this machine (behind the proxy it needs `X-Forwarded-Proto: https`), throttles wrong passwords (10 per hour per address), and every change needs a same-origin form token. It has no JavaScript and loads nothing from other sites.
+
+## Thank-you page
+
+After a request the page confirms it with the tracking reference, then lists what happens next for that kind of request (viewing, call-back, brochure) and offers the PDF when one is on file. It states a reply time only if you set `response_time_fa` and `response_time_en` in `src/site.config.json` — fill both with a time the sales team will actually keep, or leave both empty.
+
+## Compare two apartments
+
+`/compare.html`: pick any two of the four apartments and see area, bedrooms, plan shape and layout side by side, with how much larger one is. The choice lives in the address (`?a=1&b=3`) so it can be shared. Only supplied facts are shown; orientation, views and availability are not supplied, and the page says so instead of guessing.
+
+## Launch kit
+
+`launch/` holds what is needed around the website itself:
+
+- `SEO.md` — every page's title and description in both languages with character counts (`python3 tools/build_launch_kit.py` regenerates it from the pages);
+- `social/fa`, `social/en` — six cards (brand, residences, philosophy, 3D model, lifestyle, brochure) in square (Instagram feed), story and wide (Telegram) sizes, built by `node tools/build_social.mjs` from the site's own images and text;
+- `CAPTIONS.md` — a caption for each card, using only what the site already says;
+- `REDIRECTS.md` — the one-address-per-page plan, robots.txt and launch-day `curl` checks. `deploy/Caddyfile` already implements it.
+
+## Monitoring
+
+```bash
+python3 tools/monitor.py https://ganjinehofogh.ir --quiet      # exits 0 ok · 1 failed · 2 warnings only
+node tools/lighthouse_weekly.mjs https://ganjinehofogh.ir      # writes reports/lighthouse-<date>.{json,md}
+```
+
+`monitor.py` (standard library only) checks every page in the sitemap, the home page's assets, `/api/status`, robots.txt, security headers, certificate expiry, the http→https redirect, and that source files, the database and `/admin` are not served; with `--webhook` it tells you when something fails. `deploy/ganjineh-monitor.{service,timer}` run it every 10 minutes on the server. `lighthouse_weekly.mjs` runs mobile Lighthouse on nine pages against budgets (performance 75, the others 95) and against last week's report; `deploy/com.ganjineh.lighthouse.plist` schedules it weekly from a Mac. Nothing is scheduled until you install those files.
+
+## Persian typography
+
+`python3 tools/lint_persian.py` checks the page sources for Arabic letter forms, missing half-spaces (می‌شود, خانه‌ی), punctuation spacing, Latin digits in Persian text and straight quotes. It reports 0 findings today. It checks mechanics only; a native Persian editor should still read the copy for tone.
+
 ## Enquiry notifications
 
 Intake (`GO_ACCEPT_ENQUIRIES=1`) stores each request in SQLite. To be told about new ones, set either:
@@ -42,13 +82,24 @@ Notifications run on a background thread: a dead webhook or mail server never de
 ## Testing
 
 ```bash
-ln -s ../V8/node_modules node_modules   # or: npm install
-PW_CHANNEL=chrome PW_CHROME_ONLY=1 npx playwright test     # Chrome desktop + Pixel 7, using installed Chrome
-npx playwright install webkit && npx playwright test        # adds Safari desktop + iPhone 13
+ln -s ../V8/node_modules node_modules                      # or: npm install
+npx playwright install webkit                              # once, for Safari's engine
+npm test                                                   # end-to-end: Chrome desktop, Pixel 7, Safari desktop, iPhone 13
+PW_CHANNEL=chrome PW_CHROME_ONLY=1 npx playwright test    # Chrome projects only
+npm run test:visual                                        # screenshots: every page, 4 widths, Day + Dusk
+npm run test:visual:update                                 # accept a deliberate design change as the new baseline
 ```
 
-136 tests pass on the two Chrome projects (2 desktop-only/mobile-only skips). WebKit has **not** been run: no WebKit build was installed on this machine.
-Lighthouse (mobile profile, simulated slow 4G, local server with gzip): accessibility 100, best practices 100, SEO 100 on every page tested; performance 82–95 (gallery lowest because it is image-heavy).
+Last run: Chrome projects 136 passed (2 desktop-only/mobile-only skips); Safari desktop + iPhone 13 (WebKit) 136 passed (4 skips: Chromium-only clipboard and WebGL-detail tests).
+WebKit here is Playwright's build, not a phone: it proves the layout, scripts and CSS work in Safari's engine, not that the 3D models run well on a real iPhone GPU.
+Visual baselines (160 full-page screenshots, about 360 MB) are rendered by Google Chrome on macOS into `tests/visual/__screenshots__/` and are not committed: after a fresh clone run `npm run test:visual:update` once to create them, then `npm run test:visual` compares.
+Lighthouse (mobile profile, simulated slow 4G, local server): accessibility, best practices and SEO 100 on every page tested; performance 82–100.
+
+## Speed
+
+- **Images:** every image ships as AVIF (about half the bytes) with WebP as the fallback, through `<picture>`; `tools/build_images.py` writes both.
+- **CSS:** `tools/build_critical.mjs` (run by `build_site.py`) inlines the rules each page needs for its first screens and loads the full stylesheet without blocking paint. Without Node + `npm install` the build keeps the normal blocking stylesheet.
+- **Server:** `server.py` gzips text, caches `?v=` assets for a year and other assets for 30 days.
 
 ## What changed from V8
 
@@ -58,7 +109,7 @@ Lighthouse (mobile profile, simulated slow 4G, local server with gzip): accessib
 | Theme | one | **Day / Dusk** toggle; follows the OS preference until chosen |
 | Facts | 4,065 m² site, 6 m lobby, <5 min access, apartment types A–D (137–150 m²) | **v25 / Revised Master**: 2,064 m² site, 1,400+ m² landscape, 700 m² shared, apartments **1–4: 143.25 / 150 / 166 / 162 m²** |
 | Building images | older tower design (no helipad) | current design (helipad tower), 40 optimised WebP images from the Revised Master and v25 |
-| Tower 3D | illustrative massing (`tower3d.js`) | the plan-derived v4 viewer (`tower-viewer/`): 5 views, day/golden/night, floor cut-aways, tour, Sources panel |
+| Tower 3D | illustrative massing (`tower3d.js`) | the plan-derived v4 viewer (`tower-viewer/`): 5 views, a **time-of-day slider** that sweeps day → golden hour → night, floor cut-aways, tour, Sources panel; `?apt=2&floor=6` opens Floors mode on an apartment (each residence page links to it) |
 | Apartment 3D | Persian only, Types A–D | same furnished models, **bilingual**, renumbered to apartments 1–4 (see below) |
 | Home page | project summary | hero → philosophy → numbers → day→dusk scroll sequence → 3D tower → teasers |
 
@@ -76,9 +127,9 @@ All motion lives in `assets/js/motion.js` and the last block of `assets/css/site
 - **Cursor and navigation:** a trailing ring that names what is under it (View / Select); one hairline glides between nav links; apartment cards tilt toward the pointer; a dot index of the home page's sections; in-page links glide with a long even ease; the typographic band speeds up while you scroll; images alternate their wipe direction; a brand arch-and-sun ornament draws itself.
 - **Polish:** scroll-progress hairline, paper grain, thin brass scrollbar, buttons with a sweeping fill, links that underline from the reading edge.
 
-## Pages (16 per language)
+## Pages (18 per language)
 
-`index` · `project` · `architecture` · `residences` · `residence-1…4` · `lifestyle` · `location` · `gallery` · `developer` · `contact` · `thank-you` · `privacy` · `404`
+`index` · `project` · `architecture` · `residences` · `residence-1…4` · `compare` · `lifestyle` · `location` · `gallery` · `developer` · `brochure` · `contact` · `thank-you` · `privacy` · `404`
 
 The enquiry flow (`contact` → `/api/enquiries` → `thank-you?ref=…`), SQLite intake, CSP, rate limits and the `deploy/` kit are carried over from V8 unchanged in behaviour. Intake stays **off** unless `GO_ACCEPT_ENQUIRIES=1`.
 `server.py` changes: accepts `residence-1…4` as enquiry units (old `type-a…d` still accepted), hashes inline scripts of `tower-viewer/` too, and lets both 3D viewers be framed by the site only.

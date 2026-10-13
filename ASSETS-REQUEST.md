@@ -11,6 +11,6 @@ The site currently uses images extracted from the supplied PDFs (v25, Revised Ma
 | Final logo (SVG) and brand colours | Header, favicon, share image | `favicon.svg`, header partial |
 | Photos of the site / neighbourhood (real, dated) | Location page | gallery |
 | Architect's model (IFC / Revit / SketchUp) | Replace the schematic tower model with the real one; confirm floor count and heights | `tower-viewer/` |
-| Brochure PDF to offer for download | "Brochure" route on the contact page | `assets/` + link |
+| **Final brochure PDF** | The `/brochure.html` download; kept outside the public folders | `var/brochure.pdf` or `GO_BROCHURE_PDF` |
 
-When files are supplied: drop them in, run `python3 tools/build_images.py` (needs `pymupdf` + `pillow`) then `python3 tools/build_site.py`.
+When files are supplied: add them to the `JOBS` table in `tools/build_images.py` (or point it at the new PDF), run `python3 tools/build_images.py` (needs `pymupdf` and `pillow` ≥ 11.3; it writes AVIF and WebP), then `python3 tools/build_site.py`.

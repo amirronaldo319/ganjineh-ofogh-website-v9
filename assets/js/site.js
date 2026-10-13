@@ -106,13 +106,18 @@
   if (themeMq && themeMq.addEventListener) themeMq.addEventListener('change', function (e) { if (!store.get('ofogh-site-theme')) setTheme(e.matches ? 'dusk' : 'day', false); });
 
   /* ───────── header + menu ───────── */
-  var header = $('#header'), lastY = 0, ticking = false, menuOpen = false;
+  var header = $('#header'), lastY = 0, ticking = false, menuOpen = false, userScrolled = false;
+  ['wheel', 'touchmove', 'keydown'].forEach(function (type) { window.addEventListener(type, function () { userScrolled = true; }, { passive: true, once: true }); });
   function onScrollHeader() {
     if (!header) return;
     var y = window.scrollY;
     header.classList.toggle('is-stuck', y > 24);
-    header.classList.toggle('is-hidden', y > 480 && y > lastY + 4 && !menuOpen);
-    if (y < lastY - 4 || y < 480) header.classList.remove('is-hidden');
+    // A single jump of several screens is an anchor or hash landing, not reading: keep the navigation visible there.
+    var jump = Math.abs(y - lastY) > 400;
+    // The header only tucks away for a scroll the visitor made (wheel, touch, keys): a hash landing, layout shifts while
+    // images load, or an anchor glide must never leave the navigation hidden.
+    header.classList.toggle('is-hidden', userScrolled && y > 480 && y > lastY + 4 && !menuOpen && !jump);
+    if (y < lastY - 4 || y < 480 || jump) header.classList.remove('is-hidden');
     lastY = y;
   }
   var menu = $('#menu'), menuBtn = $('#menu-btn'), menuFocusT;
@@ -357,6 +362,9 @@
     resBox.appendChild(resFrame);
     var s = $('.launch__s', resBox); if (s) s.textContent = state.lang === 'fa' ? 'در حال بارگذاری…' : 'Loading…';
   }
+  // The tower viewer reads the page language from the link, so a new tab opens in the language being read.
+  var whereLink = $('#where-link');
+  if (whereLink) whereLink.href = BASE + 'tower-viewer/index.html?apt=' + whereLink.getAttribute('data-apt') + '&floor=6&lang=' + state.lang;
   var resLaunch = $('#res3d-launch');
   if (resLaunch) resLaunch.addEventListener('click', launchRes);
 

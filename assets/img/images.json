@@ -6,27 +6,35 @@
   "files": [
    {
     "file": "hero-2200.webp",
+    "avif": "hero-2200.avif",
     "w": 2200,
     "h": 2200,
-    "kb": 730
+    "kb": 730,
+    "avif_kb": 363
    },
    {
     "file": "hero-1200.webp",
+    "avif": "hero-1200.avif",
     "w": 1200,
     "h": 1200,
-    "kb": 354
+    "kb": 354,
+    "avif_kb": 171
    },
    {
     "file": "hero-720.webp",
+    "avif": "hero-720.avif",
     "w": 720,
     "h": 720,
-    "kb": 155
+    "kb": 155,
+    "avif_kb": 75
    },
    {
     "file": "hero-480.webp",
+    "avif": "hero-480.avif",
     "w": 480,
     "h": 480,
-    "kb": 73
+    "kb": 73,
+    "avif_kb": 35
    }
   ]
  },
@@ -37,27 +45,35 @@
   "files": [
    {
     "file": "panorama-1536.webp",
+    "avif": "panorama-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 354
+    "kb": 354,
+    "avif_kb": 172
    },
    {
     "file": "panorama-900.webp",
+    "avif": "panorama-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 154
+    "kb": 154,
+    "avif_kb": 76
    },
    {
     "file": "panorama-720.webp",
+    "avif": "panorama-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 104
+    "kb": 104,
+    "avif_kb": 50
    },
    {
     "file": "panorama-480.webp",
+    "avif": "panorama-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 50
+    "kb": 50,
+    "avif_kb": 23
    }
   ]
  },
@@ -68,27 +84,35 @@
   "files": [
    {
     "file": "facade-1536.webp",
+    "avif": "facade-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 203
+    "kb": 203,
+    "avif_kb": 108
    },
    {
     "file": "facade-900.webp",
+    "avif": "facade-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 89
+    "kb": 89,
+    "avif_kb": 44
    },
    {
     "file": "facade-720.webp",
+    "avif": "facade-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 59
+    "kb": 59,
+    "avif_kb": 30
    },
    {
     "file": "facade-480.webp",
+    "avif": "facade-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 30
+    "kb": 30,
+    "avif_kb": 15
    }
   ]
  },
@@ -99,27 +123,35 @@
   "files": [
    {
     "file": "plaza-1536.webp",
+    "avif": "plaza-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 282
+    "kb": 282,
+    "avif_kb": 137
    },
    {
     "file": "plaza-900.webp",
+    "avif": "plaza-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 122
+    "kb": 122,
+    "avif_kb": 60
    },
    {
     "file": "plaza-720.webp",
+    "avif": "plaza-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 83
+    "kb": 83,
+    "avif_kb": 39
    },
    {
     "file": "plaza-480.webp",
+    "avif": "plaza-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 40
+    "kb": 40,
+    "avif_kb": 19
    }
   ]
  },
@@ -130,27 +162,35 @@
   "files": [
    {
     "file": "entrance-1536.webp",
+    "avif": "entrance-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 280
+    "kb": 280,
+    "avif_kb": 134
    },
    {
     "file": "entrance-900.webp",
+    "avif": "entrance-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 125
+    "kb": 125,
+    "avif_kb": 59
    },
    {
     "file": "entrance-720.webp",
+    "avif": "entrance-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 86
+    "kb": 86,
+    "avif_kb": 40
    },
    {
     "file": "entrance-480.webp",
+    "avif": "entrance-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 42
+    "kb": 42,
+    "avif_kb": 19
    }
   ]
  },
@@ -161,27 +201,35 @@
   "files": [
    {
     "file": "garden-2000.webp",
+    "avif": "garden-2000.avif",
     "w": 2000,
     "h": 1500,
-    "kb": 778
+    "kb": 778,
+    "avif_kb": 367
    },
    {
     "file": "garden-1000.webp",
+    "avif": "garden-1000.avif",
     "w": 1000,
     "h": 750,
-    "kb": 294
+    "kb": 294,
+    "avif_kb": 142
    },
    {
     "file": "garden-720.webp",
+    "avif": "garden-720.avif",
     "w": 720,
     "h": 540,
-    "kb": 158
+    "kb": 158,
+    "avif_kb": 78
    },
    {
     "file": "garden-480.webp",
+    "avif": "garden-480.avif",
     "w": 480,
     "h": 360,
-    "kb": 74
+    "kb": 74,
+    "avif_kb": 34
    }
   ]
  },
@@ -192,27 +240,35 @@
   "files": [
    {
     "file": "terrace-2000.webp",
+    "avif": "terrace-2000.avif",
     "w": 2000,
     "h": 1126,
-    "kb": 355
+    "kb": 355,
+    "avif_kb": 185
    },
    {
     "file": "terrace-1000.webp",
+    "avif": "terrace-1000.avif",
     "w": 1000,
     "h": 563,
-    "kb": 124
+    "kb": 124,
+    "avif_kb": 61
    },
    {
     "file": "terrace-720.webp",
+    "avif": "terrace-720.avif",
     "w": 720,
     "h": 405,
-    "kb": 65
+    "kb": 65,
+    "avif_kb": 32
    },
    {
     "file": "terrace-480.webp",
+    "avif": "terrace-480.avif",
     "w": 480,
     "h": 270,
-    "kb": 29
+    "kb": 29,
+    "avif_kb": 14
    }
   ]
  },
@@ -223,27 +279,35 @@
   "files": [
    {
     "file": "villa-1536.webp",
+    "avif": "villa-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 348
+    "kb": 348,
+    "avif_kb": 168
    },
    {
     "file": "villa-900.webp",
+    "avif": "villa-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 145
+    "kb": 145,
+    "avif_kb": 70
    },
    {
     "file": "villa-720.webp",
+    "avif": "villa-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 96
+    "kb": 96,
+    "avif_kb": 46
    },
    {
     "file": "villa-480.webp",
+    "avif": "villa-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 46
+    "kb": 46,
+    "avif_kb": 22
    }
   ]
  },
@@ -254,27 +318,35 @@
   "files": [
    {
     "file": "studio-1536.webp",
+    "avif": "studio-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 204
+    "kb": 204,
+    "avif_kb": 111
    },
    {
     "file": "studio-900.webp",
+    "avif": "studio-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 95
+    "kb": 95,
+    "avif_kb": 51
    },
    {
     "file": "studio-720.webp",
+    "avif": "studio-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 67
+    "kb": 67,
+    "avif_kb": 35
    },
    {
     "file": "studio-480.webp",
+    "avif": "studio-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 34
+    "kb": 34,
+    "avif_kb": 17
    }
   ]
  },
@@ -285,27 +357,35 @@
   "files": [
    {
     "file": "interior-view-1536.webp",
+    "avif": "interior-view-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 256
+    "kb": 256,
+    "avif_kb": 126
    },
    {
     "file": "interior-view-900.webp",
+    "avif": "interior-view-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 101
+    "kb": 101,
+    "avif_kb": 50
    },
    {
     "file": "interior-view-720.webp",
+    "avif": "interior-view-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 66
+    "kb": 66,
+    "avif_kb": 32
    },
    {
     "file": "interior-view-480.webp",
+    "avif": "interior-view-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 31
+    "kb": 31,
+    "avif_kb": 15
    }
   ]
  },
@@ -316,27 +396,35 @@
   "files": [
    {
     "file": "interior-shelf-1536.webp",
+    "avif": "interior-shelf-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 242
+    "kb": 242,
+    "avif_kb": 119
    },
    {
     "file": "interior-shelf-900.webp",
+    "avif": "interior-shelf-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 106
+    "kb": 106,
+    "avif_kb": 51
    },
    {
     "file": "interior-shelf-720.webp",
+    "avif": "interior-shelf-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 73
+    "kb": 73,
+    "avif_kb": 35
    },
    {
     "file": "interior-shelf-480.webp",
+    "avif": "interior-shelf-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 36
+    "kb": 36,
+    "avif_kb": 17
    }
   ]
  },
@@ -347,21 +435,27 @@
   "files": [
    {
     "file": "site-diagram-900.webp",
+    "avif": "site-diagram-900.avif",
     "w": 900,
     "h": 1125,
-    "kb": 14
+    "kb": 14,
+    "avif_kb": 10
    },
    {
     "file": "site-diagram-720.webp",
+    "avif": "site-diagram-720.avif",
     "w": 720,
     "h": 900,
-    "kb": 11
+    "kb": 11,
+    "avif_kb": 7
    },
    {
     "file": "site-diagram-480.webp",
+    "avif": "site-diagram-480.avif",
     "w": 480,
     "h": 600,
-    "kb": 8
+    "kb": 8,
+    "avif_kb": 6
    }
   ]
  },
@@ -372,27 +466,35 @@
   "files": [
    {
     "file": "lobby-1536.webp",
+    "avif": "lobby-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 232
+    "kb": 232,
+    "avif_kb": 118
    },
    {
     "file": "lobby-900.webp",
+    "avif": "lobby-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 92
+    "kb": 92,
+    "avif_kb": 45
    },
    {
     "file": "lobby-720.webp",
+    "avif": "lobby-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 59
+    "kb": 59,
+    "avif_kb": 29
    },
    {
     "file": "lobby-480.webp",
+    "avif": "lobby-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 28
+    "kb": 28,
+    "avif_kb": 13
    }
   ]
  },
@@ -403,27 +505,35 @@
   "files": [
    {
     "file": "hall-1536.webp",
+    "avif": "hall-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 245
+    "kb": 245,
+    "avif_kb": 122
    },
    {
     "file": "hall-900.webp",
+    "avif": "hall-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 107
+    "kb": 107,
+    "avif_kb": 52
    },
    {
     "file": "hall-720.webp",
+    "avif": "hall-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 71
+    "kb": 71,
+    "avif_kb": 35
    },
    {
     "file": "hall-480.webp",
+    "avif": "hall-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 35
+    "kb": 35,
+    "avif_kb": 17
    }
   ]
  },
@@ -434,27 +544,35 @@
   "files": [
    {
     "file": "cinema-1800.webp",
+    "avif": "cinema-1800.avif",
     "w": 1800,
     "h": 1660,
-    "kb": 100
+    "kb": 100,
+    "avif_kb": 70
    },
    {
     "file": "cinema-900.webp",
+    "avif": "cinema-900.avif",
     "w": 900,
     "h": 830,
-    "kb": 37
+    "kb": 37,
+    "avif_kb": 24
    },
    {
     "file": "cinema-720.webp",
+    "avif": "cinema-720.avif",
     "w": 720,
     "h": 664,
-    "kb": 26
+    "kb": 26,
+    "avif_kb": 17
    },
    {
     "file": "cinema-480.webp",
+    "avif": "cinema-480.avif",
     "w": 480,
     "h": 443,
-    "kb": 13
+    "kb": 13,
+    "avif_kb": 9
    }
   ]
  },
@@ -465,27 +583,35 @@
   "files": [
    {
     "file": "fitness-1800.webp",
+    "avif": "fitness-1800.avif",
     "w": 1800,
     "h": 1665,
-    "kb": 241
+    "kb": 241,
+    "avif_kb": 138
    },
    {
     "file": "fitness-900.webp",
+    "avif": "fitness-900.avif",
     "w": 900,
     "h": 832,
-    "kb": 107
+    "kb": 107,
+    "avif_kb": 54
    },
    {
     "file": "fitness-720.webp",
+    "avif": "fitness-720.avif",
     "w": 720,
     "h": 666,
-    "kb": 78
+    "kb": 78,
+    "avif_kb": 40
    },
    {
     "file": "fitness-480.webp",
+    "avif": "fitness-480.avif",
     "w": 480,
     "h": 444,
-    "kb": 42
+    "kb": 42,
+    "avif_kb": 21
    }
   ]
  },
@@ -496,27 +622,35 @@
   "files": [
    {
     "file": "cafe-1800.webp",
+    "avif": "cafe-1800.avif",
     "w": 1800,
     "h": 1418,
-    "kb": 211
+    "kb": 211,
+    "avif_kb": 125
    },
    {
     "file": "cafe-900.webp",
+    "avif": "cafe-900.avif",
     "w": 900,
     "h": 709,
-    "kb": 92
+    "kb": 92,
+    "avif_kb": 49
    },
    {
     "file": "cafe-720.webp",
+    "avif": "cafe-720.avif",
     "w": 720,
     "h": 567,
-    "kb": 66
+    "kb": 66,
+    "avif_kb": 35
    },
    {
     "file": "cafe-480.webp",
+    "avif": "cafe-480.avif",
     "w": 480,
     "h": 378,
-    "kb": 35
+    "kb": 35,
+    "avif_kb": 17
    }
   ]
  },
@@ -527,21 +661,27 @@
   "files": [
    {
     "file": "lounge-1024.webp",
+    "avif": "lounge-1024.avif",
     "w": 1024,
     "h": 1280,
-    "kb": 190
+    "kb": 190,
+    "avif_kb": 97
    },
    {
     "file": "lounge-700.webp",
+    "avif": "lounge-700.avif",
     "w": 700,
     "h": 875,
-    "kb": 101
+    "kb": 101,
+    "avif_kb": 52
    },
    {
     "file": "lounge-480.webp",
+    "avif": "lounge-480.avif",
     "w": 480,
     "h": 600,
-    "kb": 52
+    "kb": 52,
+    "avif_kb": 26
    }
   ]
  },
@@ -552,27 +692,35 @@
   "files": [
    {
     "file": "living-1536.webp",
+    "avif": "living-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 254
+    "kb": 254,
+    "avif_kb": 123
    },
    {
     "file": "living-900.webp",
+    "avif": "living-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 101
+    "kb": 101,
+    "avif_kb": 48
    },
    {
     "file": "living-720.webp",
+    "avif": "living-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 66
+    "kb": 66,
+    "avif_kb": 31
    },
    {
     "file": "living-480.webp",
+    "avif": "living-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 30
+    "kb": 30,
+    "avif_kb": 14
    }
   ]
  },
@@ -583,27 +731,35 @@
   "files": [
    {
     "file": "kitchen-1536.webp",
+    "avif": "kitchen-1536.avif",
     "w": 1536,
     "h": 1024,
-    "kb": 143
+    "kb": 143,
+    "avif_kb": 81
    },
    {
     "file": "kitchen-900.webp",
+    "avif": "kitchen-900.avif",
     "w": 900,
     "h": 600,
-    "kb": 61
+    "kb": 61,
+    "avif_kb": 33
    },
    {
     "file": "kitchen-720.webp",
+    "avif": "kitchen-720.avif",
     "w": 720,
     "h": 480,
-    "kb": 42
+    "kb": 42,
+    "avif_kb": 23
    },
    {
     "file": "kitchen-480.webp",
+    "avif": "kitchen-480.avif",
     "w": 480,
     "h": 320,
-    "kb": 22
+    "kb": 22,
+    "avif_kb": 12
    }
   ]
  },
@@ -614,21 +770,27 @@
   "files": [
    {
     "file": "kitchen-detail-1122.webp",
+    "avif": "kitchen-detail-1122.avif",
     "w": 1122,
     "h": 906,
-    "kb": 71
+    "kb": 71,
+    "avif_kb": 46
    },
    {
     "file": "kitchen-detail-700.webp",
+    "avif": "kitchen-detail-700.avif",
     "w": 700,
     "h": 565,
-    "kb": 35
+    "kb": 35,
+    "avif_kb": 21
    },
    {
     "file": "kitchen-detail-480.webp",
+    "avif": "kitchen-detail-480.avif",
     "w": 480,
     "h": 388,
-    "kb": 19
+    "kb": 19,
+    "avif_kb": 11
    }
   ]
  },
@@ -639,27 +801,35 @@
   "files": [
    {
     "file": "bedroom-1800.webp",
+    "avif": "bedroom-1800.avif",
     "w": 1800,
     "h": 1447,
-    "kb": 177
+    "kb": 177,
+    "avif_kb": 114
    },
    {
     "file": "bedroom-900.webp",
+    "avif": "bedroom-900.avif",
     "w": 900,
     "h": 724,
-    "kb": 72
+    "kb": 72,
+    "avif_kb": 42
    },
    {
     "file": "bedroom-720.webp",
+    "avif": "bedroom-720.avif",
     "w": 720,
     "h": 579,
-    "kb": 51
+    "kb": 51,
+    "avif_kb": 29
    },
    {
     "file": "bedroom-480.webp",
+    "avif": "bedroom-480.avif",
     "w": 480,
     "h": 386,
-    "kb": 26
+    "kb": 26,
+    "avif_kb": 14
    }
   ]
  },
@@ -670,27 +840,35 @@
   "files": [
    {
     "file": "wardrobe-1800.webp",
+    "avif": "wardrobe-1800.avif",
     "w": 1800,
     "h": 1688,
-    "kb": 182
+    "kb": 182,
+    "avif_kb": 112
    },
    {
     "file": "wardrobe-900.webp",
+    "avif": "wardrobe-900.avif",
     "w": 900,
     "h": 844,
-    "kb": 74
+    "kb": 74,
+    "avif_kb": 39
    },
    {
     "file": "wardrobe-720.webp",
+    "avif": "wardrobe-720.avif",
     "w": 720,
     "h": 675,
-    "kb": 53
+    "kb": 53,
+    "avif_kb": 28
    },
    {
     "file": "wardrobe-480.webp",
+    "avif": "wardrobe-480.avif",
     "w": 480,
     "h": 450,
-    "kb": 28
+    "kb": 28,
+    "avif_kb": 14
    }
   ]
  },
@@ -701,21 +879,27 @@
   "files": [
    {
     "file": "bath-1254.webp",
+    "avif": "bath-1254.avif",
     "w": 1254,
     "h": 1254,
-    "kb": 106
+    "kb": 106,
+    "avif_kb": 67
    },
    {
     "file": "bath-700.webp",
+    "avif": "bath-700.avif",
     "w": 700,
     "h": 700,
-    "kb": 31
+    "kb": 31,
+    "avif_kb": 19
    },
    {
     "file": "bath-480.webp",
+    "avif": "bath-480.avif",
     "w": 480,
     "h": 480,
-    "kb": 16
+    "kb": 16,
+    "avif_kb": 10
    }
   ]
  },
@@ -726,21 +910,27 @@
   "files": [
    {
     "file": "study-1024.webp",
+    "avif": "study-1024.avif",
     "w": 1024,
     "h": 1280,
-    "kb": 155
+    "kb": 155,
+    "avif_kb": 80
    },
    {
     "file": "study-700.webp",
+    "avif": "study-700.avif",
     "w": 700,
     "h": 875,
-    "kb": 82
+    "kb": 82,
+    "avif_kb": 42
    },
    {
     "file": "study-480.webp",
+    "avif": "study-480.avif",
     "w": 480,
     "h": 600,
-    "kb": 41
+    "kb": 41,
+    "avif_kb": 21
    }
   ]
  },
@@ -751,21 +941,27 @@
   "files": [
    {
     "file": "tower-day-1024.webp",
+    "avif": "tower-day-1024.avif",
     "w": 1024,
     "h": 1536,
-    "kb": 321
+    "kb": 321,
+    "avif_kb": 158
    },
    {
     "file": "tower-day-700.webp",
+    "avif": "tower-day-700.avif",
     "w": 700,
     "h": 1050,
-    "kb": 176
+    "kb": 176,
+    "avif_kb": 87
    },
    {
     "file": "tower-day-480.webp",
+    "avif": "tower-day-480.avif",
     "w": 480,
     "h": 720,
-    "kb": 92
+    "kb": 92,
+    "avif_kb": 46
    }
   ]
  },
@@ -776,21 +972,27 @@
   "files": [
    {
     "file": "tower-dusk-1024.webp",
+    "avif": "tower-dusk-1024.avif",
     "w": 1024,
     "h": 1536,
-    "kb": 268
+    "kb": 268,
+    "avif_kb": 139
    },
    {
     "file": "tower-dusk-700.webp",
+    "avif": "tower-dusk-700.avif",
     "w": 700,
     "h": 1050,
-    "kb": 151
+    "kb": 151,
+    "avif_kb": 77
    },
    {
     "file": "tower-dusk-480.webp",
+    "avif": "tower-dusk-480.avif",
     "w": 480,
     "h": 720,
-    "kb": 81
+    "kb": 81,
+    "avif_kb": 40
    }
   ]
  },
@@ -801,21 +1003,27 @@
   "files": [
    {
     "file": "plan-984.webp",
+    "avif": "plan-984.avif",
     "w": 984,
     "h": 1067,
-    "kb": 106
+    "kb": 106,
+    "avif_kb": 85
    },
    {
     "file": "plan-700.webp",
+    "avif": "plan-700.avif",
     "w": 700,
     "h": 759,
-    "kb": 60
+    "kb": 60,
+    "avif_kb": 48
    },
    {
     "file": "plan-480.webp",
+    "avif": "plan-480.avif",
     "w": 480,
     "h": 520,
-    "kb": 35
+    "kb": 35,
+    "avif_kb": 27
    }
   ]
  },
@@ -826,27 +1034,35 @@
   "files": [
    {
     "file": "apt1-1526.webp",
+    "avif": "apt1-1526.avif",
     "w": 1526,
     "h": 768,
-    "kb": 174
+    "kb": 174,
+    "avif_kb": 140
    },
    {
     "file": "apt1-900.webp",
+    "avif": "apt1-900.avif",
     "w": 900,
     "h": 453,
-    "kb": 64
+    "kb": 64,
+    "avif_kb": 48
    },
    {
     "file": "apt1-720.webp",
+    "avif": "apt1-720.avif",
     "w": 720,
     "h": 362,
-    "kb": 42
+    "kb": 42,
+    "avif_kb": 32
    },
    {
     "file": "apt1-480.webp",
+    "avif": "apt1-480.avif",
     "w": 480,
     "h": 242,
-    "kb": 21
+    "kb": 21,
+    "avif_kb": 16
    }
   ]
  },
@@ -857,27 +1073,35 @@
   "files": [
    {
     "file": "apt2-1214.webp",
+    "avif": "apt2-1214.avif",
     "w": 1214,
     "h": 982,
-    "kb": 92
+    "kb": 92,
+    "avif_kb": 81
    },
    {
     "file": "apt2-800.webp",
+    "avif": "apt2-800.avif",
     "w": 800,
     "h": 647,
-    "kb": 47
+    "kb": 47,
+    "avif_kb": 39
    },
    {
     "file": "apt2-720.webp",
+    "avif": "apt2-720.avif",
     "w": 720,
     "h": 582,
-    "kb": 40
+    "kb": 40,
+    "avif_kb": 33
    },
    {
     "file": "apt2-480.webp",
+    "avif": "apt2-480.avif",
     "w": 480,
     "h": 388,
-    "kb": 22
+    "kb": 22,
+    "avif_kb": 17
    }
   ]
  },
@@ -888,21 +1112,27 @@
   "files": [
    {
     "file": "apt3-1004.webp",
+    "avif": "apt3-1004.avif",
     "w": 1004,
     "h": 1206,
-    "kb": 116
+    "kb": 116,
+    "avif_kb": 98
    },
    {
     "file": "apt3-700.webp",
+    "avif": "apt3-700.avif",
     "w": 700,
     "h": 841,
-    "kb": 56
+    "kb": 56,
+    "avif_kb": 46
    },
    {
     "file": "apt3-480.webp",
+    "avif": "apt3-480.avif",
     "w": 480,
     "h": 577,
-    "kb": 29
+    "kb": 29,
+    "avif_kb": 24
    }
   ]
  },
@@ -913,21 +1143,27 @@
   "files": [
    {
     "file": "apt4-930.webp",
+    "avif": "apt4-930.avif",
     "w": 930,
     "h": 1246,
-    "kb": 91
+    "kb": 91,
+    "avif_kb": 76
    },
    {
     "file": "apt4-700.webp",
+    "avif": "apt4-700.avif",
     "w": 700,
     "h": 938,
-    "kb": 54
+    "kb": 54,
+    "avif_kb": 44
    },
    {
     "file": "apt4-480.webp",
+    "avif": "apt4-480.avif",
     "w": 480,
     "h": 643,
-    "kb": 28
+    "kb": 28,
+    "avif_kb": 23
    }
   ]
  },
@@ -938,27 +1174,35 @@
   "files": [
    {
     "file": "helipad-1215.webp",
+    "avif": "helipad-1215.avif",
     "w": 1215,
     "h": 1024,
-    "kb": 104
+    "kb": 104,
+    "avif_kb": 61
    },
    {
     "file": "helipad-800.webp",
+    "avif": "helipad-800.avif",
     "w": 800,
     "h": 674,
-    "kb": 56
+    "kb": 56,
+    "avif_kb": 31
    },
    {
     "file": "helipad-720.webp",
+    "avif": "helipad-720.avif",
     "w": 720,
     "h": 607,
-    "kb": 48
+    "kb": 48,
+    "avif_kb": 26
    },
    {
     "file": "helipad-480.webp",
+    "avif": "helipad-480.avif",
     "w": 480,
     "h": 405,
-    "kb": 26
+    "kb": 26,
+    "avif_kb": 14
    }
   ]
  },
@@ -969,27 +1213,35 @@
   "files": [
    {
     "file": "aerial-1448.webp",
+    "avif": "aerial-1448.avif",
     "w": 1448,
     "h": 657,
-    "kb": 223
+    "kb": 223,
+    "avif_kb": 117
    },
    {
     "file": "aerial-900.webp",
+    "avif": "aerial-900.avif",
     "w": 900,
     "h": 408,
-    "kb": 105
+    "kb": 105,
+    "avif_kb": 55
    },
    {
     "file": "aerial-720.webp",
+    "avif": "aerial-720.avif",
     "w": 720,
     "h": 327,
-    "kb": 71
+    "kb": 71,
+    "avif_kb": 36
    },
    {
     "file": "aerial-480.webp",
+    "avif": "aerial-480.avif",
     "w": 480,
     "h": 218,
-    "kb": 33
+    "kb": 33,
+    "avif_kb": 17
    }
   ]
  },
@@ -1000,27 +1252,35 @@
   "files": [
    {
     "file": "model-view-1254.webp",
+    "avif": "model-view-1254.avif",
     "w": 1254,
     "h": 1254,
-    "kb": 397
+    "kb": 397,
+    "avif_kb": 287
    },
    {
     "file": "model-view-800.webp",
+    "avif": "model-view-800.avif",
     "w": 800,
     "h": 800,
-    "kb": 201
+    "kb": 201,
+    "avif_kb": 148
    },
    {
     "file": "model-view-720.webp",
+    "avif": "model-view-720.avif",
     "w": 720,
     "h": 720,
-    "kb": 171
+    "kb": 171,
+    "avif_kb": 124
    },
    {
     "file": "model-view-480.webp",
+    "avif": "model-view-480.avif",
     "w": 480,
     "h": 480,
-    "kb": 84
+    "kb": 84,
+    "avif_kb": 62
    }
   ]
  },
@@ -1031,27 +1291,35 @@
   "files": [
    {
     "file": "model-render-1500.webp",
+    "avif": "model-render-1500.avif",
     "w": 1500,
     "h": 1500,
-    "kb": 73
+    "kb": 73,
+    "avif_kb": 59
    },
    {
     "file": "model-render-800.webp",
+    "avif": "model-render-800.avif",
     "w": 800,
     "h": 800,
-    "kb": 36
+    "kb": 36,
+    "avif_kb": 29
    },
    {
     "file": "model-render-720.webp",
+    "avif": "model-render-720.avif",
     "w": 720,
     "h": 720,
-    "kb": 31
+    "kb": 31,
+    "avif_kb": 26
    },
    {
     "file": "model-render-480.webp",
+    "avif": "model-render-480.avif",
     "w": 480,
     "h": 480,
-    "kb": 20
+    "kb": 20,
+    "avif_kb": 16
    }
   ]
  },
@@ -1062,27 +1330,35 @@
   "files": [
    {
     "file": "model-section-1500.webp",
+    "avif": "model-section-1500.avif",
     "w": 1500,
     "h": 1500,
-    "kb": 72
+    "kb": 72,
+    "avif_kb": 67
    },
    {
     "file": "model-section-800.webp",
+    "avif": "model-section-800.avif",
     "w": 800,
     "h": 800,
-    "kb": 35
+    "kb": 35,
+    "avif_kb": 31
    },
    {
     "file": "model-section-720.webp",
+    "avif": "model-section-720.avif",
     "w": 720,
     "h": 720,
-    "kb": 31
+    "kb": 31,
+    "avif_kb": 28
    },
    {
     "file": "model-section-480.webp",
+    "avif": "model-section-480.avif",
     "w": 480,
     "h": 480,
-    "kb": 19
+    "kb": 19,
+    "avif_kb": 16
    }
   ]
  },
@@ -1093,27 +1369,35 @@
   "files": [
    {
     "file": "model-floor-1500.webp",
+    "avif": "model-floor-1500.avif",
     "w": 1500,
     "h": 1500,
-    "kb": 55
+    "kb": 55,
+    "avif_kb": 50
    },
    {
     "file": "model-floor-800.webp",
+    "avif": "model-floor-800.avif",
     "w": 800,
     "h": 800,
-    "kb": 26
+    "kb": 26,
+    "avif_kb": 25
    },
    {
     "file": "model-floor-720.webp",
+    "avif": "model-floor-720.avif",
     "w": 720,
     "h": 720,
-    "kb": 23
+    "kb": 23,
+    "avif_kb": 22
    },
    {
     "file": "model-floor-480.webp",
+    "avif": "model-floor-480.avif",
     "w": 480,
     "h": 480,
-    "kb": 14
+    "kb": 14,
+    "avif_kb": 13
    }
   ]
  },
@@ -1124,27 +1408,35 @@
   "files": [
    {
     "file": "model-shared-1500.webp",
+    "avif": "model-shared-1500.avif",
     "w": 1500,
     "h": 1500,
-    "kb": 33
+    "kb": 33,
+    "avif_kb": 30
    },
    {
     "file": "model-shared-800.webp",
+    "avif": "model-shared-800.avif",
     "w": 800,
     "h": 800,
-    "kb": 16
+    "kb": 16,
+    "avif_kb": 15
    },
    {
     "file": "model-shared-720.webp",
+    "avif": "model-shared-720.avif",
     "w": 720,
     "h": 720,
-    "kb": 14
+    "kb": 14,
+    "avif_kb": 14
    },
    {
     "file": "model-shared-480.webp",
+    "avif": "model-shared-480.avif",
     "w": 480,
     "h": 480,
-    "kb": 9
+    "kb": 9,
+    "avif_kb": 9
    }
   ]
  },
@@ -1155,27 +1447,35 @@
   "files": [
    {
     "file": "model-parking-1500.webp",
+    "avif": "model-parking-1500.avif",
     "w": 1500,
     "h": 1500,
-    "kb": 19
+    "kb": 19,
+    "avif_kb": 17
    },
    {
     "file": "model-parking-800.webp",
+    "avif": "model-parking-800.avif",
     "w": 800,
     "h": 800,
-    "kb": 9
+    "kb": 9,
+    "avif_kb": 9
    },
    {
     "file": "model-parking-720.webp",
+    "avif": "model-parking-720.avif",
     "w": 720,
     "h": 720,
-    "kb": 8
+    "kb": 8,
+    "avif_kb": 8
    },
    {
     "file": "model-parking-480.webp",
+    "avif": "model-parking-480.avif",
     "w": 480,
     "h": 480,
-    "kb": 4
+    "kb": 4,
+    "avif_kb": 5
    }
   ]
  }

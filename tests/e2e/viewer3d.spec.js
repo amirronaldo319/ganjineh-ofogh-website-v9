@@ -55,3 +55,47 @@ test('gallery link from a room photo resolves to a real gallery image', async ({
   await page.goto('/gallery.html?photo=bath');
   await expect(page.locator('#lb')).toHaveAttribute('open', '');
 });
+
+test.describe('tower viewer: time of day and apartment deep link', () => {
+  test.skip(({ browserName }) => browserName !== 'chromium', 'headless WebKit WebGL is covered by the launch test only');
+
+  const ready = (page) => page.waitForFunction(() => document.querySelector('#status')?.classList.contains('gone'), null, { timeout: 80_000 });
+
+  test('the time-of-day slider blends the presets and keeps the buttons honest', async ({ page }) => {
+    await page.goto('/tower-viewer/index.html?lang=en#nointro');
+    await ready(page);
+    await page.locator('[data-tab="light"]').click();
+    const slider = page.locator('#tod');
+    await expect(slider).toBeVisible();
+    await expect(slider).toHaveValue('0');
+
+    await slider.fill('100');
+    await expect(page.locator('body')).toHaveClass(/night/);
+    await expect(slider).toHaveAttribute('aria-valuetext', 'Night');
+    await expect(page.locator('[data-light="night"]')).toHaveAttribute('aria-pressed', 'true');
+
+    await slider.fill('30');    // between day and golden: no preset button claims it
+    await expect(page.locator('body')).not.toHaveClass(/night/);
+    await expect(page.locator('[data-light][aria-pressed="true"]')).toHaveCount(0);
+
+    // A preset button still works after dragging, and moves the slider to its stop.
+    await page.locator('[data-light="golden"]').click();
+    await expect.poll(() => slider.inputValue()).toBe('50');
+  });
+
+  test('?apt=2&floor=6 opens Floors mode with Apartment 2 selected', async ({ page }) => {
+    await page.goto('/tower-viewer/index.html?lang=en&apt=2&floor=6');
+    await ready(page);
+    await expect(page.locator('#o-floors')).toBeVisible();
+    await expect(page.locator('#apt-name')).toHaveText('Apartment 2');
+    await expect(page.locator('.chip[data-apt="apt2"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#floor-range')).toHaveValue('6');
+  });
+
+  test('residence pages link to the apartment in the tower, in the page language', async ({ page }) => {
+    await page.goto('/en/residence-4.html');
+    await expect(page.locator('#where-link')).toHaveAttribute('href', /\.\.\/tower-viewer\/index\.html\?apt=4&floor=6&lang=en$/);
+    await page.goto('/residence-4.html');
+    await expect(page.locator('#where-link')).toHaveAttribute('href', /tower-viewer\/index\.html\?apt=4&floor=6&lang=fa$/);
+  });
+});

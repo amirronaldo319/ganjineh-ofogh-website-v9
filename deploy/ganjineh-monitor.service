@@ -1,0 +1,10 @@
+[Unit]
+Description=Ganjineh Ofogh uptime and health check
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=ganjineh
+WorkingDirectory=/srv/ganjineh/site
+# Add --expect-intake --expect-brochure once enquiries are live. A webhook can be set with GO_NOTIFY_WEBHOOK (see ganjineh.service).
+ExecStart=/usr/bin/python3 tools/monitor.py https://ganjinehofogh.ir --quiet
