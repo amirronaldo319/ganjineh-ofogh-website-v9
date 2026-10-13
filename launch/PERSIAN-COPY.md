@@ -55,6 +55,7 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | گنجینه افق | Ganjineh Ofogh |
 | تهران / ازگل | Tehran / Ozgol |
 | برش مفهومی و بدون مقیاس. مساحت بر پایه‌ی اطلاعات ارائه‌شده است؛ ابعاد، چیدمان و مصالح تابع مدارک مصوب پروژه است. تصاویر، تصویرسازی مفهومی‌اند. | Concept cut-away, not to scale. Area as supplied; dimensions, layout and finishes remain subject to approved project records. Images are illustrative visualisations. |
+| بروشور | Brochure |
 | مسیر صفحه | Breadcrumb |
 | برش سه‌بعدی واحد . | Three-dimensional cut-away of Apartment . |
 | اتاق نشیمن. | Living room. |
@@ -105,7 +106,6 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 
 | Persian | English |
 |---|---|
-| بروشور | Brochure |
 | بروشور پروژه | The project brochure |
 | بروشور را همراه خود ببرید. | Take the brochure with you. |
 | نام و شماره‌ی موبایل خود را بگذارید تا بروشور پروژه را برایتان فراهم کنیم. چیز دیگری نمی‌پرسیم. | Leave your name and mobile number and we will provide the project brochure. Nothing else is asked. |

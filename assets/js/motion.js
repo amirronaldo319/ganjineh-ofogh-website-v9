@@ -384,4 +384,53 @@
       band.addEventListener('pointerleave', function () { band.classList.remove('is-lit'); });
     });
   }
+
+  /* ───────── layer IV: stars at dusk, drifting specks in dark bands, button ripples ───────── */
+  function seeded(seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
+  function scatter(host, cls, count, make, seed) {
+    if (!host || $('.' + cls, host)) return;
+    var rnd = seeded(seed), box = document.createElement('span');
+    box.className = cls; box.setAttribute('aria-hidden', 'true');
+    for (var n = 0; n < count; n++) { var el = document.createElement('i'); make(el, rnd); box.appendChild(el); }
+    host.insertBefore(box, host.firstChild);
+  }
+  var lowPower = (navigator.hardwareConcurrency || 8) <= 4;
+  function dressSky() {
+    var hero = $('.hero');
+    var dusk = root.getAttribute('data-theme') === 'dusk';
+    var existing = hero && $('.stars', hero);
+    if (!hero) return;
+    if (!dusk && existing) { existing.remove(); return; }
+    if (dusk) scatter(hero, 'stars', lowPower ? 18 : 38, function (el, r) {
+      el.style.left = (r() * 100).toFixed(1) + '%'; el.style.top = (r() * 70).toFixed(1) + '%';
+      el.style.setProperty('--t', (3 + r() * 4).toFixed(1) + 's'); el.style.setProperty('--dl', (r() * 5).toFixed(1) + 's'); el.style.setProperty('--o', (.35 + r() * .5).toFixed(2));
+    }, 7);
+  }
+  dressSky();
+  new MutationObserver(dressSky).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+
+  $$('.visit').forEach(function (band, k) {
+    scatter(band, 'motes', lowPower ? 8 : 16, function (el, r) {
+      el.style.left = (r() * 100).toFixed(1) + '%';
+      el.style.setProperty('--s', (2 + r() * 3).toFixed(1) + 'px'); el.style.setProperty('--t', (14 + r() * 14).toFixed(1) + 's');
+      el.style.setProperty('--dl', (-r() * 20).toFixed(1) + 's'); el.style.setProperty('--dx', ((r() - .5) * 90).toFixed(0) + 'px');
+    }, 11 + k);
+  });
+
+  // the gleam across the hero's Latin wordmark (Web Animations: independent of the entrance animation on the same element)
+  var mark = $('.hero__title .en');
+  if (mark && mark.animate) {
+    mark.animate([{ backgroundPosition: '130% 0' }, { backgroundPosition: '-30% 0' }],
+      { duration: 2600, delay: 3400, endDelay: 7000, iterations: Infinity, easing: 'cubic-bezier(.65,0,.35,1)' });
+  }
+
+  document.addEventListener('pointerdown', function (e) {
+    var btn = e.target.closest && e.target.closest('.btn');
+    if (!btn || btn.disabled) return;
+    var r = btn.getBoundingClientRect(), dot = document.createElement('span');
+    dot.className = 'ripple'; dot.setAttribute('aria-hidden', 'true');
+    dot.style.setProperty('--rx', (e.clientX - r.left) + 'px'); dot.style.setProperty('--ry', (e.clientY - r.top) + 'px');
+    btn.appendChild(dot);
+    setTimeout(function () { dot.remove(); }, 750);
+  }, { passive: true });
 })();

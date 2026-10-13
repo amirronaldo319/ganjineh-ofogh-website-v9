@@ -415,4 +415,15 @@
       nat.addEventListener('click', function () { navigator.share({ title: title, url: url }).catch(function () {}); });
     }
   });
+  /* ───────── sticky sales bar (phones): after the first screens, hidden near the footer ───────── */
+  (function () {
+    var bar = $('[data-sticky]');
+    if (!bar) return;
+    var footer = $('.footer'), nearEnd = false, past = false;
+    function paint() { bar.classList.toggle('is-on', past && !nearEnd); document.documentElement.classList.toggle('has-sticky', past && !nearEnd); }
+    window.addEventListener('scroll', function () { var p = window.scrollY > 520; if (p !== past) { past = p; paint(); } }, { passive: true });
+    if ('IntersectionObserver' in window && footer) {
+      new IntersectionObserver(function (es) { nearEnd = es[0].isIntersecting; paint(); }).observe(footer);
+    }
+  })();
 })();

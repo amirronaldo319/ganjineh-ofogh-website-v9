@@ -52,6 +52,14 @@ Added on top of layers I–II (all compositor-only; nothing runs under `prefers-
 - thank-you page: the tick draws itself, the reference code types in, the download card pops;
 - images shimmer while they load, which matters on slow connections.
 
+## Motion layer IV
+
+- **Hero:** architectural crop marks frame the image and fade in; a slow gleam crosses the Latin wordmark (Web Animations API, so it never fights the entrance animation); at dusk a field of twinkling stars appears and goes away again with the day theme.
+- **Dark bands:** slow rising specks of light (fewer on low-power devices).
+- **Depth:** gallery tiles drift at three speeds as they cross the screen, and the group-history rows arrive as you reach them (CSS scroll-driven animations where the browser supports them; static otherwise).
+- **Affordances:** plan pins breathe until you choose one; buttons ripple from the point of contact; form fields warm their label and gain a brass halo on focus.
+- **Phones:** a sales bar ("Request information" / "Brochure", carrying the apartment) arrives after the first screens on residence pages and leaves before the footer; the back-to-top button moves above it.
+
 ## Sharing, printing and share cards
 
 - **Share cards:** every page has its own 1200×630 card per language (`assets/og/<page>-<lang>.jpg`, drawn by `tools/build_og_pages.mjs`, which `build_site.py` runs and which redraws only what changed). A link pasted into WhatsApp, Telegram or X shows that page's picture and title.

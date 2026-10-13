@@ -16,6 +16,10 @@ test.describe('motion layer III', () => {
     await page.locator('.visit').scrollIntoViewIfNeeded();
     await page.evaluate(() => { const v = document.querySelector('.visit'); window.scrollTo(0, v.getBoundingClientRect().top + window.scrollY + 40); });
     await expect(header).toHaveClass(/is-dark/);
+    // let the colour transition finish before measuring contrast (axe would otherwise sample a mid-fade colour)
+    await expect.poll(() => page.evaluate(() => getComputedStyle(document.querySelector('.brand__name')).color + '|' + getComputedStyle(document.getElementById('header')).backgroundColor.slice(0, 18)),
+      { timeout: 5000 }).toMatch(/^rgb\(237, 232, 220\)\|(rgba\(1\d|color\(srgb 0\.0)/);
+    await page.waitForTimeout(150);
     await page.evaluate(AXE);
     const result = await page.evaluate(() => window.axe.run(document.getElementById('header'), { runOnly: ['color-contrast'], resultTypes: ['violations'] }));
     expect(result.violations.map((v) => v.id + ': ' + v.nodes.map((n) => n.target.join(' ')).join(', '))).toEqual([]);
