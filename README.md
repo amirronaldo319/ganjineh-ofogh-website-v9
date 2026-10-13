@@ -60,6 +60,14 @@ Added on top of layers I–II (all compositor-only; nothing runs under `prefers-
 - **Affordances:** plan pins breathe until you choose one; buttons ripple from the point of contact; form fields warm their label and gain a brass halo on focus.
 - **Phones:** a sales bar ("Request information" / "Brochure", carrying the apartment) arrives after the first screens on residence pages and leaves before the footer; the back-to-top button moves above it.
 
+## Motion layer V
+
+- **Shared-element morph:** an apartment's picture travels from its card to the top of its own page and back (cross-document view transitions; names `apt-1`…`apt-4`, unique per page).
+- **Area bars** on the apartment cards show relative size and draw as the card arrives.
+- **The arch:** the dark call-to-action band takes the project's arch as its upper edge.
+- **Hero exit:** as you scroll away, the text lifts off and the tower settles back, driven by the scroll itself (CSS scroll-driven animation; static where unsupported).
+- **Card highlight:** a soft light follows the pointer across an apartment card; the brand rule lengthens on hover.
+
 ## Sharing, printing and share cards
 
 - **Share cards:** every page has its own 1200×630 card per language (`assets/og/<page>-<lang>.jpg`, drawn by `tools/build_og_pages.mjs`, which `build_site.py` runs and which redraws only what changed). A link pasted into WhatsApp, Telegram or X shows that page's picture and title.

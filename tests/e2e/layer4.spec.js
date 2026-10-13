@@ -71,3 +71,36 @@ test.describe('motion layer IV · phone', () => {
     await expect(page.locator('#residence-interest')).toHaveValue('residence-4');
   });
 });
+
+test.describe('motion layer V', () => {
+  test('apartment pictures carry shared-element names so they morph between a card and its page', async ({ page }) => {
+    await page.goto('/en/residences.html');
+    const names = await page.evaluate(() => [...document.querySelectorAll('a.apt-card')].map((a) => [a.getAttribute('href'), getComputedStyle(a.querySelector('.frame')).viewTransitionName]));
+    expect(names).toEqual([['residence-1.html', 'apt-1'], ['residence-2.html', 'apt-2'], ['residence-3.html', 'apt-3'], ['residence-4.html', 'apt-4']]);
+    await page.goto('/en/residence-3.html');
+    expect(await page.evaluate(() => getComputedStyle(document.querySelector('.phero__art .arch')).viewTransitionName)).toBe('apt-3');
+    // the other three cards on the page use their own names, so no name appears twice
+    const others = await page.evaluate(() => [...document.querySelectorAll('a.apt-card .frame')].map((f) => getComputedStyle(f).viewTransitionName));
+    expect(new Set(others).size).toBe(others.length);
+    expect(others).not.toContain('apt-3');
+  });
+
+  test('area bars show relative size, longest for the largest apartment', async ({ page }) => {
+    await page.goto('/en/residences.html');
+    const widths = await page.evaluate(() => [...document.querySelectorAll('.areabar')].map((b) => parseFloat(getComputedStyle(b).getPropertyValue('--w'))));
+    expect(widths).toHaveLength(4);
+    expect(widths[2]).toBeCloseTo(100, 0);                 // 166 m², the largest
+    expect(widths[0]).toBeCloseTo(86.3, 0);                // 143.25 / 166
+    expect(Math.max(...widths)).toBe(widths[2]);
+  });
+
+  test('the call-to-action band takes the arch shape and the hero leaves with the scroll', async ({ page, isMobile }) => {
+    await page.goto('/index.html');
+    await page.waitForFunction(() => !!window.ofogh);
+    expect(await page.evaluate(() => parseFloat(getComputedStyle(document.querySelector('.visit')).borderStartStartRadius))).toBeGreaterThan(30);
+    if (!isMobile) {
+      const name = await page.evaluate(() => getComputedStyle(document.querySelector('.hero__copy')).animationName);
+      expect(['heroExitCopy', 'none']).toContain(name);   // none where scroll-driven animations are unsupported
+    }
+  });
+});

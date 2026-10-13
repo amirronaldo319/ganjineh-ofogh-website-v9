@@ -74,6 +74,7 @@ def apt_cards(sizes="(max-width: 560px) 92vw, (max-width: 1100px) 46vw, 24vw"):
   <div class="frame"><img data-img="{a["img"]}" sizes="{sizes}" alt="برش سه‌بعدی واحد {a["n_fa"]}" en-alt="Three-dimensional cut-away of Apartment {a["n"]}"></div>
   <div class="tagline"><h3 en="Apartment {a["n"]}">واحد {a["n_fa"]}</h3><span class="area num" dir="ltr"><bdi en="{a["area"]}">{a["area_fa"]}</bdi><small en="m²">م²</small></span></div>
   <p en="{esc(a["tag_en"])}">{a["tag_fa"]}</p>
+  <span class="areabar" aria-hidden="true" style="--w:{float(a["area"]) / 166 * 100:.1f}"></span>
   <span class="more"><span en="Plan and details">پلان و جزئیات</span><svg class="flip" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
 </a>''')
     return "\n".join(out)

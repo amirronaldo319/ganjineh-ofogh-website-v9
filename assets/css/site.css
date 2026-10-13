@@ -1398,3 +1398,42 @@ html:not([data-theme="dusk"]) .header.is-dark.is-stuck { background: color-mix(i
   html.has-sticky .totop { inset-block-end: calc(76px + env(safe-area-inset-bottom)); }
 }
 @media print { .stickycta, .stars, .motes { display: none !important; } }
+
+
+/* ═════════════════════ Motion layer V: shared-element morphs, arch edges, exits, spotlight ═════════════════════ */
+/* area bars on the apartment cards: relative size at a glance, drawn as the card arrives */
+.areabar { display: block; height: 3px; margin-block: 1rem .2rem; background: var(--line); position: relative; border-radius: 2px; overflow: hidden; }
+.areabar::after { content: ""; position: absolute; inset: 0; background: var(--brass); border-radius: inherit; transform-origin: var(--origin, left);
+  scale: calc(var(--w, 100) / 100) 1; transition: scale 1.4s var(--ease-out) .4s; }
+[dir="rtl"] .areabar::after { --origin: right; }
+.js .rv:not(.in) .areabar::after { scale: 0 1; }
+
+/* the arch, the project's own shape, as the upper edge of the dark call-to-action band */
+.visit { border-start-start-radius: clamp(36px, 7vw, 120px); border-start-end-radius: clamp(36px, 7vw, 120px); }
+
+/* a soft pointer-following highlight inside apartment cards (uses the tilt variables the cards already have) */
+.apt-card .frame::before { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity .5s var(--ease);
+  background: radial-gradient(circle at calc(50% + var(--tx, 0) * 48%) calc(50% + var(--ty, 0) * 48%), rgba(255, 255, 255, .6), transparent 58%); mix-blend-mode: soft-light; }
+@media (hover: hover) { .apt-card:hover .frame::before { opacity: 1; } }
+
+/* brand mark: the brass rule lengthens under the pointer */
+.brand__rule { transition: width .5s var(--ease-out); }
+.brand:hover .brand__rule { width: 44px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* an apartment's picture travels from its card to the top of its own page, and back (cross-document view transitions) */
+  a.apt-card[href="residence-1.html"] .frame { view-transition-name: apt-1; } a.apt-card[href="residence-2.html"] .frame { view-transition-name: apt-2; }
+  a.apt-card[href="residence-3.html"] .frame { view-transition-name: apt-3; } a.apt-card[href="residence-4.html"] .frame { view-transition-name: apt-4; }
+  html[data-page="residence-1"] .phero__art .arch { view-transition-name: apt-1; } html[data-page="residence-2"] .phero__art .arch { view-transition-name: apt-2; }
+  html[data-page="residence-3"] .phero__art .arch { view-transition-name: apt-3; } html[data-page="residence-4"] .phero__art .arch { view-transition-name: apt-4; }
+  ::view-transition-group(apt-1), ::view-transition-group(apt-2), ::view-transition-group(apt-3), ::view-transition-group(apt-4) {
+    animation-duration: .75s; animation-timing-function: var(--ease-out); }
+
+  /* leaving the hero: the text lifts away and the tower settles back, driven by the scroll itself (where supported) */
+  @supports (animation-timeline: scroll()) {
+    .hero__copy { animation: heroExitCopy linear both; animation-timeline: scroll(root block); animation-range: 0 62vh; }
+    .hero__art { animation: heroExitArt linear both; animation-timeline: scroll(root block); animation-range: 0 85vh; }
+    @keyframes heroExitCopy { to { opacity: 0; translate: 0 -54px; } }
+    @keyframes heroExitArt { to { scale: 1.06; translate: 0 36px; } }
+  }
+}
