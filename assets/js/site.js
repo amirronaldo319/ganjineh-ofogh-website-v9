@@ -426,4 +426,26 @@
       new IntersectionObserver(function (es) { nearEnd = es[0].isIntersecting; paint(); }).observe(footer);
     }
   })();
+
+  /* ───────── "a day at home": the picture on the stage follows the step being read ───────── */
+  (function () {
+    var root = $('[data-day]');
+    if (!root) return;
+    var imgs = $$('.day__img', root), steps = $$('.day__step', root), tabs = $$('.day__tab', root);
+    function show(i) {
+      imgs.forEach(function (el, k) { el.classList.toggle('is-on', k === i); });
+      steps.forEach(function (el, k) { el.classList.toggle('is-on', k === i); });
+      tabs.forEach(function (el, k) { el.classList.toggle('is-on', k === i); el.setAttribute('aria-pressed', String(k === i)); });
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) show(steps.indexOf(e.target)); });
+      }, { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+      steps.forEach(function (s) { io.observe(s); });
+    }
+    tabs.forEach(function (t, i) {
+      t.setAttribute('aria-pressed', String(i === 0));
+      t.addEventListener('click', function () { steps[i].scrollIntoView({ behavior: 'smooth', block: 'center' }); show(i); });
+    });
+  })();
 })();

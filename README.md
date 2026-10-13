@@ -73,6 +73,10 @@ Added on top of layers I–II (all compositor-only; nothing runs under `prefers-
 - **Blurred placeholders:** every image has a ~190-character WebP data URI behind it (`python3 tools/build_lqip.py`, run after `build_images.py`), so a slow connection shows the picture's shapes and colours at once and the sharp image fades in over them.
 - **Typography:** `text-wrap: pretty` on paragraphs and captions (fewer orphaned last words); photographs are eased by 6% at dusk; no tap flash on phones.
 
+## A day at home
+
+On `/project.html`, a scroll-told story, "from morning to night": four moments (morning light in the living room, the kitchen and its island, the tower at golden hour, the bedroom). On wide screens an arch-shaped picture stays in view and changes with the step you are reading, with tabs to jump between moments; on phones each moment shows its own picture. Pictures and captions come only from the project's concept visualisations; every step stays fully readable (nothing is dimmed), and it works without animation.
+
 ## Sharing, printing and share cards
 
 - **Share cards:** every page has its own 1200×630 card per language (`assets/og/<page>-<lang>.jpg`, drawn by `tools/build_og_pages.mjs`, which `build_site.py` runs and which redraws only what changed). A link pasted into WhatsApp, Telegram or X shows that page's picture and title.

@@ -104,3 +104,40 @@ test.describe('motion layer V', () => {
     }
   });
 });
+
+test.describe('a day at home', () => {
+  test('desktop: one picture follows the step being read, and the tabs jump to a step', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'the sticky stage is a wide-screen layout');
+    await page.goto('/en/project.html');
+    await page.waitForFunction(() => !!window.ofogh);
+    const stageImgs = page.locator('.day__img');
+    await expect(stageImgs).toHaveCount(4);
+    await expect(page.locator('.day__img.is-on')).toHaveCount(1);
+    await page.locator('.day__step').nth(2).scrollIntoViewIfNeeded();
+    await page.evaluate(() => { const s = document.querySelectorAll('.day__step')[2]; window.scrollTo(0, s.getBoundingClientRect().top + scrollY - innerHeight / 2 + s.offsetHeight / 2); });
+    await expect(page.locator('.day__step').nth(2)).toHaveClass(/is-on/);
+    await expect(page.locator('.day__img').nth(2)).toHaveClass(/is-on/);
+    await page.locator('.day__tab').nth(3).click();
+    await expect(page.locator('.day__tab').nth(3)).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.day__img').nth(3)).toHaveClass(/is-on/);
+    await expect(page.locator('.day__inline').first()).toBeHidden();
+  });
+
+  test('phone: each moment shows its own picture inline, and the stage is not used', async ({ page, isMobile }) => {
+    test.skip(!isMobile, 'phone layout');
+    await page.goto('/en/project.html');
+    await expect(page.locator('.day__stage')).toBeHidden();
+    await expect(page.locator('.day__inline').first()).toBeVisible();
+    expect(await page.locator('.day__inline img').count()).toBe(4);
+  });
+
+  test('every moment has a caption in both languages and no unsupplied claim', async ({ page }) => {
+    await page.goto('/project.html');
+    const fa = await page.locator('.day__step').allInnerTexts();
+    expect(fa.map((t) => t.split('\n').filter(Boolean)[0])).toEqual(['صبح', 'ظهر', 'غروب', 'شب']);
+    await page.goto('/en/project.html');
+    const en = (await page.locator('.day__step h3').allInnerTexts());
+    expect(en).toEqual(['Morning light in the living room', 'The kitchen and its central island', 'The tower at golden hour', 'The bedroom']);
+    await expect(page.locator('#a-day .disclaim')).toContainText('Concept visualisations');
+  });
+});

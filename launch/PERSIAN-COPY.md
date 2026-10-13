@@ -3,7 +3,7 @@
 Every Persian sentence on the site with its English twin. Change the Persian column; mark changes in the margin or return a copy of this file.
 Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹) and consistency of terms (واحد, طبقه‌ی تیپ, مساحت). Figures marked «ارائه‌شده» are supplied figures awaiting approval: do not remove that wording.
 
-581 unique rows.
+598 unique rows.
 
 ## Page: 404
 
@@ -477,10 +477,27 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | امکانات، برندها و اقلام تحویلی تابع مدارک و قرارداد پروژه است. | Amenities, brands and included fittings are subject to project records and the contract. |
 | تأییدات فنی | Technical approvals |
 | تصویر هلی‌پد، تأیید مجوز نیست؛ سازه، دسترسی، خروج و تأسیسات تابع مدارک مصوب است. | The pictured helipad does not establish approval. Structure, access, egress and services require approved records. |
+| یک روز در خانه | A day at home |
+| از صبح تا شب. | From morning to night. |
+| چند لحظه از زندگی روزمره، برگرفته از تصویرسازی‌های مفهومی پروژه. | A few moments of everyday life, taken from the project's concept visualisations. |
+| صبح | Morning |
+| ظهر | Midday |
+| غروب | Evening |
+| شب | Night |
+| نور صبح در نشیمن | Morning light in the living room |
+| نشیمنی با مبلمان نرم و میز تراورتن، رو به شهر و کوه‌های دور. | A living room with soft seating and a travertine table, facing the city and the distant mountains. |
+| آشپزخانه و جزیره‌ی مرکزی | The kitchen and its central island |
+| فضایی برای پختن و دور هم نشستن. | A place to cook and to gather. |
+| برج هنگام غروب | The tower at golden hour |
+| نور گرم فضاهای داخلی، به برج در هنگام غروب حضوری آرام می‌بخشد. | The warm light of the interiors gives the tower a calm presence at dusk. |
+| اتاق خواب | The bedroom |
+| اتاق خوابی با تخت بزرگ و فرش نرم، برای پایان آرام روز. | A bedroom with a large bed and a soft rug, for a calm end to the day. |
+| تصویرسازی‌های مفهومی؛ مبلمان، مصالح و چشم‌انداز نمایشی است. | Concept visualisations; furniture, finishes and views are illustrative. |
 | اتاق نشیمنی رو به تراس با منظره‌ی کوهستان. | A living room opening to a terrace with a mountain outlook. |
 | نمودار شماتیک سایت: حجم بنا در مرکز و کاشت‌ها در گوشه‌ها. | Schematic site diagram: building mass in the centre with planting at the corners. |
 | سایبان خمیده‌ی ورودی با نورهای گرم، گلدان‌ها و حجم شیشه‌ای. | The curved entrance canopy with warm downlights, planters and a glass drum. |
 | لابی مرتفع با سنگ روشن و چوب و شیشه‌ی رو به باغ. | A tall lobby of limestone and timber with garden-facing glazing. |
+| لحظه‌های روز | Moments of the day |
 
 ## Page: residences
 
