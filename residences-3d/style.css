@@ -8,7 +8,7 @@
 
 /* ── Site integration: Estedad, the brand palette, right-to-left layout, and no duplicate
    header when the viewer sits inside the site's iframe. ── */
-@font-face{font-family:'Estedad';src:url('../assets/fonts/Estedad-VF.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:'Estedad';src:url('../assets/fonts/Vazirmatn-normal-arabic.woff2') format('woff2');font-weight:100 900;font-display:swap}
 html,body{font-family:'Estedad',system-ui,sans-serif;background:#F4F0E8;color:#20211F}
 [lang="en"]{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 /* Any non-zero letter-spacing breaks the joins between Persian letters. */

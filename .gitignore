@@ -7,3 +7,5 @@ reports/
 tests/visual/__screenshots__/
 
 __pycache__/
+preview/
+preview.zip
