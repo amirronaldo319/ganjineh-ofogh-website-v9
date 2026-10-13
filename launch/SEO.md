@@ -20,6 +20,7 @@ Limits used: title ≤ 60 characters, description 70–155. Both languages have 
 | `https://ganjinehofogh.ir/brochure.html` | دریافت بروشور · برج گنجینه افق | 30 | نام و شماره‌ی موبایل خود را بگذارید و بروشور برج گنجینه افق را دریافت کنید. | 75 | ok |
 | `https://ganjinehofogh.ir/contact.html` | تماس با فروش · برج گنجینه افق | 29 | رزرو بازدید خصوصی، دریافت بروشور یا گفت‌وگو با مشاور فروش برج گنجینه افق در ازگل تهران؛ نام و شماره‌ی موبایل کافی است. | 118 | ok |
 | `https://ganjinehofogh.ir/privacy.html` | حریم خصوصی · برج گنجینه افق | 27 | نحوه‌ی استفاده از اطلاعاتی که برای پیگیری درخواست خود در وب‌سایت برج گنجینه افق ثبت می‌کنید. | 92 | ok |
+| `https://ganjinehofogh.ir/faq.html` | پرسش‌های پرتکرار · برج گنجینه افق | 33 | پاسخ پرسش‌های رایج درباره‌ی برج گنجینه افق: نشانی، مساحت واحدها، فضاهای مشترک، بازدید و بروشور؛ فقط بر پایه‌ی اطلاعات ارائه‌شده. | 128 | ok |
 
 ## English
 
@@ -37,6 +38,7 @@ Limits used: title ≤ 60 characters, description 70–155. Both languages have 
 | `https://ganjinehofogh.ir/en/brochure.html` | Get the brochure · Ganjineh Ofogh | 33 | Leave your name and mobile number to get the Ganjineh Ofogh project brochure. | 77 | ok |
 | `https://ganjinehofogh.ir/en/contact.html` | Contact sales · Ganjineh Ofogh | 30 | Arrange a private viewing, request the brochure or speak with a sales advisor at Ganjineh Ofogh. | 96 | ok |
 | `https://ganjinehofogh.ir/en/privacy.html` | Privacy · Ganjineh Ofogh | 24 | How the details you submit to follow up a request on the Ganjineh Ofogh website are used. | 89 | ok |
+| `https://ganjinehofogh.ir/en/faq.html` | Frequently asked questions · Ganjineh Ofogh | 43 | Answers about Ganjineh Ofogh: the address, apartment areas, shared spaces, viewing and the brochure, from the supplied information only. | 136 | ok |
 
 ## Not claimed
 

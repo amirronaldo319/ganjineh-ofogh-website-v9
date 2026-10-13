@@ -4,7 +4,7 @@ const { test, expect } = require('@playwright/test');
 const WIDTHS = [320, 768, 1024, 1440];
 const THEMES = ['day', 'dusk'];
 const PAGES = ['index', 'project', 'architecture', 'residences', 'residence-1', 'residence-2', 'residence-3', 'residence-4',
-  'lifestyle', 'location', 'gallery', 'developer', 'contact', 'brochure', 'compare', 'privacy'];
+  'lifestyle', 'location', 'gallery', 'developer', 'contact', 'brochure', 'compare', 'faq', 'privacy'];
 // English is the same templates; sample the pages where text length changes the layout most.
 const ENGLISH = ['index', 'residences', 'residence-2', 'contact'];
 const MAX_HEIGHT = 12_000;           // Chrome cannot capture much beyond 16k px; the top 12k px is where design lives

@@ -7,7 +7,7 @@ const { test, expect } = require('@playwright/test');
 
 const AXE = fs.readFileSync(path.join(__dirname, '..', 'vendor', 'axe.min.js'), 'utf8');
 const PAGES = ['index', 'project', 'architecture', 'residences', 'residence-1', 'residence-2', 'residence-3', 'residence-4', 'compare',
-  'lifestyle', 'location', 'gallery', 'developer', 'brochure', 'contact', 'privacy', 'thank-you'];
+  'lifestyle', 'location', 'gallery', 'developer', 'brochure', 'contact', 'faq', 'privacy', 'thank-you'];
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
 for (const lang of ['fa', 'en']) {

@@ -1,7 +1,7 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
-const PAGES = ['', 'project', 'architecture', 'residences', 'residence-1', 'residence-2', 'residence-3', 'residence-4', 'compare',
+const PAGES = ['', 'project', 'architecture', 'residences', 'residence-1', 'residence-2', 'residence-3', 'residence-4', 'compare', 'faq',
   'lifestyle', 'location', 'gallery', 'developer', 'brochure', 'contact', 'privacy'];
 const path = (lang, name) => `${lang === 'en' ? '/en' : ''}/${name ? name + '.html' : ''}`;
 

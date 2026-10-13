@@ -3,7 +3,7 @@
 Every Persian sentence on the site with its English twin. Change the Persian column; mark changes in the margin or return a copy of this file.
 Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹) and consistency of terms (واحد, طبقه‌ی تیپ, مساحت). Figures marked «ارائه‌شده» are supplied figures awaiting approval: do not remove that wording.
 
-576 unique rows.
+581 unique rows.
 
 ## Page: 404
 
@@ -184,6 +184,15 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | سال‌ها هجری شمسی است (برای سال میلادی ۶۲۱ سال اضافه کنید). | Years are Solar Hijri (add 621 for the Gregorian year). |
 | سوابق معرفی‌شده نیازمند تأیید مستند است؛ تصویر مفهومی است و عکس پروژه‌ی اجراشده نیست. | Supplied history requires documentary confirmation. The image is illustrative architecture, not a project record photograph. |
 | ویلایی نمادین از سنگ و چوب با استخر در غروب. | An illustrative villa of stone and timber with a pool at sunset. |
+
+## Page: faq
+
+| Persian | English |
+|---|---|
+| پرسش‌ها | Questions |
+| پرسش و پاسخ | Questions and answers |
+| آنچه می‌پرسند. | What people ask. |
+| پاسخ‌های کوتاه، فقط بر پایه‌ی اطلاعات ارائه‌شده‌ی پروژه. آنچه هنوز تأیید نشده، همان‌طور گفته شده است. | Short answers, taken only from the information supplied for the project. What is not yet confirmed is said so. |
 
 ## Page: gallery
 
@@ -565,6 +574,7 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 |---|---|
 | برجی مسکونی در تهران، ازگل؛ با معماری معاصر و محوطه‌ی سبز. | A residential tower in Tehran, Ozgol, with contemporary architecture and planted grounds. |
 | مقایسه‌ی واحدها | Compare apartments |
+| پرسش‌های پرتکرار | Questions and answers |
 | زندگی | Living |
 | تماس با فروش | Sales enquiries |
 | © ۱۴۰۵ برج گنجینه افق · تصاویر، تصویرسازی معماری‌اند؛ مدل‌های سه‌بعدی بازسازی مفهومی‌اند. | © 1405 Ganjineh Ofogh · All images are illustrative visualisations; the 3D models are concept reconstructions. |

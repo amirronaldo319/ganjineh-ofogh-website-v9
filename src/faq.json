@@ -1,0 +1,253 @@
+{
+ "groups": [
+  {
+   "id": "project",
+   "title": [
+    "پروژه",
+    "The project"
+   ],
+   "items": [
+    {
+     "q": [
+      "پروژه کجاست؟",
+      "Where is the project?"
+     ],
+     "a": [
+      "تهران، ازگل، خیابان گلشن شرقی، تقاطع پروین، ابتدای خیابان پروین، پلاک ۶. این نشانی بر پایه‌ی اطلاعات ارائه‌شده است؛ نقشه‌ی شماتیک و مسیرهای اصلی را در صفحه‌ی موقعیت ببینید.",
+      "Tehran, Ozgol, Golshan Sharghi Street, at the Parvin intersection, the start of Parvin Street, No. 6. This is the supplied address; the Location page has a schematic map and the main routes."
+     ],
+     "link": [
+      "location.html",
+      "موقعیت پروژه",
+      "Project location"
+     ]
+    },
+    {
+     "q": [
+      "زمین چقدر است و چقدر از آن فضای سبز است؟",
+      "How large is the site, and how much of it is green space?"
+     ],
+     "a": [
+      "زمین ۲٬۰۶۴ متر مربع است، با بیش از ۱٬۴۰۰ متر مربع فضای سبز و ۷۰۰ متر مربع فضاهای مشترک. این ارقام «ارائه‌شده» است و با مدارک مصوب پروژه تطبیق داده خواهد شد.",
+      "The site is 2,064 m², with more than 1,400 m² of landscaping and 700 m² of shared spaces. These figures are as supplied and will be checked against the approved project records."
+     ],
+     "link": [
+      "project.html",
+      "معرفی پروژه",
+      "About the project"
+     ]
+    },
+    {
+     "q": [
+      "چه کسی پروژه را می‌سازد؟",
+      "Who is building it?"
+     ],
+     "a": [
+      "پروژه از گروه افق است. گزیده‌ی سوابق ساخت‌وساز این گروه، از سال ۱۳۵۰ تا ۱۴۰۴ شمسی، در صفحه‌ی گروه افق آمده است.",
+      "The project is by Ofogh Group. A selection of the group's building record, from 1350 to 1404 SH, is on the Ofogh Group page."
+     ],
+     "link": [
+      "developer.html",
+      "آشنایی با گروه افق",
+      "About Ofogh Group"
+     ]
+    },
+    {
+     "q": [
+      "آیا تصاویر واقعی‌اند؟",
+      "Are the images real?"
+     ],
+     "a": [
+      "نه. تصاویر، تصویرسازی‌های معماری و مفهومی‌اند و مدل‌های سه‌بعدی بازسازی مفهومی‌اند. مصالح، چیدمان‌ها و مساحت‌ها تقریبی‌اند و تابع مدارک مصوب پروژه.",
+      "No. The images are architectural visualisations and the 3D models are concept reconstructions. Finishes, layouts and areas are indicative and subject to approved project records."
+     ],
+     "link": null
+    }
+   ]
+  },
+  {
+   "id": "residences",
+   "title": [
+    "واحدها",
+    "The residences"
+   ],
+   "items": [
+    {
+     "q": [
+      "در هر طبقه چند واحد هست و مساحتشان چقدر است؟",
+      "How many apartments are on a floor, and how large are they?"
+     ],
+     "a": [
+      "در هر طبقه‌ی تیپ چهار واحد سه‌خوابه هست: ۱۴۳٫۲۵، ۱۵۰، ۱۶۶ و ۱۶۲ متر مربع (به‌ترتیب واحد ۱ تا ۴). مساحت‌ها بر پایه‌ی اطلاعات ارائه‌شده است.",
+      "Each typical floor has four three-bedroom apartments of 143.25, 150, 166 and 162 m² (Apartments 1 to 4). The areas are as supplied."
+     ],
+     "link": [
+      "compare.html",
+      "مقایسه‌ی دو واحد",
+      "Compare two apartments"
+     ]
+    },
+    {
+     "q": [
+      "پیش از ساخت می‌توانم داخل واحد را ببینم؟",
+      "Can I see inside an apartment before it is built?"
+     ],
+     "a": [
+      "می‌توانید مدل سه‌بعدی مبله‌ی هر چهار واحد و مدل تعاملی برج را ببینید. این مدل‌ها بازسازی مفهومی‌اند؛ مبلمان و تقسیم اتاق‌ها نمایشی است.",
+      "You can walk through furnished 3D models of all four apartments and explore the interactive tower model. They are concept reconstructions; furniture and room divisions are illustrative."
+     ],
+     "link": [
+      "residences.html",
+      "مشاهده‌ی واحدها",
+      "View the residences"
+     ]
+    },
+    {
+     "q": [
+      "برج چند طبقه است؟",
+      "How many floors does the tower have?"
+     ],
+     "a": [
+      "تعداد طبقات و ارتفاع‌ها هنوز با نقشه‌ی مصوب تأیید نشده است. مدل سه‌بعدی برج بر پایه‌ی فرض‌هایی ساخته شده که در بخش «منابع و فرض‌ها»ی همان مدل مشخص است.",
+      "The number of floors and the heights are not yet confirmed by approved drawings. The 3D tower model is built on assumptions that are listed in its Sources and assumptions panel."
+     ],
+     "link": [
+      "tower-viewer/index.html",
+      "مدل سه‌بعدی برج",
+      "The 3D tower model"
+     ]
+    },
+    {
+     "q": [
+      "آیا بام هلی‌پد دارد؟",
+      "Does the roof have a helipad?"
+     ],
+     "a": [
+      "تصاویر معماری یک هلی‌پد روی بام نشان می‌دهند. این تصویر تأیید مجوز یا کاربری نیست؛ کاربری بام تابع مدارک مصوب پروژه است.",
+      "The architectural images show a helipad on the roof. The image is not an approval of a permit or of use; use of the roof is subject to approved project records."
+     ],
+     "link": [
+      "architecture.html",
+      "معماری",
+      "Architecture"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "amenities",
+   "title": [
+    "فضاهای مشترک",
+    "Shared spaces"
+   ],
+   "items": [
+    {
+     "q": [
+      "چه فضاهای مشترکی دارد؟",
+      "What shared spaces does it have?"
+     ],
+     "a": [
+      "سالن جشن، سینما، فضای ورزش، کافی‌شاپ و کتابخانه، و لانژ اجتماعی. جانمایی نهایی آن‌ها تابع نقشه‌ی مصوب است.",
+      "A celebration hall, a cinema, a fitness space, a café and library, and a social lounge. Their final positions follow the approved plan."
+     ],
+     "link": [
+      "lifestyle.html",
+      "سبک زندگی",
+      "Lifestyle"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "title": [
+    "بازدید و تماس",
+    "Visiting and contact"
+   ],
+   "items": [
+    {
+     "q": [
+      "چگونه بازدید کنم؟",
+      "How can I visit?"
+     ],
+     "a": [
+      "در صفحه‌ی تماس، بازدید خصوصی حضوری، تلفنی یا تصویری را درخواست کنید. نام و شماره‌ی موبایل کافی است.",
+      "On the contact page, ask for a private viewing in person, by phone or by video call. Your name and mobile number are enough."
+     ],
+     "link": [
+      "contact.html#appointment",
+      "رزرو بازدید خصوصی",
+      "Arrange a private viewing"
+     ]
+    },
+    {
+     "q": [
+      "چگونه بروشور را بگیرم؟",
+      "How do I get the brochure?"
+     ],
+     "a": [
+      "در صفحه‌ی بروشور نام و شماره‌ی موبایل خود را بگذارید.",
+      "On the brochure page, leave your name and mobile number."
+     ],
+     "link": [
+      "brochure.html",
+      "دریافت بروشور",
+      "Get the brochure"
+     ]
+    },
+    {
+     "q": [
+      "قیمت و شرایط پرداخت چیست؟",
+      "What are the price and payment terms?"
+     ],
+     "a": [
+      "قیمت و شرایط پرداخت در این وب‌سایت منتشر نشده است. برای پرسش درباره‌ی آن‌ها از صفحه‌ی تماس درخواست گفت‌وگو با مشاور بدهید.",
+      "The price and payment terms are not published on this website. To ask about them, request a conversation with an advisor on the contact page."
+     ],
+     "link": [
+      "contact.html?intent=consult#appointment",
+      "گفت‌وگو با مشاور",
+      "Speak with an advisor"
+     ]
+    },
+    {
+     "q": [
+      "زمان تحویل چه وقت است؟",
+      "When will it be delivered?"
+     ],
+     "a": [
+      "زمان تحویل در اطلاعات ارائه‌شده نیامده و در این وب‌سایت منتشر نشده است.",
+      "A delivery date is not part of the supplied information and is not published on this website."
+     ],
+     "link": null
+    },
+    {
+     "q": [
+      "با اطلاعات من چه می‌شود؟",
+      "What happens to my details?"
+     ],
+     "a": [
+      "نام و شماره‌ی شما فقط برای پیگیری همان درخواست نگهداری می‌شود. جزئیات در صفحه‌ی حریم خصوصی آمده است.",
+      "Your name and number are kept only to follow up that request. The details are on the Privacy page."
+     ],
+     "link": [
+      "privacy.html",
+      "حریم خصوصی",
+      "Privacy"
+     ]
+    },
+    {
+     "q": [
+      "وب‌سایت انگلیسی هم دارد؟",
+      "Is the website available in English?"
+     ],
+     "a": [
+      "بله. با دکمه‌ی زبان در بالای صفحه، میان فارسی و انگلیسی جابه‌جا شوید.",
+      "Yes. Use the language button at the top of the page to switch between Persian and English."
+     ],
+     "link": null
+    }
+   ]
+  }
+ ]
+}

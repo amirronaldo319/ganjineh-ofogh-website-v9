@@ -1214,3 +1214,19 @@ html[dir="rtl"] .bar { transform-origin: right center; }
 .share__b:hover, .share__b:focus-visible { background: color-mix(in srgb, var(--brass) 14%, transparent); border-color: var(--brass); }
 .share__b[hidden] { display: none; }
 @media print { .share { display: none !important; } }
+
+/* ── questions and answers (native <details>) ── */
+.faq-wrap { max-width: 860px; }
+.faq__group { margin-block-end: clamp(32px, 5vw, 64px); }
+.faq__group > .h3 { margin-block-end: .8rem; font-size: clamp(1.25rem, 2.4vw, 1.6rem); }
+.faq__item { border-block-end: 1px solid var(--line); }
+.faq__item:first-of-type { border-block-start: 1px solid var(--line-strong); }
+.faq__item summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 1.1rem; font-weight: 500; font-size: 1.05rem; }
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after { content: "+"; font-family: var(--font-display); font-size: 1.5rem; color: var(--brass-ink); transition: rotate .3s var(--ease-out); flex: none; }
+.faq__item[open] summary::after { rotate: 45deg; }
+.faq__item summary:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.faq__a { padding-block-end: 1.3rem; color: var(--ink-2); max-width: 62ch; }
+.faq__a p { margin: 0; }
+.faq__more { margin-block-start: .7rem !important; font-size: .92rem; }
+@media print { .faq__item:not([open]) .faq__a { display: block; } }

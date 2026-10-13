@@ -126,6 +126,20 @@
   "image": "villa-900.webp"
  },
  {
+  "key": "faq",
+  "lang": "fa",
+  "title": "پرسش‌های پرتکرار · برج گنجینه افق",
+  "desc": "پاسخ پرسش‌های رایج درباره‌ی برج گنجینه افق: نشانی، مساحت واحدها، فضاهای مشترک، بازدید و بروشور؛ فقط بر پایه‌ی اطلاعات ارائه‌شده.",
+  "image": "plaza-900.webp"
+ },
+ {
+  "key": "faq",
+  "lang": "en",
+  "title": "Frequently asked questions · Ganjineh Ofogh",
+  "desc": "Answers about Ganjineh Ofogh: the address, apartment areas, shared spaces, viewing and the brochure, from the supplied information only.",
+  "image": "plaza-900.webp"
+ },
+ {
   "key": "gallery",
   "lang": "fa",
   "title": "گالری · برج گنجینه افق",

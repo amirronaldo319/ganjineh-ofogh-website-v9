@@ -74,6 +74,10 @@ It is off without the password, answers 404 over plain HTTP outside this machine
 
 After a request the page confirms it with the tracking reference, then lists what happens next for that kind of request (viewing, call-back, brochure) and offers the PDF when one is on file. It states a reply time only if you set `response_time_fa` and `response_time_en` in `src/site.config.json` — fill both with a time the sales team will actually keep, or leave both empty.
 
+## Questions and answers
+
+`/faq.html`: 15 questions in 4 groups (the project, the residences, shared spaces, visiting and contact), written only from supplied facts. What is not known (price, delivery date, floor count) is said plainly. Content is `src/faq.json`; the same data feeds the on-page accordion and the `FAQPage` structured data, so they cannot disagree. A test checks that figures are the supplied ones and that no price or date appears.
+
 ## Compare two apartments
 
 `/compare.html`: pick any two of the four apartments and see area, bedrooms, plan shape and layout side by side, with how much larger one is. The choice lives in the address (`?a=1&b=3`) so it can be shared. Only supplied facts are shown; orientation, views and availability are not supplied, and the page says so instead of guessing.

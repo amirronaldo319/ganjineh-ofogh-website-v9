@@ -287,6 +287,34 @@ def share():
   <button class="share__b" type="button" data-share-native hidden en="More…">بیشتر…</button></div>''')
 
 
+FAQ = json.loads((SRC / "faq.json").read_text(encoding="utf-8")) if (SRC / "faq.json").exists() else {"groups": []}
+
+
+def faq():
+    """Questions as native <details> (no JavaScript); every answer carries an optional link to the page that has the detail."""
+    out = []
+    for g in FAQ["groups"]:
+        items = []
+        for it in g["items"]:
+            link = ""
+            if it.get("link"):
+                href, fa, en = it["link"]
+                link = f'<p class="faq__more"><a class="text-link" href="{href}" en="{esc(en)}">{fa}</a></p>'
+            items.append(f'<details class="faq__item"><summary en="{esc(it["q"][1])}">{it["q"][0]}</summary>'
+                         f'<div class="faq__a"><p en="{esc(it["a"][1])}">{it["a"][0]}</p>{link}</div></details>')
+        out.append(f'<section class="faq__group" aria-labelledby="faq-{g["id"]}"><h2 class="h3" id="faq-{g["id"]}" en="{esc(g["title"][1])}">{g["title"][0]}</h2>'
+                   + "".join(items) + "</section>")
+    return "".join(out)
+
+
+def faq_jsonld(lang):
+    idx = 0 if lang == "fa" else 1
+    entities = [{"@type": "Question", "name": it["q"][idx], "acceptedAnswer": {"@type": "Answer", "text": it["a"][idx]}}
+                for g in FAQ["groups"] for it in g["items"]]
+    d = {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": entities}
+    return '<script type="application/ld+json">' + json.dumps(d, ensure_ascii=False, separators=(",", ":")) + "</script>"
+
+
 def response_when():
     """'Expected reply' line for the thank-you page, only when the sales team has set a promise it can keep."""
     fa, en = CFG.get("response_time_fa", "").strip(), CFG.get("response_time_en", "").strip()
@@ -297,6 +325,7 @@ def response_when():
 
 COMPONENTS["response_when"] = response_when
 COMPONENTS["share"] = share
+COMPONENTS["faq"] = faq
 COMPONENTS["compare_tool"] = compare_tool
 COMPONENTS["channels"] = channels
 COMPONENTS["channels_note"] = channels_note
@@ -504,7 +533,7 @@ def build_page(meta, body, out_name, lang):
         "key": meta["key"], "lang": lang, "dir": "rtl" if lang == "fa" else "ltr", "base": "" if lang == "fa" else "../",
         "title": meta["title_" + lang], "desc": meta["desc_" + lang], "file": out_name, "og": og, "robots": robots, "preload": preload,
         "css": f'assets/css/site.min.css?v={ASSET_VER["css"]}',
-        "jsonld": jsonld(lang) if meta["key"] == "index" else "", "scripts": "\n".join(scripts),
+        "jsonld": jsonld(lang) if meta["key"] == "index" else faq_jsonld(lang) if meta["key"] == "faq" else "", "scripts": "\n".join(scripts),
         "host": HOST, "og_path": og_path, "canonical": url_fa if lang == "fa" else url_en, "url_fa": url_fa, "url_en": url_en,
         "alt_href": alt_name(out_name, lang), "other_lang": other,
         "locale": "fa_IR" if lang == "fa" else "en_US", "locale_alt": "en_US" if lang == "fa" else "fa_IR",
@@ -587,7 +616,7 @@ def main():
     public = [name for name, _, meta in built if not meta.get("noindex") and not name.startswith("en/")]
     order = ["index.html", "project.html", "architecture.html", "residences.html", "residence-1.html", "residence-2.html",
              "residence-3.html", "residence-4.html", "lifestyle.html", "location.html", "gallery.html", "developer.html",
-             "compare.html", "brochure.html", "contact.html", "privacy.html"]
+             "compare.html", "faq.html", "brochure.html", "contact.html", "privacy.html"]
     urls = [u for u in order if u in public] + [u for u in public if u not in order]
     sm = ['<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
