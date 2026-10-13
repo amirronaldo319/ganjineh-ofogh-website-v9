@@ -21,6 +21,9 @@ Status: V9 is a build for review, not a launch. ✅ = checked while building V9 
 - ✅ Monitor (`tools/monitor.py`): passes on a healthy site, fails and alerts when the site is down.
 - ✅ Persian typography lint: 0 findings.
 
+- ✅ Cloudflare version of the backend (`functions/`): same rules as `server.py`, 8 tests on a local Cloudflare runtime.
+- ✅ Brochure candidates compared with the site's figures (see `cloudflare/SETUP.md`): use `Ganjineh_Ofogh_v25.pdf`; do not publish `Final_Brochure.pdf` (older figures, 216 MB).
+
 ## Not yet verified in V9
 
 - [x] Safari's engine (WebKit): the whole suite passes on desktop Safari and iPhone 13 emulation.
@@ -29,6 +32,9 @@ Status: V9 is a build for review, not a launch. ✅ = checked while building V9 
 - [ ] Persian date picker on real devices (touch, VoiceOver).
 
 ## Information needed before launch
+
+See also `launch/FACTS-TO-CONFIRM.md` (a fill-in table of every fact the site states) and `launch/PERSIAN-COPY.md` (all Persian copy with its English twin, for the editor).
+
 
 - [ ] **Confirm the Type → Apartment mapping** (README) and the area figures (v25: 143.25 / 150 / 166 / 162 m²; the plan photo shows 152.85 / 171.50 / 144.80).
 - [ ] Is the 6 m lobby height still valid? (in the Revised Master, not in v25)

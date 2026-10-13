@@ -9,3 +9,5 @@ tests/visual/__screenshots__/
 __pycache__/
 preview/
 preview.zip
+.wrangler/
+preview.zip

@@ -10,7 +10,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 TITLE_MAX, DESC_MAX, DESC_MIN = 60, 155, 70
-HOST = "https://ganjinehofogh.ir"
+import json
+HOST = (json.loads((ROOT / "src" / "site.config.json").read_text(encoding="utf-8")).get("host") or "https://ganjinehofogh.ir").rstrip("/")
 
 
 def pages():

@@ -1,0 +1,17 @@
+# Cloudflare Pages project for the preview and its free enquiry backend (see cloudflare/SETUP.md).
+# database_id is filled in by cloudflare/setup.sh; the other values are already final.
+name = "ganjineh-ofogh"
+compatibility_date = "2026-10-01"
+pages_build_output_dir = "/tmp/ganjineh-preview"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ganjineh-enquiries"
+database_id = "00000000-0000-0000-0000-000000000000"
+
+[[r2_buckets]]
+binding = "BROCHURE"
+bucket_name = "ganjineh-brochure"
+
+[vars]
+ACCEPT_ENQUIRIES = "0"

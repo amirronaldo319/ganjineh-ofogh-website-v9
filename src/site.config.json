@@ -1,5 +1,7 @@
 {
   "_help": "Fill what you have, leave the rest empty: nothing is rendered for an empty field, so no placeholder ever ships. Then run: python3 tools/build_site.py",
+  "host": "https://ganjinehofogh.ir",
+  "_help_host": "The public address of the site, with https:// and no trailing slash. Change it when the real domain is chosen, then rebuild: canonical links, hreflang, sitemap, robots.txt, share image URLs and the social cards all follow it.",
   "phone": "",
   "phone_display": "",
   "whatsapp": "",

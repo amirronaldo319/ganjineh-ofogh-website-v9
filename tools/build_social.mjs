@@ -12,7 +12,8 @@ import { serveRoot } from './_static_server.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
 const { chromium } = require('@playwright/test');
-const DOMAIN = 'ganjinehofogh.ir';
+const HOST = (JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'site.config.json'), 'utf8')).host || 'https://ganjinehofogh.ir').replace(/\/$/, '');
+const DOMAIN = HOST.replace(/^https?:\/\//, '');
 
 const FORMATS = { square: [1080, 1080], story: [1080, 1920], wide: [1280, 720] };
 // image = a file in assets/img; position tunes the crop (CSS object-position)

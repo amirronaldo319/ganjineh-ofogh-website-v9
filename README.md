@@ -30,6 +30,15 @@ The two 3D viewers are shared by both languages (`/residences-3d/`, `/tower-view
 Then run `python3 tools/build_site.py`. A filled channel appears on the contact page as a call / WhatsApp / Telegram / Eitaa / Rubika / Instagram / email button and in the structured data.
 Analytics is off by default (no tracking). If you set `analytics.src`, also allow its origin to the CSP: `GO_CSP_SCRIPT_ORIGINS="https://…"` (and `GO_CSP_CONNECT_ORIGINS` if it beacons elsewhere).
 
+## Free hosting on Cloudflare
+
+The same site, forms, brochure gate and sales inbox also run on Cloudflare's free plan (Pages + Functions + D1 + R2):
+`functions/` is the backend, `cloudflare/schema.sql` the database, `cloudflare/setup.sh` one script that creates and publishes everything,
+and `cloudflare/SETUP.md` the 10-minute guide. It is covered by `node --test tests/cloudflare.test.mjs` (8 tests on a local copy of Cloudflare's runtime).
+`python3 tools/make_preview.py` builds the publishable folder (`/tmp/ganjineh-preview`, plus `preview.zip` for a dashboard drag-and-drop).
+
+The public address is `host` in `src/site.config.json`; canonical links, hreflang, the sitemap, `robots.txt` and the social cards follow it.
+
 ## Brochure download
 
 `/brochure.html` (and `/en/brochure.html`) asks for a name and a mobile number, stores the request as a `download` enquiry and sends the visitor to the thank-you page, which offers the PDF.

@@ -22,7 +22,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 META = json.loads((ROOT / "assets" / "img" / "images.json").read_text())
-HOST = "https://ganjinehofogh.ir"
+_CFG = json.loads((SRC / "site.config.json").read_text(encoding="utf-8")) if (SRC / "site.config.json").exists() else {}
+HOST = (_CFG.get("host") or "https://ganjinehofogh.ir").rstrip("/")
 FA_DIGITS = str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
 
 # ───────────────────────── apartments (v25 areas; layout shape matched to the furnished 3D models) ─────────────────────────
@@ -462,7 +463,7 @@ def build_page(meta, body, out_name, lang):
         "title": meta["title_" + lang], "desc": meta["desc_" + lang], "file": out_name, "og": og, "robots": robots, "preload": preload,
         "css": f'assets/css/site.min.css?v={ASSET_VER["css"]}',
         "jsonld": jsonld(lang) if meta["key"] == "index" else "", "scripts": "\n".join(scripts),
-        "canonical": url_fa if lang == "fa" else url_en, "url_fa": url_fa, "url_en": url_en,
+        "host": HOST, "canonical": url_fa if lang == "fa" else url_en, "url_fa": url_fa, "url_en": url_en,
         "alt_href": alt_name(out_name, lang), "other_lang": other,
         "locale": "fa_IR" if lang == "fa" else "en_US", "locale_alt": "en_US" if lang == "fa" else "fa_IR",
     }
@@ -556,6 +557,7 @@ def main():
                       f'<xhtml:link rel="alternate" hreflang="x-default" href="{fa}"/></url>')
     sm.append("</urlset>")
     (ROOT / "sitemap.xml").write_text("\n".join(sm) + "\n", encoding="utf-8")
+    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin\n\nSitemap: {HOST}/sitemap.xml\n", encoding="utf-8")
     total = sum(s for _, s, _ in built)
     print(f"{len(built)} pages ({len(built) // 2} per language), {total / 1024:.0f} KB HTML, sitemap {len(urls) * 2} URLs, "
           f"assets {'minified' if minified else 'NOT minified (esbuild unavailable)'}: css {ASSET_VER['css']} js {ASSET_VER['site']}")

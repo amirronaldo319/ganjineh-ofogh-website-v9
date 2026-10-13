@@ -12,7 +12,8 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "preview"
+# Built outside the project folder: iCloud/Desktop sync can litter a rebuilt folder with "name 2" conflict copies.
+OUT = Path("/tmp/ganjineh-preview")
 INCLUDE_DIRS = ["assets", "en", "residences-3d", "tower-viewer"]
 INCLUDE_FILES = ["favicon.svg"]            # plus every *.html in the root
 
@@ -29,6 +30,9 @@ HEADERS = """/*
   Cache-Control: no-cache
 """
 REDIRECTS = "/en  /en/  301\n"
+# Functions run only for the API and the inbox, so the static pages stay free and fast. For a partner password on the
+# whole preview, set PREVIEW_PASSWORD and change "include" to ["/*"] (cloudflare/setup.sh --gate does this).
+ROUTES = '{"version": 1, "include": ["/api/*", "/admin", "/admin/*"], "exclude": []}\n'
 
 
 def main():
@@ -44,6 +48,7 @@ def main():
     (OUT / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
     (OUT / "_headers").write_text(HEADERS, encoding="utf-8")
     (OUT / "_redirects").write_text(REDIRECTS, encoding="utf-8")
+    (OUT / "_routes.json").write_text(ROUTES, encoding="utf-8")
 
     archive = ROOT / "preview.zip"
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as z:
