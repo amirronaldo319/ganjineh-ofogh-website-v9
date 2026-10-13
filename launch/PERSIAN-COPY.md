@@ -3,7 +3,7 @@
 Every Persian sentence on the site with its English twin. Change the Persian column; mark changes in the margin or return a copy of this file.
 Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹) and consistency of terms (واحد, طبقه‌ی تیپ, مساحت). Figures marked «ارائه‌شده» are supplied figures awaiting approval: do not remove that wording.
 
-573 unique rows.
+576 unique rows.
 
 ## Page: 404
 
@@ -32,6 +32,7 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | پلان | Plan |
 | درخواست اطلاعات | Request information |
 | مشاهده‌ی مدل سه‌بعدی | View the 3D model |
+| چاپ این واحد | Print this apartment |
 | پلان واحد | Residence plan |
 | پلان واحد | Apartment plan |
 | برش مفهومی و بدون مقیاس. برای بزرگ‌نمایی، روی تصویر بزنید. | Concept cut-away; not to scale. Select the image to enlarge it. |
@@ -51,6 +52,9 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | تصاویری از پالت مصالح و فضاهای داخلی مجموعه، نه لزوماً همین واحد. | Images of the material palette and the interiors of the collection, not necessarily this apartment. |
 | واحدهای دیگر | Similar residences |
 | واحدهای دیگر مجموعه | The other residences. |
+| گنجینه افق | Ganjineh Ofogh |
+| تهران / ازگل | Tehran / Ozgol |
+| برش مفهومی و بدون مقیاس. مساحت بر پایه‌ی اطلاعات ارائه‌شده است؛ ابعاد، چیدمان و مصالح تابع مدارک مصوب پروژه است. تصاویر، تصویرسازی مفهومی‌اند. | Concept cut-away, not to scale. Area as supplied; dimensions, layout and finishes remain subject to approved project records. Images are illustrative visualisations. |
 | مسیر صفحه | Breadcrumb |
 | برش سه‌بعدی واحد . | Three-dimensional cut-away of Apartment . |
 | اتاق نشیمن. | Living room. |
@@ -240,7 +244,6 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 
 | Persian | English |
 |---|---|
-| تهران / ازگل | Tehran / Ozgol |
 | نور روز و زندگی روشن‌تر. | Daylight and a brighter life. |
 | مدل سه‌بعدی را ببینید | Explore in 3D |
 | همه‌ی تصاویر، تصویرسازی‌های مفهومی‌اند؛ مصالح، چیدمان‌ها و مساحت‌ها تقریبی‌اند و تابع مدارک مصوب پروژه. | All images are illustrative visualisations. Finishes, layouts and areas are indicative and subject to approved project records. |
@@ -512,6 +515,7 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | در بخش بالایی و کناره‌ی پلان | Along the upper part and the side |
 | سه اتاق روی هم در لبه‌ی چپ | Three stacked along the left edge |
 | دو اتاق در بالا و یکی کنار نشیمن | Two at the top, one beside the living room |
+| جزئیات | Details |
 | مشاهده ← | View → |
 | مقایسه‌ی دو واحد | Compare two apartments |
 | اتاق نشیمن با میز تراورتن، مبلمان نرم و چشم‌انداز تراس. | A living room with a travertine coffee table, soft seating and a terrace outlook. |
@@ -559,7 +563,6 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 
 | Persian | English |
 |---|---|
-| گنجینه افق | Ganjineh Ofogh |
 | برجی مسکونی در تهران، ازگل؛ با معماری معاصر و محوطه‌ی سبز. | A residential tower in Tehran, Ozgol, with contemporary architecture and planted grounds. |
 | مقایسه‌ی واحدها | Compare apartments |
 | زندگی | Living |

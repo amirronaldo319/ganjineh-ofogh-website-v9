@@ -1,0 +1,226 @@
+[
+ {
+  "key": "residence-1",
+  "lang": "fa",
+  "title": "واحد ۱ · برج گنجینه افق",
+  "desc": "واحد ۱ برج گنجینه افق؛ سه‌خوابه، حدود ۱۴۳٫۲۵ متر مربع. پلان، برش سه‌بعدی و مدل سه‌بعدی مبله.",
+  "image": "apt1-900.webp"
+ },
+ {
+  "key": "residence-1",
+  "lang": "en",
+  "title": "Apartment 1 · Ganjineh Ofogh",
+  "desc": "Apartment 1 at Ganjineh Ofogh: three bedrooms, 143.25 m² as supplied. Plan, 3D cut-away and furnished 3D model.",
+  "image": "apt1-900.webp"
+ },
+ {
+  "key": "residence-2",
+  "lang": "fa",
+  "title": "واحد ۲ · برج گنجینه افق",
+  "desc": "واحد ۲ برج گنجینه افق؛ سه‌خوابه، حدود ۱۵۰ متر مربع. پلان، برش سه‌بعدی و مدل سه‌بعدی مبله.",
+  "image": "apt2-1214.webp"
+ },
+ {
+  "key": "residence-2",
+  "lang": "en",
+  "title": "Apartment 2 · Ganjineh Ofogh",
+  "desc": "Apartment 2 at Ganjineh Ofogh: three bedrooms, 150 m² as supplied. Plan, 3D cut-away and furnished 3D model.",
+  "image": "apt2-1214.webp"
+ },
+ {
+  "key": "residence-3",
+  "lang": "fa",
+  "title": "واحد ۳ · برج گنجینه افق",
+  "desc": "واحد ۳ برج گنجینه افق؛ سه‌خوابه، حدود ۱۶۶ متر مربع. پلان، برش سه‌بعدی و مدل سه‌بعدی مبله.",
+  "image": "apt3-1004.webp"
+ },
+ {
+  "key": "residence-3",
+  "lang": "en",
+  "title": "Apartment 3 · Ganjineh Ofogh",
+  "desc": "Apartment 3 at Ganjineh Ofogh: three bedrooms, 166 m² as supplied. Plan, 3D cut-away and furnished 3D model.",
+  "image": "apt3-1004.webp"
+ },
+ {
+  "key": "residence-4",
+  "lang": "fa",
+  "title": "واحد ۴ · برج گنجینه افق",
+  "desc": "واحد ۴ برج گنجینه افق؛ سه‌خوابه، حدود ۱۶۲ متر مربع. پلان، برش سه‌بعدی و مدل سه‌بعدی مبله.",
+  "image": "apt4-930.webp"
+ },
+ {
+  "key": "residence-4",
+  "lang": "en",
+  "title": "Apartment 4 · Ganjineh Ofogh",
+  "desc": "Apartment 4 at Ganjineh Ofogh: three bedrooms, 162 m² as supplied. Plan, 3D cut-away and furnished 3D model.",
+  "image": "apt4-930.webp"
+ },
+ {
+  "key": "architecture",
+  "lang": "fa",
+  "title": "معماری · برج گنجینه افق",
+  "desc": "معماری برج گنجینه افق: سه اصل تناسب، نور و طبیعت؛ طراحی نما، تاج برج و هلی‌پد.",
+  "image": "facade-900.webp"
+ },
+ {
+  "key": "architecture",
+  "lang": "en",
+  "title": "Architecture · Ganjineh Ofogh",
+  "desc": "The architecture of Ganjineh Ofogh: the principles of proportion, light and nature; the façade, the crown and the helipad.",
+  "image": "facade-900.webp"
+ },
+ {
+  "key": "brochure",
+  "lang": "fa",
+  "title": "دریافت بروشور · برج گنجینه افق",
+  "desc": "نام و شماره‌ی موبایل خود را بگذارید و بروشور برج گنجینه افق را دریافت کنید.",
+  "image": "aerial-1448.webp"
+ },
+ {
+  "key": "brochure",
+  "lang": "en",
+  "title": "Get the brochure · Ganjineh Ofogh",
+  "desc": "Leave your name and mobile number to get the Ganjineh Ofogh project brochure.",
+  "image": "aerial-1448.webp"
+ },
+ {
+  "key": "compare",
+  "lang": "fa",
+  "title": "مقایسه‌ی واحدها · برج گنجینه افق",
+  "desc": "دو واحد از چهار واحد سه‌خوابه‌ی برج گنجینه افق را کنار هم ببینید: مساحت، شکل پلان و چیدمان.",
+  "image": "apt2-1214.webp"
+ },
+ {
+  "key": "compare",
+  "lang": "en",
+  "title": "Compare apartments · Ganjineh Ofogh",
+  "desc": "Put two of the four three-bedroom apartments side by side: area, plan shape and layout.",
+  "image": "apt2-1214.webp"
+ },
+ {
+  "key": "contact",
+  "lang": "fa",
+  "title": "تماس با فروش · برج گنجینه افق",
+  "desc": "رزرو بازدید خصوصی، دریافت بروشور یا گفت‌وگو با مشاور فروش برج گنجینه افق در ازگل تهران؛ نام و شماره‌ی موبایل کافی است.",
+  "image": "entrance-900.webp"
+ },
+ {
+  "key": "contact",
+  "lang": "en",
+  "title": "Contact sales · Ganjineh Ofogh",
+  "desc": "Arrange a private viewing, request the brochure or speak with a sales advisor at Ganjineh Ofogh.",
+  "image": "entrance-900.webp"
+ },
+ {
+  "key": "developer",
+  "lang": "fa",
+  "title": "گروه افق · برج گنجینه افق",
+  "desc": "گروه افق: تجربه‌ای ساخته‌شده در طول زمان؛ گزیده‌ی سوابق ساخت‌وساز از ۱۳۵۰ تا ۱۴۰۴.",
+  "image": "villa-900.webp"
+ },
+ {
+  "key": "developer",
+  "lang": "en",
+  "title": "Ofogh Group · Ganjineh Ofogh",
+  "desc": "Ofogh Group: experience built over time; selected construction record from 1350 to 1404 SH.",
+  "image": "villa-900.webp"
+ },
+ {
+  "key": "gallery",
+  "lang": "fa",
+  "title": "گالری · برج گنجینه افق",
+  "desc": "گالری تصاویر برج گنجینه افق: نما، فضاهای داخلی، فضاهای مشترک، محوطه، پلان‌ها و مطالعات مدل.",
+  "image": "studio-900.webp"
+ },
+ {
+  "key": "gallery",
+  "lang": "en",
+  "title": "Gallery · Ganjineh Ofogh",
+  "desc": "The Ganjineh Ofogh image gallery: exterior, interiors, shared spaces, landscape, plans and model studies.",
+  "image": "studio-900.webp"
+ },
+ {
+  "key": "index",
+  "lang": "fa",
+  "title": "برج گنجینه افق · برجی مسکونی در ازگل، تهران",
+  "desc": "برج گنجینه افق؛ برجی مسکونی در تهران، ازگل. مدل سه‌بعدی تعاملی برج، پلان واحدها، فضاهای مشترک و موقعیت پروژه.",
+  "image": "hero-1200.webp"
+ },
+ {
+  "key": "index",
+  "lang": "en",
+  "title": "Ganjineh Ofogh · A residential tower in Ozgol, Tehran",
+  "desc": "Ganjineh Ofogh is a residential tower in Ozgol, Tehran. Explore the interactive 3D model, the apartment plans, shared spaces and the location.",
+  "image": "hero-1200.webp"
+ },
+ {
+  "key": "lifestyle",
+  "lang": "fa",
+  "title": "سبک زندگی · برج گنجینه افق",
+  "desc": "فضاهای مشترک برج گنجینه افق: سالن جشن، سینما، فضای ورزش، کافی‌شاپ و کتابخانه و لانژ اجتماعی.",
+  "image": "hall-900.webp"
+ },
+ {
+  "key": "lifestyle",
+  "lang": "en",
+  "title": "Lifestyle · Ganjineh Ofogh",
+  "desc": "The shared spaces of Ganjineh Ofogh: celebration hall, cinema, fitness space, café and library, and social lounge.",
+  "image": "hall-900.webp"
+ },
+ {
+  "key": "location",
+  "lang": "fa",
+  "title": "موقعیت · برج گنجینه افق",
+  "desc": "موقعیت برج گنجینه افق در ازگل، تهران: نشانی، نقشه‌ی شماتیک، مسیرهای اصلی و محله.",
+  "image": "aerial-1448.webp"
+ },
+ {
+  "key": "location",
+  "lang": "en",
+  "title": "Location · Ganjineh Ofogh",
+  "desc": "Where Ganjineh Ofogh stands in Ozgol, Tehran: address, schematic map, main routes and the neighbourhood.",
+  "image": "aerial-1448.webp"
+ },
+ {
+  "key": "privacy",
+  "lang": "fa",
+  "title": "حریم خصوصی · برج گنجینه افق",
+  "desc": "نحوه‌ی استفاده از اطلاعاتی که برای پیگیری درخواست خود در وب‌سایت برج گنجینه افق ثبت می‌کنید.",
+  "image": "hero-1200.webp"
+ },
+ {
+  "key": "privacy",
+  "lang": "en",
+  "title": "Privacy · Ganjineh Ofogh",
+  "desc": "How the details you submit to follow up a request on the Ganjineh Ofogh website are used.",
+  "image": "hero-1200.webp"
+ },
+ {
+  "key": "project",
+  "lang": "fa",
+  "title": "پروژه · برج گنجینه افق",
+  "desc": "معرفی پروژه‌ی برج گنجینه افق در ازگل، تهران: چشم‌انداز، سایت و فضای سبز، ورود، لابی و پالت مصالح.",
+  "image": "facade-900.webp"
+ },
+ {
+  "key": "project",
+  "lang": "en",
+  "title": "The project · Ganjineh Ofogh",
+  "desc": "Introducing the Ganjineh Ofogh project in Ozgol, Tehran: vision, site and landscape, arrival, lobby and material palette.",
+  "image": "facade-900.webp"
+ },
+ {
+  "key": "residences",
+  "lang": "fa",
+  "title": "واحدها · برج گنجینه افق",
+  "desc": "چهار واحد سه‌خوابه‌ی ۱۴۳٫۲۵ تا ۱۶۶ متر مربعی برج گنجینه افق در ازگل تهران: پلان، مساحت، برش سه‌بعدی و مدل سه‌بعدی مبله.",
+  "image": "living-900.webp"
+ },
+ {
+  "key": "residences",
+  "lang": "en",
+  "title": "Residences · Ganjineh Ofogh",
+  "desc": "The four three-bedroom residences of 143.25 to 166 m² at Ganjineh Ofogh, Ozgol, Tehran: plans, areas, 3D cut-aways and furnished 3D models.",
+  "image": "living-900.webp"
+ }
+]

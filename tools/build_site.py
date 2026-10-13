@@ -165,7 +165,38 @@ COMPONENTS = {
 }
 
 
+QR_DIR = ROOT / "assets" / "img" / "qr"
+
+
+def ensure_qr():
+    """QR codes (SVG) that open each apartment page; regenerated when the public address changes.
+    Needs the `segno` package (pip install segno). Without it, existing codes are kept and the sheet still prints."""
+    marker = QR_DIR / ".host"
+    if marker.exists() and marker.read_text() == HOST and all((QR_DIR / f"residence-{a['n']}-{l}.svg").exists() for a in APARTMENTS for l in ("fa", "en")):
+        return
+    try:
+        import segno
+    except ImportError:
+        print("QR codes: not regenerated (pip install segno); the printable sheet keeps any existing codes")
+        return
+    QR_DIR.mkdir(parents=True, exist_ok=True)
+    for a in APARTMENTS:
+        for lang, prefix in (("fa", ""), ("en", "/en")):
+            segno.make(f"{HOST}{prefix}/residence-{a['n']}.html", error="m", micro=False).save(
+                str(QR_DIR / f"residence-{a['n']}-{lang}.svg"), kind="svg", scale=4, border=1, dark="#1a1a17", xmldecl=False, nl=False)
+    marker.write_text(HOST)
+
+
+def qr_block(n):
+    n = int(n)
+    if not (QR_DIR / f"residence-{n}-fa.svg").exists():
+        return ""
+    return (f'<div class="sheet__qr"><img src="assets/img/qr/residence-{n}-fa.svg" en-src="assets/img/qr/residence-{n}-en.svg" alt="">'
+            f'<span dir="ltr">{HOST.replace("https://", "")}/residence-{n}.html</span></div>')
+
+
 def expand_components(html):
+    html = re.sub(r"\{\{qr:(\d+)\}\}", lambda m: qr_block(m.group(1)), html)
     html = re.sub(r"\{\{next:([^}]+)\}\}", lambda m: next_cta(m.group(1)), html)
     return re.sub(r"\{\{(\w+)\}\}", lambda m: COMPONENTS[m.group(1)]() if m.group(1) in COMPONENTS else m.group(0), html)
 
@@ -228,7 +259,7 @@ def compare_tool():
             item = next(p for p in a["pts"] if p[1] == title_en)
             out.append(cell(a, item[2], item[3]))
         return "".join(out)
-    rows = [("Area (as supplied)", "مساحت (ارائه‌شده)", area), ("", "", bars), ("Bedrooms", "اتاق خواب", beds), ("Plan shape", "شکل پلان", shape),
+    rows = [("Area (as supplied)", "مساحت (ارائه‌شده)", area), ("Area, drawn to scale", "مساحت، به‌صورت نمودار", bars), ("Bedrooms", "اتاق خواب", beds), ("Plan shape", "شکل پلان", shape),
             ("Day zone", "فضای روز", note("Day zone")), ("Bedrooms laid out", "چیدمان اتاق‌های خواب", note("Bedrooms"))]
     body = "".join(f'<tr><th scope="row"{"" if en else " class=cmp__blank"}{f" en={chr(34)}{en}{chr(34)}" if en else ""}>{fa}</th>{cells}</tr>' for en, fa, cells in rows)
     options = lambda sel: "".join(f'<option value="{a["n"]}"{" selected" if a["n"] == sel else ""} en="Apartment {a["n"]} · {a["area"]} m²">واحد {a["n_fa"]} · {a["area_fa"]} متر مربع</option>' for a in APARTMENTS)
@@ -247,6 +278,15 @@ def compare_tool():
 </div>'''
 
 
+def share():
+    """Share row: WhatsApp, Telegram, copy link, and the device's own share sheet when there is one. No tracking."""
+    return ('''<div class="share" data-share><span class="share__l" en="Share this page">این صفحه را به اشتراک بگذارید</span>
+  <a class="share__b" data-share-wa target="_blank" rel="noopener" href="https://wa.me/" en="WhatsApp">واتس‌اپ</a>
+  <a class="share__b" data-share-tg target="_blank" rel="noopener" href="https://t.me/share/url" en="Telegram">تلگرام</a>
+  <button class="share__b" type="button" data-share-copy en="Copy link">کپی پیوند</button>
+  <button class="share__b" type="button" data-share-native hidden en="More…">بیشتر…</button></div>''')
+
+
 def response_when():
     """'Expected reply' line for the thank-you page, only when the sales team has set a promise it can keep."""
     fa, en = CFG.get("response_time_fa", "").strip(), CFG.get("response_time_en", "").strip()
@@ -256,6 +296,7 @@ def response_when():
 
 
 COMPONENTS["response_when"] = response_when
+COMPONENTS["share"] = share
 COMPONENTS["compare_tool"] = compare_tool
 COMPONENTS["channels"] = channels
 COMPONENTS["channels_note"] = channels_note
@@ -431,7 +472,8 @@ def alt_name(out_name, lang):
 def build_page(meta, body, out_name, lang):
     head = partial("head")
     nav = meta.get("nav", "")
-    og = "og"  # designed share image (assets/img/og.jpg)
+    og = "og"  # fallback share image (assets/img/og.jpg); indexable pages get their own card (assets/og/<key>-<lang>.jpg)
+    og_path = "img/og" if meta.get("noindex") else f"og/{meta['key']}-{lang}"
     robots = '<meta name="robots" content="noindex, follow">' if meta.get("noindex") else ""
     preload = ""
     if meta.get("preload"):
@@ -463,7 +505,7 @@ def build_page(meta, body, out_name, lang):
         "title": meta["title_" + lang], "desc": meta["desc_" + lang], "file": out_name, "og": og, "robots": robots, "preload": preload,
         "css": f'assets/css/site.min.css?v={ASSET_VER["css"]}',
         "jsonld": jsonld(lang) if meta["key"] == "index" else "", "scripts": "\n".join(scripts),
-        "host": HOST, "canonical": url_fa if lang == "fa" else url_en, "url_fa": url_fa, "url_en": url_en,
+        "host": HOST, "og_path": og_path, "canonical": url_fa if lang == "fa" else url_en, "url_fa": url_fa, "url_en": url_en,
         "alt_href": alt_name(out_name, lang), "other_lang": other,
         "locale": "fa_IR" if lang == "fa" else "en_US", "locale_alt": "en_US" if lang == "fa" else "fa_IR",
     }
@@ -494,6 +536,7 @@ def build_page(meta, body, out_name, lang):
 
 
 def main():
+    ensure_qr()
     minified = build_assets()
     built = []
     pages_dir = SRC / "pages"
@@ -557,6 +600,15 @@ def main():
                       f'<xhtml:link rel="alternate" hreflang="x-default" href="{fa}"/></url>')
     sm.append("</urlset>")
     (ROOT / "sitemap.xml").write_text("\n".join(sm) + "\n", encoding="utf-8")
+    manifest = []
+    for name, _, meta in built:
+        if name.startswith("en/") or meta.get("noindex"):
+            continue
+        for lang in ("fa", "en"):
+            manifest.append({"key": meta["key"], "lang": lang, "title": meta["title_" + lang], "desc": meta["desc_" + lang],
+                             "image": og_file(meta.get("og") or "hero") + ".webp"})
+    (ROOT / "assets" / "og").mkdir(parents=True, exist_ok=True)
+    (ROOT / "assets" / "og" / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
     (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin\n\nSitemap: {HOST}/sitemap.xml\n", encoding="utf-8")
     total = sum(s for _, s, _ in built)
     print(f"{len(built)} pages ({len(built) // 2} per language), {total / 1024:.0f} KB HTML, sitemap {len(urls) * 2} URLs, "
@@ -575,6 +627,10 @@ def inline_critical_css():
     print((result.stdout.strip().splitlines() or ["critical CSS: no output"])[-1])
     if result.returncode:
         print("critical CSS: FAILED, pages keep the blocking stylesheet\n" + result.stderr.strip()[-400:])
+    cards = subprocess.run([node, str(ROOT / "tools" / "build_og_pages.mjs")], cwd=ROOT, capture_output=True, text=True)
+    print((cards.stdout.strip().splitlines() or ["share cards: no output"])[-1])
+    if cards.returncode:
+        print("share cards: FAILED\n" + cards.stderr.strip()[-400:])
 
 
 if __name__ == "__main__":

@@ -24,6 +24,9 @@ Status: V9 is a build for review, not a launch. ✅ = checked while building V9 
 - ✅ Cloudflare version of the backend (`functions/`): same rules as `server.py`, 8 tests on a local Cloudflare runtime.
 - ✅ Brochure candidates compared with the site's figures (see `cloudflare/SETUP.md`): use `Ganjineh_Ofogh_v25.pdf`; do not publish `Final_Brochure.pdf` (older figures, 216 MB).
 
+- ✅ Accessibility: axe-core on every page, both languages and themes — 102 audits, 0 violations (contrast, landmarks, heading order, table headers were fixed).
+- ✅ Per-page share cards, printable apartment sheet (one A4 page, QR to the page), share row, trimmed fonts, daily digest, live smoke test.
+
 ## Not yet verified in V9
 
 - [x] Safari's engine (WebKit): the whole suite passes on desktop Safari and iPhone 13 emulation.

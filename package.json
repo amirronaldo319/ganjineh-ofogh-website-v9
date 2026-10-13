@@ -5,7 +5,8 @@
     "test": "playwright test",
     "test:safari": "playwright test --project=safari-desktop --project=safari-iphone",
     "test:visual": "playwright test -c playwright.visual.config.js",
-    "test:visual:update": "playwright test -c playwright.visual.config.js --update-snapshots"
+    "test:visual:update": "playwright test -c playwright.visual.config.js --update-snapshots",
+    "test:live": "playwright test -c playwright.live.config.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

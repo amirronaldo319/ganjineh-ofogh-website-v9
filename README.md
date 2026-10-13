@@ -39,6 +39,27 @@ and `cloudflare/SETUP.md` the 10-minute guide. It is covered by `node --test tes
 
 The public address is `host` in `src/site.config.json`; canonical links, hreflang, the sitemap, `robots.txt` and the social cards follow it.
 
+## Sharing, printing and share cards
+
+- **Share cards:** every page has its own 1200×630 card per language (`assets/og/<page>-<lang>.jpg`, drawn by `tools/build_og_pages.mjs`, which `build_site.py` runs and which redraws only what changed). A link pasted into WhatsApp, Telegram or X shows that page's picture and title.
+- **Share row:** residence, compare and residences pages have WhatsApp, Telegram, copy-link and (where the device has one) the system share sheet. No tracking.
+- **Printable apartment sheet:** each residence page has "Print this apartment": one A4 page with plan, area *as supplied*, layout notes, the disclaimer and a QR code to the page. It is plain CSS (`@media print`), so "Save as PDF" works everywhere. QR codes are SVGs made by `pip install segno` and follow `host`.
+- **Fonts:** the three Latin web fonts are trimmed to the characters the site uses (`python3 tools/build_fonts.py`; `--check` reports uncovered characters). Originals stay in `tools/font-sources/`.
+
+## Daily digest and live check
+
+```bash
+python3 tools/digest.py --webhook https://…                       # yesterday's enquiries + the ones still waiting for a first call
+LIVE_URL=https://your-address npx playwright test -c playwright.live.config.js    # smoke test of the published site
+```
+
+`deploy/ganjineh-digest.{service,timer}` send the digest at 08:30 Tehran time on the VPS; on Cloudflare run it from any computer with `--cloudflare`.
+The live smoke test (`npm run test:live`) checks every page in both languages, the language switch, the compare tool, the brochure form's honesty, both 3D viewers and that source files are not published.
+
+## Accessibility audit
+
+`tests/e2e/a11y.spec.js` runs axe-core 4.10 (vendored in `tests/vendor/`) on all 17 pages × 2 languages × 2 themes (WCAG 2.2 A/AA and best practices): 102 audits, 0 violations. Automated checks catch about a third of real issues; a screen-reader pass (VoiceOver, TalkBack) is still on the checklist.
+
 ## Brochure download
 
 `/brochure.html` (and `/en/brochure.html`) asks for a name and a mobile number, stores the request as a `download` enquiry and sends the visitor to the thank-you page, which offers the PDF.

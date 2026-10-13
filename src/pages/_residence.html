@@ -14,7 +14,9 @@
       <div class="cta-row">
         <a class="btn" href="contact.html?unit=residence-{{n}}#appointment" en="Request information">درخواست اطلاعات</a>
         <a class="btn btn--ghost" href="#residences-3d" en="View the 3D model">مشاهده‌ی مدل سه‌بعدی</a>
+        <button class="btn btn--ghost" type="button" data-print en="Print this apartment">چاپ این واحد</button>
       </div>
+      {{share}}
     </div>
     <div class="phero__art phero__art--land"><div class="arch" style="background:#f2efe6"><img data-img="{{img}}" data-eager sizes="(max-width: 880px) 92vw, 44vw" style="object-fit:contain;padding:4%" alt="برش سه‌بعدی واحد {{n_fa}}." en-alt="Three-dimensional cut-away of Apartment {{n}}."></div></div>
   </div>
@@ -99,3 +101,24 @@
 </section>
 
 {{next:این واحد را از نزدیک ببینید|See this residence in person|بازدید حضوری از پروژه را با تیم فروش هماهنگ کنید.|Arrange a visit to the project with the sales team.|رزرو بازدید خصوصی|Private viewing|contact.html#appointment}}
+
+<section class="sheet" aria-hidden="true">
+  <header class="sheet__head"><b en="Ganjineh Ofogh">گنجینه افق</b><span en="Tehran / Ozgol">تهران / ازگل</span></header>
+  <div class="sheet__title" en="Apartment {{n}}">واحد {{n_fa}}</div>
+  <p class="sheet__lede" en="{{tag_en}}">{{tag_fa}}</p>
+  <div class="sheet__facts">
+    <div><b><span en="{{area}}">{{area_fa}}</span> <span en="m²">متر مربع</span></b><span en="Area, as supplied">مساحت، ارائه‌شده</span></div>
+    <div><b en="3">۳</b><span en="Bedrooms">اتاق خواب</span></div>
+    <div><b en="{{shape_en}}">{{shape_fa}}</b><span en="Plan">پلان</span></div>
+  </div>
+  <div class="sheet__plan"><img data-img="{{img}}" sizes="900px" alt=""></div>
+  <ol class="sheet__pts">
+    <li><h3 en="{{p1_en}}">{{p1_fa}}</h3><p en="{{t1_en}}">{{t1_fa}}</p></li>
+    <li><h3 en="{{p2_en}}">{{p2_fa}}</h3><p en="{{t2_en}}">{{t2_fa}}</p></li>
+    <li><h3 en="{{p3_en}}">{{p3_fa}}</h3><p en="{{t3_en}}">{{t3_fa}}</p></li>
+  </ol>
+  <footer class="sheet__foot">
+    <p en="Concept cut-away, not to scale. Area as supplied; dimensions, layout and finishes remain subject to approved project records. Images are illustrative visualisations.">برش مفهومی و بدون مقیاس. مساحت بر پایه‌ی اطلاعات ارائه‌شده است؛ ابعاد، چیدمان و مصالح تابع مدارک مصوب پروژه است. تصاویر، تصویرسازی مفهومی‌اند.</p>
+    {{qr:{{n}}}}
+  </footer>
+</section>

@@ -1,0 +1,10 @@
+[Unit]
+Description=Ganjineh Ofogh daily enquiry digest
+
+[Service]
+Type=oneshot
+User=ganjineh
+WorkingDirectory=/srv/ganjineh/site
+Environment=GO_DB_PATH=/srv/ganjineh/data/enquiries.sqlite3
+# Set GO_NOTIFY_WEBHOOK with `systemctl edit ganjineh-digest` (the same address new enquiries are sent to).
+ExecStart=/usr/bin/python3 tools/digest.py

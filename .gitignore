@@ -11,3 +11,5 @@ preview/
 preview.zip
 .wrangler/
 preview.zip
+node_modules
+.wrangler/

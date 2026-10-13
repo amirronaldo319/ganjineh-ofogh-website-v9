@@ -396,4 +396,23 @@
 
   /* ───────── go ───────── */
   setLang(state.lang, { persist: false, fromChild: true });
+  /* ───────── print this apartment ───────── */
+  $$('[data-print]').forEach(function (b) { b.addEventListener('click', function () { window.print(); }); });
+  /* ───────── share row (WhatsApp, Telegram, copy, device share sheet) ───────── */
+  $$('[data-share]').forEach(function (row) {
+    var url = location.href.split('#')[0], title = document.title;
+    var text = encodeURIComponent(title + '\n' + url);
+    var wa = $('[data-share-wa]', row), tg = $('[data-share-tg]', row), cp = $('[data-share-copy]', row), nat = $('[data-share-native]', row);
+    if (wa) wa.href = 'https://wa.me/?text=' + text;
+    if (tg) tg.href = 'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title);
+    if (cp) cp.addEventListener('click', function () {
+      var done = function () { toast(state.lang === 'fa' ? 'پیوند کپی شد.' : 'Link copied.'); };
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(url).then(done, function () { window.prompt('', url); });
+      else window.prompt('', url);
+    });
+    if (nat && navigator.share) {
+      nat.hidden = false;
+      nat.addEventListener('click', function () { navigator.share({ title: title, url: url }).catch(function () {}); });
+    }
+  });
 })();
