@@ -58,6 +58,7 @@
       for (var i = 0; i < value.length; i += REF_GROUP_SIZE) {
         var group = document.createElement('span');
         group.className = 'ref-group';
+        group.style.setProperty('--n', String(i / REF_GROUP_SIZE));
         group.textContent = value.slice(i, i + REF_GROUP_SIZE);
         target.appendChild(group);
       }

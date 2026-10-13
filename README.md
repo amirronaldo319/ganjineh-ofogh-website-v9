@@ -39,6 +39,19 @@ and `cloudflare/SETUP.md` the 10-minute guide. It is covered by `node --test tes
 
 The public address is `host` in `src/site.config.json`; canonical links, hreflang, the sitemap, `robots.txt` and the social cards follow it.
 
+## Motion layer III
+
+Added on top of layers I–II (all compositor-only; nothing runs under `prefers-reduced-motion`):
+
+- slow drifting light behind the hero and every inner-page hero;
+- the header turns light-on-dark while it sits over a dark band, and back again (day theme; dusk is already dark);
+- a back-to-top button with a ring that fills as you read (hidden over the day/dusk scrubber);
+- a soft spotlight that follows the pointer across the dark call-to-action band;
+- questions open and close smoothly on the FAQ page;
+- compare columns arrive row by row and the area bars grow when the pair changes;
+- thank-you page: the tick draws itself, the reference code types in, the download card pops;
+- images shimmer while they load, which matters on slow connections.
+
 ## Sharing, printing and share cards
 
 - **Share cards:** every page has its own 1200×630 card per language (`assets/og/<page>-<lang>.jpg`, drawn by `tools/build_og_pages.mjs`, which `build_site.py` runs and which redraws only what changed). A link pasted into WhatsApp, Telegram or X shows that page's picture and title.

@@ -18,6 +18,8 @@
   function valid(v) { return /^[1-4]$/.test(v || ''); }
   function paint() {
     var x = a.value, y = b.value;
+    root.classList.remove('is-swap'); diff.classList.remove('is-new'); void root.offsetWidth;
+    root.classList.add('is-swap'); diff.classList.add('is-new');
     cells.forEach(function (c) { c.hidden = c.dataset.apt !== x && c.dataset.apt !== y; });
     table.classList.toggle('is-single', x === y);
     var ax = AREA[x], ay = AREA[y];
