@@ -7,7 +7,11 @@ import fs from 'node:fs';
 const base = process.argv[2] || 'http://127.0.0.1:8902';
 const out = process.argv[3] || '/tmp/sizes_audit.json';
 const PAGES = ['index', 'residences', 'gallery', 'project', 'architecture', 'lifestyle', 'location', 'compare', 'brochure', 'contact', 'faq', 'developer', 'residence-1', 'residence-2', 'residence-3', 'residence-4'];
-const WIDTHS = [320, 360, 390, 412, 480, 600, 700, 768, 880, 1024, 1100, 1280, 1366, 1440, 1600, 1920, 2560];
+// Dense below 1100 px, where grids reflow; layout breakpoints are sharp, so a 16 px step pins them down to the pixel row.
+const WIDTHS = [];
+for (let w = 320; w < 1100; w += 16) WIDTHS.push(w);
+for (let w = 1100; w < 1920; w += 40) WIDTHS.push(w);
+for (const w of [1920, 2000, 2200, 2400, 2560]) WIDTHS.push(w);
 
 const browser = await chromium.launch({ channel: process.env.PW_CHANNEL || 'chrome' });
 const rows = [];

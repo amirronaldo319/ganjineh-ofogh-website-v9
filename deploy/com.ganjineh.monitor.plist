@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Daily health check of the shared preview from a Mac (08:30). On a real server use the systemd timer instead.
+     Edit WorkingDirectory/paths, then:  cp deploy/com.ganjineh.monitor.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.ganjineh.monitor.plist
+     Stop it with:  launchctl unload ~/Library/LaunchAgents/com.ganjineh.monitor.plist
+     A failure shows a macOS notification and is recorded in ~/Library/Logs/ganjineh/monitor-history.log -->
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.ganjineh.monitor</string>
+  <key>WorkingDirectory</key><string>/Users/YOU/Desktop/Projects/Websites/V9</string>
+  <key>ProgramArguments</key><array>
+    <string>/bin/sh</string><string>tools/run_scheduled_check.sh</string><string>monitor</string>
+    <string>/usr/bin/python3</string><string>tools/monitor.py</string><string>https://amirronaldo319.github.io/ganjineh-ofogh</string><string>--preview</string><string>-q</string>
+  </array>
+  <key>StartCalendarInterval</key><dict><key>Hour</key><integer>8</integer><key>Minute</key><integer>30</integer></dict>
+</dict></plist>
