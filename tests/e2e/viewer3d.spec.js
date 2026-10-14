@@ -99,3 +99,24 @@ test.describe('tower viewer: time of day and apartment deep link', () => {
     await expect(page.locator('#where-link')).toHaveAttribute('href', /tower-viewer\/index\.html\?apt=4&floor=6&lang=fa$/);
   });
 });
+
+test('tower viewer: a shared link restores the named view and light, and "Copy link" builds one', async ({ page, context, browserName }) => {
+  test.skip(browserName !== 'chromium', 'clipboard permission is checked in Chromium');
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/tower-viewer/index.html?lang=en&view=street&light=night');
+  await expect(page.locator('#status')).toHaveClass(/gone/, { timeout: 60_000 });
+  await expect(page.locator('[data-view="street"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('[data-light="night"]')).toHaveAttribute('aria-pressed', 'true');
+
+  await page.locator('[data-tab="more"]').click();
+  await page.locator('#t-share').click();
+  const copied = await page.evaluate(() => navigator.clipboard.readText());
+  const url = new URL(copied);
+  expect(url.pathname).toMatch(/tower-viewer\/index\.html$/);
+  expect(url.searchParams.get('view')).toBe('street');
+  expect(url.searchParams.get('light')).toBe('night');
+  expect(url.searchParams.get('lang')).toBe('en');
+  expect(errors).toEqual([]);
+});

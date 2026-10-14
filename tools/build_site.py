@@ -196,7 +196,7 @@ def qr_block(n):
     if not (QR_DIR / f"residence-{n}-fa.svg").exists():
         return ""
     return (f'<div class="sheet__qr"><img src="assets/img/qr/residence-{n}-fa.svg" en-src="assets/img/qr/residence-{n}-en.svg" alt="">'
-            f'<span dir="ltr">{HOST.replace("https://", "")}/residence-{n}.html</span></div>')
+            f'<span dir="ltr" en="{HOST.replace("https://", "")}/en/residence-{n}.html">{HOST.replace("https://", "")}/residence-{n}.html</span></div>')
 
 
 def fill_areas(html):

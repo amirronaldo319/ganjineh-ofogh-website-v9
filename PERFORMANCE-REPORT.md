@@ -157,3 +157,18 @@ Gates: Chrome e2e 399/399, sizes guard 22/22, visual regression 166/168 — the 
 **Scheduled checks** (`tools/install_scheduled_checks.sh`): `monitor.py --preview` daily 08:30 (38 checks, 0 failures on the live preview) and the weekly Lighthouse Mondays 09:00 (live baseline: performance 88–100, accessibility 100, best practices 96, SEO 100; all pages within budget).
 
 **One-page checklist** for the facts only your team can confirm: `launch/CONFIRM-IN-5-MINUTES.md`.
+
+---
+
+# Addendum 4 — CI, launch check, shareable viewer links, print, content pack, viewer accessibility (`polish/ci-launch-viewers-print`)
+
+| Item | What was done | Evidence |
+|---|---|---|
+| Checks on every push | `.github/workflows/ci.yml`: unit tests, Persian lint, Cloudflare tests, then the Playwright suite (Chromium desktop + Android) incl. the `sizes` guard and viewer a11y | YAML parses; commands identical to the local gates; first run happens on the first push |
+| Launch readiness | `tools/launch_check.py [--url …]` lists blockers (no contact channel, mode still preview, robots/sitemap, stray noindex, unanswered section A, placeholder text) | Today: 2 blockers (contact channel, preview mode), 2 warnings |
+| Viewer links | Tower viewer "Copy link" (More tab) and `?view=` / `?light=` on load, with `apt`/`floor`/`lang` | e2e: restores view+light, builds the right URL, no page errors |
+| Print | Day palette on white regardless of theme, no empty reveal pages, compact gallery (33 → 10 pages), QR caption now in the page language (it printed the Persian URL on English sheets) | PDFs rendered and inspected for index, residences, gallery, contact, residence pages in both themes |
+| Content | `launch/CONTENT-PACK-30-DAYS.md`: 30 bilingual posts, rules, caption template, draft autoresponder (kept off) | Every asset it names exists; no price/date/floor count/availability |
+| Viewer accessibility | Tower viewer: accessible name for the model, landmarks for the stage and the dock. Apartment viewer: 7 failing text colours darkened to ≥ 4.9:1, visible focus ring on the canvas, heading kept for assistive tech on narrow screens | New `a11y-viewers.spec.js` (axe + keyboard) passes on desktop and Android profiles; tower viewer screenshots identical to the original |
+
+Gates: unit 27/27, lint 0, Chrome 415 passed + viewer specs re-run clean, WebKit 338 passed (the iPhone `innerText` test fails identically on the original; two other WebKit failures were port collisions and pass alone), visual 166/168 (the two `fa project · 768 px` shots are the deliberate sharpening from Addendum 3).
