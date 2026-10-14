@@ -36,7 +36,16 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
-OPENER = urllib.request.build_opener(NoRedirect)
+def tls_context() -> ssl.SSLContext:
+    """The default context; on macOS framework Pythons that ship without CA certificates, the system bundle instead."""
+    context = ssl.create_default_context()
+    if not context.cert_store_stats().get("x509_ca") and os.path.exists("/etc/ssl/cert.pem"):
+        context = ssl.create_default_context(cafile="/etc/ssl/cert.pem")
+    return context
+
+
+TLS = tls_context()
+OPENER = urllib.request.build_opener(NoRedirect, urllib.request.HTTPSHandler(context=TLS))
 
 
 def fetch(url: str, timeout: float = 15.0) -> tuple[int, dict, bytes, float]:
@@ -97,13 +106,51 @@ def check_page(report: Report, url: str, language: str):
 
 def check_certificate(report: Report, host: str, port: int):
     try:
-        with socket.create_connection((host, port), timeout=10) as raw, ssl.create_default_context().wrap_socket(raw, server_hostname=host) as tls:
+        with socket.create_connection((host, port), timeout=10) as raw, TLS.wrap_socket(raw, server_hostname=host) as tls:
             expires = datetime.fromtimestamp(ssl.cert_time_to_seconds(tls.getpeercert()["notAfter"]), timezone.utc)
     except (OSError, ssl.SSLError, KeyError) as error:
         report.fail("HTTPS certificate", f"cannot verify: {error}")
         return
     days = (expires - datetime.now(timezone.utc)).days
     (report.fail if days < CERT_FAIL_DAYS else report.warn if days < CERT_WARN_DAYS else report.ok)("HTTPS certificate", f"expires in {days} days")
+
+
+PREVIEW_PAGES = ["", "residences", "residence-1", "residence-2", "residence-3", "residence-4", "compare", "gallery", "project",
+                 "architecture", "lifestyle", "location", "developer", "brochure", "contact", "faq", "privacy"]
+
+
+def run_preview(base: str) -> Report:
+    """The shared GitHub Pages preview: no sitemap, API, response headers or http→https redirect exist there by design,
+    so only what can be true there is checked."""
+    base = base.rstrip("/")
+    parts = urlsplit(base)
+    report = Report()
+    for name in PREVIEW_PAGES:
+        for lang, prefix in (("fa", ""), ("en", "en/")):
+            path = "/" + prefix + (f"{name}.html" if name else ("" if lang == "fa" else ""))
+            check_page(report, base + path, lang)
+    try:
+        status, _, home, _ = fetch(base + "/")
+        assets = sorted(set(re.findall(r'(?:src|href)="(/?assets/[^"#?]+\.(?:css|js|woff2))', home.decode("utf-8", "replace"))))
+        bad = [a for a in assets if fetch(urljoin(base + "/", a))[0] != 200]
+        (report.fail if bad else report.ok)("home page assets", f"missing: {', '.join(bad)}" if bad else f"{len(assets)} files")
+        status, _, worker, _ = fetch(base + "/sw.js")
+        has_version = status == 200 and re.search(rb"VERSION = '[0-9a-f]{12}'", worker) is not None
+        (report.ok if has_version else report.fail)("service worker", "sw.js served with a build version" if has_version else f"sw.js HTTP {status}")
+    except OSError as error:
+        report.fail("home page assets", str(error))
+    leaked = []
+    for path in PRIVATE:
+        try:
+            status = fetch(base + path)[0]
+        except OSError:
+            continue
+        if status not in (404, 401, 403):
+            leaked.append(f"{path} → {status}")
+    (report.fail if leaked else report.ok)("private paths", "; ".join(leaked) if leaked else "not served")
+    if parts.scheme == "https":
+        check_certificate(report, parts.hostname, parts.port or 443)
+    return report
 
 
 def run(base: str, expect_intake: bool, expect_brochure: bool) -> Report:
@@ -206,10 +253,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--expect-brochure", action="store_true", help="fail if no brochure PDF is on file")
     parser.add_argument("--webhook", default=os.environ.get("GO_NOTIFY_WEBHOOK", ""), help="tell this https URL when a check fails")
     parser.add_argument("--strict", action="store_true", help="treat warnings as failures")
+    parser.add_argument("--preview", action="store_true", help="the static GitHub Pages preview: skip checks that only a real server can pass")
     parser.add_argument("-q", "--quiet", action="store_true", help="print only problems")
     args = parser.parse_args(argv)
 
-    report = run(args.url, args.expect_intake, args.expect_brochure)
+    report = run_preview(args.url) if args.preview else run(args.url, args.expect_intake, args.expect_brochure)
     icons = {"ok": "✓", "warn": "!", "fail": "✗"}
     for level, name, detail in report.rows:
         if level != "ok" or not args.quiet:

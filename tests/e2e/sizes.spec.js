@@ -1,14 +1,17 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
-// src/sizes.json tightens authored `sizes` hints from measurements. The invariant: a tightened hint never claims less than
-// the image is drawn at, unless the authored hint already claimed less (a pre-existing shortfall, reported separately).
-// It also guards the measurements against layout changes made later.
+// src/sizes.json adjusts authored `sizes` hints from measurements. Invariants checked at many viewport widths:
+//   1. no picture is hinted more than 1.3x narrower than it is drawn (it would be served a file one step too small);
+//   2. above 1440 px an adjusted hint never claims more than 1.3x what the picture is drawn at (it would be served a larger
+//      file than needed). Up to 1440 px authored over-claims are left as they are, so those screenshots stay unchanged.
+// It guards the measurements against layout changes made later; regenerate with tools/audit_sizes.mjs + tools/apply_sizes.py.
+const TOO_SMALL = 1.3, TOO_BIG = 1.3;
 const fs = require('fs');
 const path = require('path');
 const OVERRIDES = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'sizes.json'), 'utf8'));
-const AUTHORED = {};                       // "<stem>|<tightened>" -> authored hint
-for (const [key, tightened] of Object.entries(OVERRIDES)) AUTHORED[key.split('|')[0] + '|' + tightened] = key.split('|').slice(1).join('|');
+const ADJUSTED = new Set(Object.entries(OVERRIDES).map(([key, value]) => key.split('|')[0] + '|' + value));
+
 const PAGES = ['index', 'residences', 'gallery', 'project', 'architecture', 'lifestyle', 'location', 'compare', 'brochure', 'developer', 'residence-1'];
 const WIDTHS = [360, 412, 600, 768, 900, 1024, 1180, 1366, 1500, 1700, 1920, 2200, 2560];
 
@@ -24,7 +27,7 @@ for (const lang of ['', 'en/']) {
       for (const w of WIDTHS) {
         await page.setViewportSize({ width: w, height: 900 });
         await page.waitForTimeout(100);
-        const res = await page.evaluate(([vw, authored]) => {
+        const res = await page.evaluate(([vw, adjusted]) => {
           const evalSizes = (sizes) => {
             if (!sizes) return vw;
             for (const raw of sizes.split(',')) {
@@ -46,12 +49,14 @@ for (const lang of ['', 'en/']) {
             let hidden = img.offsetWidth === 0;
             for (let e = img.parentElement; e && !hidden; e = e.parentElement) { const c = getComputedStyle(e); if (c.display === 'none' || c.visibility === 'hidden') hidden = true; }
             const stem = (img.getAttribute('src') || '').split('/').pop().replace(/-\d+\.\w+$/, '');
-            const old = authored[stem + '|' + sizes];
-            return { file: (img.getAttribute('src') || '').split('/').pop(), tightened: old !== undefined, claimed: evalSizes(sizes), before: old !== undefined ? evalSizes(old) : null, drawn: hidden ? 0 : img.offsetWidth };
+            return { file: (img.getAttribute('src') || '').split('/').pop(), adjusted: adjusted.includes(stem + '|' + sizes), claimed: evalSizes(sizes), drawn: hidden ? 0 : img.offsetWidth };
           });
-        }, [w, AUTHORED]);
-        for (const r of res) if (r.tightened && r.drawn > 40 && r.claimed < Math.min(r.before, r.drawn * 0.97)) problems.push(`${r.file} @${w}px: now claims ${Math.round(r.claimed)}, was ${Math.round(r.before)}, drawn ${r.drawn}`);
-        for (const r of res) if (r.tightened && r.claimed > r.before + 1) problems.push(`${r.file} @${w}px: claim grew from ${Math.round(r.before)} to ${Math.round(r.claimed)}`);
+        }, [w, [...ADJUSTED]]);
+        for (const r of res) {
+          if (r.drawn <= 40) continue;
+          if (r.claimed * TOO_SMALL < r.drawn) problems.push(`${r.file} @${w}px: hinted ${Math.round(r.claimed)}, drawn ${r.drawn} (too small)`);
+          if (r.adjusted && w >= 1441 && r.claimed > r.drawn * TOO_BIG && r.claimed > 64) problems.push(`${r.file} @${w}px: hinted ${Math.round(r.claimed)}, drawn ${r.drawn} (too big)`);
+        }
       }
       expect(problems).toEqual([]);
     });

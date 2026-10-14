@@ -4,6 +4,7 @@
     node tools/audit_sizes.mjs http://127.0.0.1:8000 /tmp/sizes_audit.json     # measure (needs a running server)
     python3 tools/apply_sizes.py /tmp/sizes_audit.json                         # report
     python3 tools/apply_sizes.py /tmp/sizes_audit.json --write                 # write src/sizes.json (used by build_site.py)
+    add --raise to also fix hints that claim LESS than the drawn width (sharper, a little heavier)
 
 A viewport-relative hint such as `31vw` keeps growing on a 2560 px monitor while the layout stops at its container's
 max-width, so the browser picks a bigger file than it can show. The new hint is, per viewport interval, the SMALLER of
@@ -20,6 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MARGIN = 1.04
 MIN_GAIN = 1.15            # leave a hint alone unless it overshoots by more than this somewhere
+RAISE_BELOW = 1.25         # a hint is raised only where the picture is drawn more than this much wider than claimed
 MIN_RULE_WIDTH = 1441      # viewports up to 1440 px keep the authored hint: the visual-regression suite covers them pixel for pixel
 
 
@@ -54,53 +56,90 @@ def tail_expression(sizes: str) -> str:
     return parts[-1]
 
 
-def propose(sizes: str, widths: list, drawn: list) -> str | None:
-    """drawn[i] is the largest width the image has at widths[i] (None where hidden).
+def _interp(pts, pick):
+    """Piecewise lookup between measured samples; `pick` combines the two neighbours (max = safe for tightening,
+    min = safe for raising, because a hint must never over-feed a narrower context)."""
+    def at(w: int) -> float:
+        for (w0, a0), (w1, a1) in zip(pts, pts[1:]):
+            if w0 <= w <= w1:
+                return pick(a0, a1)
+        return pts[-1][1] if w > pts[-1][0] else pts[0][1]
+    return at
 
-    The old hint stays as it is; rules are put in front of it for the viewport ranges where it claims noticeably more
-    than the image is drawn at. A rule is never larger than the old claim at any width it covers."""
+
+def _rules(sizes, pts, target, eligible, flat_top, first, last):
+    """Runs of consecutive eligible widths become one rule each. A run is expressed in vw when the needed claim grows with
+    the viewport (within 10 %), otherwise in px; it is cut when neither fits."""
+    runs, current = [], None
+    for w in range(first, last + 1):
+        if not eligible(w):
+            current = None
+            continue
+        t = target(w)
+        if current and current["hi"] == w - 1:
+            px_hi, px_lo = max(current["pmax"], t), min(current["pmin"], t)
+            vw_hi, vw_lo = max(current["vmax"], t / w), min(current["vmin"], t / w)
+            if px_hi <= px_lo * 1.10 or vw_hi <= vw_lo * 1.10:
+                current.update(hi=w, pmax=px_hi, pmin=px_lo, vmax=vw_hi, vmin=vw_lo)
+                continue
+        current = {"lo": w, "hi": w, "pmax": t, "pmin": t, "vmax": t / w, "vmin": t / w}
+        runs.append(current)
+    out = []
+    for run in runs:
+        if run["hi"] - run["lo"] < 7 and not (run["hi"] == last and flat_top):
+            continue                                     # a sliver a few pixels wide is not worth a rule
+        if run["pmax"] <= run["pmin"] * 1.10:
+            value = f"{int(math.ceil(run['pmax'] / 4.0) * 4)}px"
+        else:
+            value = f"{math.ceil(run['vmax'] * 100 * 2) / 2:g}vw"
+        if run["hi"] == last and flat_top and value.endswith("px"):
+            cond = f"(min-width: {run['lo']}px)"
+        elif run["lo"] == first and first >= 600:
+            cond = f"(max-width: {run['hi']}px)"
+        elif run["lo"] <= 320:
+            cond = f"(max-width: {run['hi']}px)"
+        else:
+            cond = f"(min-width: {run['lo']}px) and (max-width: {run['hi']}px)"
+        out.append((run["lo"], run["hi"], cond, value))
+    return out
+
+
+def propose(sizes: str, widths: list, drawn: list):
+    """Rules for viewport ranges where the authored hint claims noticeably MORE than the largest drawn width."""
     pts = [(w, a) for w, a in zip(widths, drawn) if a]
     if len(pts) < 2:
         return None
-
-    def need(w: int) -> float:
-        """Largest width drawn at viewport w, taking the larger of the two samples around it (conservative)."""
-        for (w0, a0), (w1, a1) in zip(pts, pts[1:]):
-            if w0 <= w <= w1:
-                return max(a0, a1) * MARGIN
-        return pts[-1][1] * MARGIN if w > pts[-1][0] else pts[0][1] * MARGIN
-
+    need = _interp(pts, max)
     first, last = pts[0][0], pts[-1][0]
-    pieces, current = [], None
-    for w in range(first, last + 1):
-        n, o = need(w), evaluate(sizes, w)
-        if o < n * MIN_GAIN:
-            current = None
-            continue
-        if current and current["hi"] == w - 1 and max(current["need"], n) <= min(current["nmin"], n) * 1.10:
-            current.update(hi=w, need=max(current["need"], n), nmin=min(current["nmin"], n), old=min(current["old"], o))
-        else:
-            current = {"lo": w, "hi": w, "need": n, "nmin": n, "old": o}
-            pieces.append(current)
     flat_top = pts[-1][1] <= pts[-2][1] * 1.02
-    parts = []
-    for piece in sorted(pieces, key=lambda r: -r["lo"]):
-        if piece["hi"] < MIN_RULE_WIDTH:
-            continue
-        piece["lo"] = max(piece["lo"], MIN_RULE_WIDTH)
-        value = int(math.ceil(piece["need"] / 4.0) * 4)
-        if value > piece["old"]:
-            continue
-        if piece["hi"] == last and flat_top:
-            parts.append(f"(min-width: {piece['lo']}px) {value}px")
-        elif piece["lo"] == first and first >= MIN_RULE_WIDTH:
-            parts.append(f"(max-width: {piece['hi']}px) {value}px")
-        else:
-            parts.append(f"(min-width: {piece['lo']}px) and (max-width: {piece['hi']}px) {value}px")
-    if not parts:
+    raw = _rules(sizes, pts,
+                 target=lambda w: need(w) * MARGIN,
+                 eligible=lambda w: w >= MIN_RULE_WIDTH and evaluate(sizes, w) >= need(w) * MARGIN * MIN_GAIN,
+                 flat_top=flat_top, first=first, last=last)
+    rules = []
+    for lo, hi, cond, value in raw:
+        claim = (lambda w, v=value: float(v[:-2]) * w / 100 if v.endswith("vw") else float(v[:-2]))
+        if all(claim(w) <= evaluate(sizes, w) for w in range(lo, min(hi, last) + 1)):      # never asks for more than before
+            rules.append((lo, cond, value))
+    if not rules:
         return None
-    new = ", ".join(parts + [sizes if sizes else "100vw"])
-    return new if new != sizes else None
+    parts = [f"{cond} {value}" for _, cond, value in sorted(rules, key=lambda r: -r[0])]
+    return ", ".join(parts + [sizes if sizes else "100vw"])
+
+
+def propose_raise(sizes: str, widths: list, drawn: list) -> list:
+    """Rules for ranges where the authored hint claims much LESS than the picture is drawn at (the browser would pick a file
+    one step too small and the picture is soft). They claim the drawn width of the narrowest context using that hint."""
+    pts = [(w, a) for w, a in zip(widths, drawn) if a]
+    if len(pts) < 2:
+        return []
+    got = _interp(pts, min)
+    first, last = pts[0][0], pts[-1][0]
+    flat_top = pts[-1][1] <= pts[-2][1] * 1.02
+    raw = _rules(sizes, pts, target=lambda w: got(w),
+                 eligible=lambda w: got(w) > evaluate(sizes, w) * RAISE_BELOW,
+                 flat_top=flat_top, first=first, last=last)
+    return [f"{cond} {value}" for _, _, cond, value in sorted(raw, key=lambda r: -r[0])]
 
 
 def main() -> int:
@@ -109,16 +148,24 @@ def main() -> int:
     widths = data["WIDTHS"]
     # one entry per (image, authored hint): the largest drawn width over every page and language that uses it
     groups = collections.defaultdict(lambda: [0] * len(widths))
+    smallest = collections.defaultdict(lambda: [None] * len(widths))      # the narrowest context that uses the same hint
     for r in data["rows"]:
         key = (r["stem"], r["sizes"])
         for i, a in enumerate(r["widths"]):
             if a:
                 groups[key][i] = max(groups[key][i], a)
+                cur = smallest[key][i]
+                smallest[key][i] = a if cur is None else min(cur, a)
     overrides = {}
     for (stem, old), drawn in sorted(groups.items()):
-        new = propose(old, widths, [d or None for d in drawn])
-        if new:
-            overrides[f"{stem}|{old}"] = new
+        d = [x or None for x in drawn]
+        # Raising must not over-feed a context that draws the image smaller, so it follows the narrowest use of the hint.
+        raised = propose_raise(old, widths, smallest[(stem, old)]) if "--raise" in sys.argv else []
+        tightened = propose(old, widths, d)
+        if raised or tightened:
+            # raise rules cover ranges where the authored hint under-claims; tighten rules where it over-claims
+            body = tightened if tightened else old
+            overrides[f"{stem}|{old}"] = ", ".join(raised + [body])
     for key, new in overrides.items():
         print(f"{key.split('|')[0]:16} {key.split('|')[1]}\n{'':16} -> {new}")
     print(f"\n{len(overrides)} hints tightened of {len(groups)} (image, hint) pairs")
