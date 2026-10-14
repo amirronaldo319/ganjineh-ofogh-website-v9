@@ -22,7 +22,8 @@
   }
   watchImages();
   setTimeout(function () { $$('img[loading="lazy"]:not(.is-loaded)').forEach(function (i) { if (i.complete) i.classList.add('is-loaded'); }); }, 6000);
-  if (reduced) { return; }
+  // Reduced motion or lite mode (slow connection / Data Saver, decided in <head>): none of the decorative layers run.
+  if (reduced || root.dataset.lite) { return; }
 
   /* ───────── scroll progress hairline in the header ───────── */
   var header = $('#header');

@@ -1478,3 +1478,15 @@ html[lang="fa"] .day__step h3 { font-weight: 600; }
   .day__step:not(.is-on) h3 { color: var(--ink-2); }
 }
 @media (prefers-reduced-motion: reduce) { .day__img, .day__step { transition: none; } }
+
+/* phones: keep the hero light still (no animated full-screen layer) and skip the blur on specks, for smoother scrolling on weak GPUs */
+@media (max-width: 700px) { .hero::after, .phero::before { animation: none; } .motes i { filter: none; } }
+
+
+/* lite mode: slow connection or Data Saver. Same content and pictures; no decorative motion, no extra layers. */
+html[data-lite] { scroll-behavior: auto; }
+html[data-lite] *, html[data-lite] *::before, html[data-lite] *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+html[data-lite].js .rv { opacity: 1; transform: none; }
+html[data-lite].js .rv-img img { clip-path: none; transform: none; }
+html[data-lite] .hero::after, html[data-lite] .phero::before, html[data-lite] .stars, html[data-lite] .motes, html[data-lite] .hero__art::before { display: none; }
+html[data-lite] img[data-lqip] { animation: none; }

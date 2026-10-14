@@ -82,6 +82,12 @@ Added on top of layers I–II (all compositor-only; nothing runs under `prefers-
 
 On `/project.html`, a scroll-told story, "from morning to night": four moments (morning light in the living room, the kitchen and its island, the tower at golden hour, the bedroom). On wide screens an arch-shaped picture stays in view and changes with the step you are reading, with tabs to jump between moments; on phones each moment shows its own picture. Pictures and captions come only from the project's concept visualisations; every step stays fully readable (nothing is dimmed), and it works without animation.
 
+## Speed and lite mode
+
+Measured on a throttled phone profile (Lighthouse mobile, local server): performance 85–98 on the pages tested, accessibility / best practices / SEO 100, CLS 0, LCP 2.3–4.0 s (gallery slowest at ~715 KiB). A main-thread trace shows the remaining long tasks are the browser's own first layout of a large page, not decoration; `text-wrap` and the animation layers were each tested and are not the cause.
+
+**Lite mode** turns itself on for a slow connection (2G/3G) or Data Saver (`navigator.connection`): the same pictures and text with no decorative motion, glow, specks or extra layers, and the content shown at once. Nothing about image quality changes. It is decided in `<head>`, so it costs nothing on a fast connection. The biggest remaining speed gain is hosting inside Iran (`DEPLOY.md`), which no front-end change can match.
+
 ## Sharing, printing and share cards
 
 - **Share cards:** every page has its own 1200×630 card per language (`assets/og/<page>-<lang>.jpg`, drawn by `tools/build_og_pages.mjs`, which `build_site.py` runs and which redraws only what changed). A link pasted into WhatsApp, Telegram or X shows that page's picture and title.

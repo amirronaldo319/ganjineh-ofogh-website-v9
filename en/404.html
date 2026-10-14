@@ -26,7 +26,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://ganjinehofogh.ir/assets/img/og.jpg">
 <link rel="icon" href="/../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/../assets/css/site.min.css?v=ee30bad7">
+<link rel="stylesheet" href="/../assets/css/site.min.css?v=f4ac6ff3">
 
 <link rel="preload" href="/../assets/fonts/SourceSerif4-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>
@@ -44,6 +44,11 @@
       if (st === 'dusk' || st === 'day') theme = st; else if (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) theme = 'dusk';
     } catch (e) {}
     d.dataset.theme = theme;
+    // Slow connection or Data Saver: the same pictures and text, without the decorative motion (lite mode).
+    try {
+      var cn = navigator.connection;
+      if (cn && (cn.saveData || /(^|-)2g$|^3g$/.test(cn.effectiveType || ''))) d.dataset.lite = '1';
+    } catch (e) {}
     d.classList.remove('no-js'); d.classList.add('js');
     // First visit of the session, home page only: a short curtain intro (never under reduced motion or automation).
     try {
@@ -186,6 +191,6 @@
 </dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="/../assets/js/site.min.js?v=79be802c" defer></script>
-<script src="/../assets/js/motion.min.js?v=a674ddf8" defer></script>
+<script src="/../assets/js/motion.min.js?v=73e0f0e3" defer></script>
 </body>
 </html>
