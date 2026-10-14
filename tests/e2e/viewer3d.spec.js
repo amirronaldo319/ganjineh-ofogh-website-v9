@@ -58,6 +58,7 @@ test('gallery link from a room photo resolves to a real gallery image', async ({
 
 test.describe('tower viewer: time of day and apartment deep link', () => {
   test.skip(({ browserName }) => browserName !== 'chromium', 'headless WebKit WebGL is covered by the launch test only');
+  test.skip(!!process.env.NO_GPU, 'the tower viewer needs a real GPU; software WebGL on hosted CI is too slow');
 
   const ready = (page) => page.waitForFunction(() => document.querySelector('#status')?.classList.contains('gone'), null, { timeout: 80_000 });
 
@@ -102,6 +103,7 @@ test.describe('tower viewer: time of day and apartment deep link', () => {
 
 test('tower viewer: a shared link restores the named view and light, and "Copy link" builds one', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'clipboard permission is checked in Chromium');
+  test.skip(!!process.env.NO_GPU, 'the tower viewer needs a real GPU; software WebGL on hosted CI is too slow');
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));

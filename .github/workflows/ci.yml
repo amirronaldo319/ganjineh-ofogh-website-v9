@@ -25,6 +25,19 @@ jobs:
         run: python3 -m unittest discover -s tests -p "test_*.py"
       - name: Persian typography lint
         run: python3 tools/lint_persian.py
+
+  cloudflare:
+    # The Pages Functions backend against a local workerd; it needs a built preview and downloads wrangler.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Build the preview the functions are tested against
+        run: python3 tools/make_preview.py
       - name: Cloudflare functions
         run: node --test tests/cloudflare.test.mjs
 
@@ -45,6 +58,8 @@ jobs:
         run: npx playwright test --reporter=line
         env:
           PW_CHROME_ONLY: '1'
+          # hosted runners have no GPU; the tower viewer's own specs run locally (see tests/e2e/*viewer*)
+          NO_GPU: '1'
       - name: Keep traces of failures
         if: failure()
         uses: actions/upload-artifact@v4

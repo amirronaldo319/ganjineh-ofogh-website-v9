@@ -30,6 +30,7 @@ for (const v of VIEWERS) {
     });
 
     test(`${v.name} viewer · ${lang}: every control has a name, the canvas is described, Tab reaches the controls`, async ({ page }) => {
+      test.skip(v.name === 'tower' && !!process.env.NO_GPU, 'the tower viewer needs a real GPU; software WebGL on hosted CI is too slow');
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.goto(v.url(lang));
       await page.waitForSelector(v.ready, { state: 'attached', timeout: 60_000 });

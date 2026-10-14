@@ -44,6 +44,7 @@ test.describe('what the site says about what it does not know', () => {
   });
 
   test('the tower model labels its floor count and height as assumed', async ({ page }) => {
+    test.skip(!!process.env.NO_GPU, 'the tower viewer needs a real GPU; software WebGL on hosted CI is too slow');
     await page.goto('/tower-viewer/index.html?lang=en#nointro');
     await page.waitForFunction(() => document.querySelector('#status')?.classList.contains('gone'), null, { timeout: 80_000 });
     await expect(page.locator('body')).toContainText('(assumed)');
