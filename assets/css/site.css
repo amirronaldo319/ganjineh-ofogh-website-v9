@@ -564,9 +564,26 @@ html[lang="fa"] .info h3 { font-weight: 600; }
   .hero__art img { transform: scale(1.02) !important; }
 }
 @media print {
-  .header, .menu, .hero__scroll, .viewer, .toast, .lb { display: none !important; }
-  body { background: #fff; color: #000; }
+  /* Always print the day palette on white, whatever theme is on screen. */
+  :root, :root[data-theme="dusk"] { --bg: #fff; --bg-2: #fff; --surface: #fff; --ink: #1d2823; --ink-2: #46514b; --muted: #5a625c;
+    --accent: #1f3a31; --brass-ink: #7a5f38; --line: rgba(29, 40, 35, .22); --line-strong: rgba(29, 40, 35, .4); --shadow: none; color-scheme: light; }
+  .header, .menu, .hero__scroll, .viewer, .toast, .lb, .stickycta, .totop, .dots, .progress, .cursor, .curtain, .marquee,
+  .hero__art, .phero__art, .scrub__stars, .orn, .skip, .share, .tool, [data-sticky] { display: none !important; }
+  html, body { background: #fff !important; color: #000; }
+  * { animation: none !important; transition: none !important; box-shadow: none !important; text-shadow: none !important; }
+  /* scroll-reveal states must not leave content invisible on paper */
+  .js .rv, .rv, [data-reveal] { opacity: 1 !important; transform: none !important; clip-path: none !important; translate: none !important; }
   .scrub { height: auto; } .scrub__stick { position: static; height: auto; }
+  .section, .section--alt, .section--dark, .phero, .hero { background: #fff !important; color: #1d2823; padding-block: 8mm; min-height: 0 !important; }
+  .section, .card, .fact, figure, .frame { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
+  img { max-width: 100%; height: auto; }
+  .frame, .bleed, .arch { height: auto !important; aspect-ratio: auto; }
+  a[href^="http"]:not(.btn)::after { content: " (" attr(href) ")"; font-size: .8em; color: #5a625c; word-break: break-all; }
+  /* a selected chip is dark green on screen; on paper it is outlined so its text stays readable */
+  [aria-pressed="true"], [aria-selected="true"], .is-on { background: #fff !important; color: #000 !important; outline: 1.5pt solid #1f3a31; }
+  .gal { display: grid !important; grid-template-columns: repeat(2, 1fr); gap: 5mm; columns: auto !important; }
+  .gal figure { break-inside: avoid; margin: 0; }
 }
 
 /* ═════════════════════ V9 additions: multi-page components ═════════════════════ */
