@@ -133,8 +133,7 @@ test.describe('a day at home', () => {
 
   test('every moment has a caption in both languages and no unsupplied claim', async ({ page }) => {
     await page.goto('/project.html');
-    const fa = await page.locator('.day__step').allInnerTexts();
-    expect(fa.map((t) => t.split('\n').filter(Boolean)[0])).toEqual(['صبح', 'ظهر', 'غروب', 'شب']);
+    expect(await page.locator('.day__when').allInnerTexts()).toEqual(['صبح', 'ظهر', 'غروب', 'شب']);
     await page.goto('/en/project.html');
     const en = (await page.locator('.day__step h3').allInnerTexts());
     expect(en).toEqual(['Morning light in the living room', 'The kitchen and its central island', 'The tower at golden hour', 'The bedroom']);

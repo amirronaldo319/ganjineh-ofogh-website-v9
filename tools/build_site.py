@@ -27,29 +27,31 @@ HOST = (_CFG.get("host") or "https://ganjinehofogh.ir").rstrip("/")
 FA_DIGITS = str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
 
 # ───────────────────────── apartments (v25 areas; layout shape matched to the furnished 3D models) ─────────────────────────
+APT_DATA = json.loads((SRC / "apartments.json").read_text(encoding="utf-8"))
+AREAS = APT_DATA["areas"]
 APARTMENTS = [
-    dict(n=1, area="143.25", img="apt1", viewer=0, legacy="A",
+    dict(n=1, area=AREAS["1"], img="apt1", viewer=0, legacy="A",
          tag_fa="سه‌خوابه؛ پلانی کشیده با اتاق‌های خواب در یک ردیف",
          tag_en="Three bedrooms; a long plan with the bedrooms in a row",
          pts=[("فضای روز", "Day zone", "نشیمن، غذاخوری و پیشخوان آشپزخانه در یک فضای کشیده.", "Living, dining and the kitchen counter in one long space."),
               ("اتاق‌های خواب", "Bedrooms", "سه اتاق خواب کنار هم، در یک سمت پلان.", "Three bedrooms side by side along one edge of the plan."),
               ("تراس", "Terrace", "یک تراس کوچک در گوشه‌ی دور پلان.", "A small terrace at the far corner of the plan.")],
          shape_fa="کشیده، خطی", shape_en="Long, linear"),
-    dict(n=2, area="150", img="apt2", viewer=1, legacy="D",
+    dict(n=2, area=AREAS["2"], img="apt2", viewer=1, legacy="D",
          tag_fa="سه‌خوابه؛ پلان ال‌شکل با جزیره‌ی مرکزی آشپزخانه",
          tag_en="Three bedrooms; an L-shaped plan with a central kitchen island",
          pts=[("فضای روز", "Day zone", "آشپزخانه با جزیره‌ی مرکزی و میز غذاخوری بلند.", "A kitchen with a central island and a long dining table."),
               ("نشیمن", "Living", "نشیمن در گوشه‌ی پلان ال‌شکل.", "The living room sits at the corner of the L."),
               ("اتاق‌های خواب", "Bedrooms", "سه اتاق خواب در بخش بالایی و کناره‌ی پلان.", "Three bedrooms along the upper part and the side of the plan.")],
          shape_fa="ال‌شکل", shape_en="L-shaped"),
-    dict(n=3, area="166", img="apt3", viewer=3, legacy="C",
+    dict(n=3, area=AREAS["3"], img="apt3", viewer=3, legacy="C",
          tag_fa="سه‌خوابه؛ سه اتاق خواب در یک لبه و محور بلند آشپزخانه و ناهارخوری",
          tag_en="Three bedrooms along one edge, with a long kitchen-and-dining spine",
          pts=[("اتاق‌های خواب", "Bedrooms", "سه اتاق خواب روی هم در لبه‌ی چپ پلان.", "Three bedrooms stacked along the left edge of the plan."),
               ("فضای روز", "Day zone", "آشپزخانه و ناهارخوری در یک محور بلند.", "Kitchen and dining along one long spine."),
               ("نشیمن", "Living", "فضای نشیمن در بخش بالایی پلان.", "The living area at the top of the plan.")],
          shape_fa="بلند، عمودی", shape_en="Tall, vertical"),
-    dict(n=4, area="162", img="apt4", viewer=2, legacy="B",
+    dict(n=4, area=AREAS["4"], img="apt4", viewer=2, legacy="B",
          tag_fa="سه‌خوابه؛ پلان فشرده با تفکیک فضای خصوصی و روز",
          tag_en="Three bedrooms; a compact plan separating private and day zones",
          pts=[("اتاق‌های خواب", "Bedrooms", "دو اتاق خواب در بالا و سومی کنار نشیمن.", "Two bedrooms at the top and a third beside the living room."),
@@ -197,10 +199,32 @@ def qr_block(n):
             f'<span dir="ltr">{HOST.replace("https://", "")}/residence-{n}.html</span></div>')
 
 
+def fill_areas(html):
+    """{{area:N}} -> 143.25 ; {{area_fa:N}} -> ۱۴۳٫۲۵ ; {{area_basis_fa}} / {{area_basis_en}} ; {{area_min}} / {{area_max}} (and _fa)."""
+    vals = sorted(float(v) for v in AREAS.values())
+    fmt = lambda x: ("%g" % x)
+    html = re.sub(r"\{\{area:(\d)\}\}", lambda m: AREAS[m.group(1)], html)
+    html = re.sub(r"\{\{area_fa:(\d)\}\}", lambda m: AREAS[m.group(1)].translate(FA_DIGITS).replace(".", "٫"), html)
+    for key, val in (("area_min", fmt(vals[0])), ("area_max", fmt(vals[-1]))):
+        html = html.replace("{{%s}}" % key, val).replace("{{%s_fa}}" % key, val.translate(FA_DIGITS).replace(".", "٫"))
+    return html.replace("{{area_basis_fa}}", APT_DATA["basis_fa"]).replace("{{area_basis_en}}", esc(APT_DATA["basis_en"]))
+
+
+def sync_static_areas():
+    """Scripts that are not built from templates but show areas: keep their copy of the figures in step."""
+    p = ROOT / "residences-3d" / "app.js"
+    s = p.read_text(encoding="utf-8")
+    new = "const AREAS=[" + ",".join(f"'{AREAS[k]}'" for k in "1234") + "];"
+    s2 = re.sub(r"const AREAS=\[[^\]]*\];", new, s, count=1)
+    if s2 != s:
+        p.write_text(s2, encoding="utf-8")
+
+
 def expand_components(html):
     html = re.sub(r"\{\{qr:(\d+)\}\}", lambda m: qr_block(m.group(1)), html)
     html = re.sub(r"\{\{next:([^}]+)\}\}", lambda m: next_cta(m.group(1)), html)
-    return re.sub(r"\{\{(\w+)\}\}", lambda m: COMPONENTS[m.group(1)]() if m.group(1) in COMPONENTS else m.group(0), html)
+    html = re.sub(r"\{\{(\w+)\}\}", lambda m: COMPONENTS[m.group(1)]() if m.group(1) in COMPONENTS else m.group(0), html)
+    return fill_areas(html)
 
 
 # ───────────────────────── site configuration (contact channels, analytics) ─────────────────────────
@@ -276,7 +300,7 @@ def compare_tool():
     <tbody><tr><th scope="row" class="cmp__blank" en="Plan">پلان</th>{pic}</tr>{body}
     <tr><th scope="row" class="cmp__blank" en="Details">جزئیات</th>{"".join(f'<td data-apt="{a["n"]}"><a href="residence-{a["n"]}.html" en="View Apartment {a["n"]} →">مشاهده‌ی واحد {a["n_fa"]} ←</a></td>' for a in APARTMENTS)}</tr></tbody>
   </table></div>
-  <p class="fine" en="Areas as supplied. Orientation, views and availability of each residence are not yet part of the supplied information; ask the sales team.">مساحت‌ها بر پایه‌ی اطلاعات ارائه‌شده است. جهت‌گیری، چشم‌انداز و موجودی هر واحد هنوز جزو اطلاعات ارائه‌شده نیست؛ از تیم فروش بپرسید.</p>
+  <p class="fine" en="Areas as supplied. {{area_basis_en}} Orientation, views and availability of each residence are not yet part of the supplied information; ask the sales team.">مساحت‌ها بر پایه‌ی اطلاعات ارائه‌شده است. {{area_basis_fa}} جهت‌گیری، چشم‌انداز و موجودی هر واحد هنوز جزو اطلاعات ارائه‌شده نیست؛ از تیم فروش بپرسید.</p>
 </div>'''
 
 
@@ -317,6 +341,19 @@ def faq_jsonld(lang):
     return '<script type="application/ld+json">' + json.dumps(d, ensure_ascii=False, separators=(",", ":")) + "</script>"
 
 
+def not_published():
+    """A plain list of what buyers will ask for and the site does not have yet, with the way to get it."""
+    items = [("Availability of each residence", "موجودی هر واحد"), ("Delivery date", "زمان تحویل"),
+             ("Parking and storage allocation", "تخصیص پارکینگ و انباری"), ("Orientation and views of each residence", "جهت‌گیری و چشم‌انداز هر واحد"),
+             ("Price and payment terms", "قیمت و شرایط پرداخت"), ("Dimensioned plans with approved room sizes", "پلان‌های اندازه‌دار با ابعاد مصوب اتاق‌ها")]
+    lis = "".join(f'<li en="{en}">{fa}</li>' for en, fa in items)
+    return (f'''<section class="section section--tight np" aria-labelledby="np-title"><div class="wrap">
+  <h2 class="h3" id="np-title" en="Not yet published">هنوز منتشر نشده</h2>
+  <ul class="np__list">{lis}</ul>
+  <p class="fine" en="These are not part of the supplied information, so they are not estimated here. <a class='text-link' href='contact.html?intent=consult#appointment'>Ask the sales team</a> and you will be told what is confirmed.">این موارد جزو اطلاعات ارائه‌شده نیست و به همین دلیل اینجا برآورد نشده است. از تیم فروش بپرسید تا آنچه تأیید شده است به شما گفته شود. <a class="text-link" href="contact.html?intent=consult#appointment" en="Ask the sales team">پرسش از تیم فروش</a></p>
+</div></section>''')
+
+
 def response_when():
     """'Expected reply' line for the thank-you page, only when the sales team has set a promise it can keep."""
     fa, en = CFG.get("response_time_fa", "").strip(), CFG.get("response_time_en", "").strip()
@@ -350,6 +387,7 @@ COMPONENTS["preview_hint"] = preview_hint
 COMPONENTS["preview_notice"] = preview_notice
 COMPONENTS["response_when"] = response_when
 COMPONENTS["share"] = share
+COMPONENTS["not_published"] = not_published
 COMPONENTS["faq"] = faq
 COMPONENTS["compare_tool"] = compare_tool
 COMPONENTS["channels"] = channels
@@ -404,6 +442,7 @@ def build_assets():
 
 
 # ───────────────────────── image + attribute expansion ─────────────────────────
+IMAGE_KINDS = {'hero': 'render-heli', 'helipad': 'render-heli', 'aerial': 'render-heli', 'panorama': 'render', 'facade': 'render', 'plaza': 'render', 'entrance': 'render', 'garden': 'render', 'terrace': 'render', 'villa': 'render', 'studio': 'render', 'tower-day': 'render', 'tower-dusk': 'render', 'interior-view': 'interior', 'interior-shelf': 'interior', 'lobby': 'interior', 'hall': 'interior', 'cinema': 'interior', 'fitness': 'interior', 'cafe': 'interior', 'lounge': 'interior', 'living': 'interior', 'kitchen': 'interior', 'kitchen-detail': 'interior', 'bedroom': 'interior', 'wardrobe': 'interior', 'bath': 'interior', 'study': 'interior', 'plan': 'plan', 'apt1': 'plan', 'apt2': 'plan', 'apt3': 'plan', 'apt4': 'plan', 'model-view': 'model', 'model-render': 'model', 'model-section': 'model', 'model-floor': 'model', 'model-shared': 'model', 'model-parking': 'model', 'site-diagram': 'diagram'}
 TAG = re.compile(r"<img\b([^>]*?)\bdata-img=\"([\w-]+)\"([^>]*?)/?>", re.S)
 
 
@@ -423,6 +462,8 @@ def expand_img(m):
              f'style="background-color:{info["color"]}' + (f';background-image:url({info["lqip"]});background-size:cover' if info.get("lqip") else "") + '"']
     if info.get("lqip"):
         parts.append("data-lqip")
+    if name in IMAGE_KINDS:
+        parts.append(f'data-kind="{IMAGE_KINDS[name]}"')
     if "alt=" not in attrs:
         parts.append('alt=""')
     img = "<img " + " ".join(parts) + (" " + attrs if attrs else "") + ">"
@@ -594,6 +635,7 @@ def build_page(meta, body, out_name, lang):
 
 
 def main():
+    sync_static_areas()
     ensure_qr()
     minified = build_assets()
     built = []

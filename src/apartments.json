@@ -1,0 +1,17 @@
+{
+  "_help": "The apartment areas, in ONE place. Change a value here, run python3 tools/build_site.py, and the pages, compare tool, contact and brochure lists, FAQ, print sheets, share cards and the 3D viewer's labels all follow. tests/test_areas.py fails if any surface still shows an old figure.",
+  "areas": {
+    "1": "143.25",
+    "2": "150",
+    "3": "166",
+    "4": "162"
+  },
+  "site": {
+    "land": "2064",
+    "landscaped": "1400",
+    "shared": "700"
+  },
+  "basis_fa": "نحوه‌ی اندازه‌گیری مساحت (خالص یا ناخالص، با یا بدون بالکن و تراس) هنوز تأیید نشده است.",
+  "basis_en": "How the area is measured (net or gross, with or without balconies and terraces) has not yet been confirmed.",
+  "_help_basis": "Replace with the confirmed basis once the project team states what each area includes."
+}

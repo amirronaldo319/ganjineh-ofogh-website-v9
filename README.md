@@ -88,6 +88,17 @@ Measured on a throttled phone profile (Lighthouse mobile, local server): perform
 
 **Lite mode** turns itself on for a slow connection (2G/3G) or Data Saver (`navigator.connection`): the same pictures and text with no decorative motion, glow, specks or extra layers, and the content shown at once. Nothing about image quality changes. It is decided in `<head>`, so it costs nothing on a fast connection. The biggest remaining speed gain is hosting inside Iran (`DEPLOY.md`), which no front-end change can match.
 
+## One source for the apartment areas
+
+`src/apartments.json` holds the four areas (and what an area includes: the basis is stated as "not yet confirmed" until the team says otherwise). Change a value there, run `python3 tools/build_site.py`, and the residence pages, compare tool, contact and brochure lists, FAQ, plan explorer, share cards, social cards, print sheets and the 3D viewer's labels all follow. `tests/test_areas.py` fails if any surface still shows an old figure (it was tried: change one value, and the stale build is caught).
+
+## Saying what is and is not known
+
+- Every picture carries a small label of its kind: *Concept render*, *Illustrative interior*, *Concept cut-away, not to scale*, *Concept model study*, *Concept diagram*; the pictures that show the roof say *the helipad is not a permit*.
+- Residence and residences pages list what is **not yet published** (availability, delivery date, parking and storage, orientation and views, price and payment terms, dimensioned plans) and how to ask.
+- Each residence page says the area basis is unconfirmed, that a dimensioned plan will follow approved drawings, and that the furnished model was matched to the apartment by plan shape and is being confirmed.
+- The tower model's floor count and height are marked *(assumed)*; the developer page no longer claims a "documented record" beyond the list it shows.
+
 ## Sharing, printing and share cards
 
 - **Share cards:** every page has its own 1200×630 card per language (`assets/og/<page>-<lang>.jpg`, drawn by `tools/build_og_pages.mjs`, which `build_site.py` runs and which redraws only what changed). A link pasted into WhatsApp, Telegram or X shows that page's picture and title.

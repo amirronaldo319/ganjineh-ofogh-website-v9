@@ -45,3 +45,16 @@ A request that is stored and never answered is still a failed journey, so do not
 3. Put it on the server: `var/brochure.pdf` (or `GO_BROCHURE_PDF`); on Cloudflare `setup.sh --brochure …`.
 4. Test the whole journey on the production system: brochure page → name and number → confirmation page → **Download** → open the PDF → see "downloaded" in `/admin`.
 5. Only then set `"mode": "live"` and rebuild.
+
+## Facts the buyer will test (second review)
+
+| What | Status | Next |
+|---|---|---|
+| Conflicting areas (Apartments 2, 3, 4 differ between the brochure and the plan photo) | **Site is ready for one correction**: edit `src/apartments.json`, rebuild; every surface follows and a test guards it. The basis of measurement is shown as "not yet confirmed". | Team states the right values and what each includes (net/gross, balconies, terraces). |
+| Apartment-to-model mapping (1→A, 2→D, 3→C, 4→B by plan shape) | Each apartment page now says the match is being confirmed. | Architect confirms or corrects; then the notice can be removed. |
+| Floor count and heights | Marked *(assumed)* in the tower model, in the FAQ and on the home page. | Approved sections/elevations. |
+| Helipad | Every picture that shows it says it is not a permit. | Written status of the roof use. |
+| Dimensioned plans | Each apartment page says they will be added once approved. | Approved plans with room sizes, orientation, balcony boundaries. |
+| Availability, delivery, parking/storage, views, terms | Listed as "not yet published", with how to ask. Nothing is estimated. | Verified details, then they replace the list. |
+| Developer evidence | Wording no longer claims a "documented record"; the page says details will be added project by project. | Named projects, completion dates, the group's role, photographs. |
+| Image labels | Done: every picture is labelled by kind (see README). | Add "construction photograph" labels when such photos exist. |

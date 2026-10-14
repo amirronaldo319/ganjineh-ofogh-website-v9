@@ -3,7 +3,7 @@
 Every Persian sentence on the site with its English twin. Change the Persian column; mark changes in the margin or return a copy of this file.
 Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹) and consistency of terms (واحد, طبقه‌ی تیپ, مساحت). Figures marked «ارائه‌شده» are supplied figures awaiting approval: do not remove that wording.
 
-598 unique rows.
+595 unique rows.
 
 ## Page: 404
 
@@ -36,7 +36,7 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | پلان واحد | Residence plan |
 | پلان واحد | Apartment plan |
 | برش مفهومی و بدون مقیاس. برای بزرگ‌نمایی، روی تصویر بزنید. | Concept cut-away; not to scale. Select the image to enlarge it. |
-| چیدمان مفهومی و بدون مقیاس. مساحت بر پایه‌ی اطلاعات ارائه‌شده است؛ ابعاد و چیدمان تابع نقشه‌های مصوب است. | Concept layout, not to scale. Area as supplied; dimensions and layout remain subject to approved drawings. |
+| چیدمان مفهومی و بدون مقیاس. مساحت بر پایه‌ی اطلاعات ارائه‌شده است؛ ابعاد و چیدمان تابع نقشه‌های مصوب است. پلان اندازه‌دار با ابعاد اتاق‌ها، جهت‌گیری و حدود بالکن‌ها پس از دریافت نقشه‌های مصوب افزوده می‌شود. | Concept layout, not to scale. Area as supplied; dimensions and layout remain subject to approved drawings. A dimensioned plan with room sizes, orientation and balcony boundaries will be added once approved drawings are supplied. |
 | نگاه کلی | Overview |
 | سازمان‌دهی روشن، حریم دقیق | A clear plan, precise privacy. |
 | توصیف‌ها از روی برش مفهومی نوشته شده است؛ ابعاد، جانمایی و جزئیات نهایی تابع نقشه‌ی مصوب است. | Descriptions are read from the concept cut-away; final dimensions, layout and details follow the approved plan. |
@@ -45,7 +45,7 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | مدل را بچرخانید، بزرگ‌نمایی کنید و فضاها را برگزینید، یا در سطح چشم قدم بزنید. | Rotate, zoom and select rooms, or walk through at eye level. |
 | نمایش مدل سه‌بعدی | Show the 3D model |
 | حدود ۲ مگابایت؛ فقط با انتخاب شما بارگذاری می‌شود | About 2 MB · loads only when you choose |
-| مدل مفهومی است؛ مبلمان و تقسیم اتاق‌ها نمایشی است. | A concept model; furniture and room divisions are illustrative. |
+| مدل مفهومی است؛ مبلمان و تقسیم اتاق‌ها نمایشی است. مدل مبله بر پایه‌ی شکل پلان با این واحد تطبیق داده شده و این تطبیق با نقشه‌های مصوب تأیید خواهد شد. | A concept model; furniture and room divisions are illustrative. The furnished model was matched to this apartment by the shape of its plan, and the match is being confirmed against approved drawings. |
 | ببینید واحد در طبقه‌ی تیپ برج کجاست | See where Apartment sits on the typical floor of the tower |
 | مرجع فضای داخلی | Interior reference |
 | حال‌وهوای فضای داخلی | The feel of the interiors. |
@@ -115,10 +115,10 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | شماره موبایل | Mobile number |
 | واحد موردنظر (اختیاری) | Residence of interest (optional) |
 | هنوز مشخص نیست | Not decided yet |
-| واحد ۱ · ۱۴۳٫۲۵ متر مربع | Apartment 1 · 143.25 m² |
-| واحد ۲ · ۱۵۰ متر مربع | Apartment 2 · 150 m² |
-| واحد ۳ · ۱۶۶ متر مربع | Apartment 3 · 166 m² |
-| واحد ۴ · ۱۶۲ متر مربع | Apartment 4 · 162 m² |
+| واحد ۱ · متر مربع | Apartment 1 · m² |
+| واحد ۲ · متر مربع | Apartment 2 · m² |
+| واحد ۳ · متر مربع | Apartment 3 · m² |
+| واحد ۴ · متر مربع | Apartment 4 · m² |
 | حریم خصوصی | Privacy |
 | دریافت بروشور | Get the brochure |
 | نام و شماره‌ی خود را می‌فرستید. فقط همین را می‌پرسیم. | You send your name and number. That is all we ask for. |
@@ -177,12 +177,13 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | گروه افق | Ofogh Group |
 | معرفی گروه | Developer |
 | تجربه‌ای ساخته‌شده در طول زمان | Experience built over time. |
-| گروه افق با سابقه‌ای مستند در پروژه‌های مسکونی و شاخص، مسیر خود را از ساخت‌وساز شهری تا پروژه‌های بین‌المللی ادامه داده است. | Ofogh Group has continued from urban construction to international projects, with a documented record in residential and landmark work. |
+| گروه افق از ساخت‌وساز شهری تا پروژه‌های بین‌المللی ادامه داده است. گزیده‌ای از سوابق آن در زیر آمده و جزئیات هر پروژه با دریافت مدارک افزوده می‌شود. | Ofogh Group has continued from urban construction to international projects. A selection of its record is below; details of each project will be added as documents are supplied. |
 | سوابق ساخت‌وساز | Construction experience |
 | سابقه‌ای که در دهه‌ها ساخته شده | A record built over decades. |
 | پروژه‌هایی منتخب در ایران و کانادا، از سال ۱۳۵۰ شمسی تا امروز. | Selected projects in Iran and Canada, from 1350 SH to today. |
 | سال‌ها هجری شمسی است (برای سال میلادی ۶۲۱ سال اضافه کنید). | Years are Solar Hijri (add 621 for the Gregorian year). |
 | سوابق معرفی‌شده نیازمند تأیید مستند است؛ تصویر مفهومی است و عکس پروژه‌ی اجراشده نیست. | Supplied history requires documentary confirmation. The image is illustrative architecture, not a project record photograph. |
+| این فهرست گزیده‌ای از سوابق خود گروه است. تاریخ تحویل، نقش گروه در هر پروژه و عکس‌ها، پروژه‌به‌پروژه با دریافت مدارک افزوده می‌شود. | This list is a selection from the group's own record. Completion dates, the group's role in each project and photographs will be added project by project as documents are supplied. |
 | ویلایی نمادین از سنگ و چوب با استخر در غروب. | An illustrative villa of stone and timber with a pool at sunset. |
 
 ## Page: faq
@@ -321,7 +322,7 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | نشانی پروژه | Project address |
 | تهران، ازگل، خیابان گلشن شرقی، تقاطع پروین، ابتدای خیابان پروین، پلاک ۶ | No. 6, at the start of Parvin Street, Golshan Sharghi / Parvin intersection, Ozgol, Tehran. |
 | موقعیت و محله | Location and neighbourhood |
-| ساخته‌شده توسط گروهی با سابقه‌ای مستند | Built by a group with a documented record. |
+| گروه افق؛ سوابقی از ۱۳۵۰ شمسی تا امروز | Ofogh Group: a record from 1350 SH to today. |
 | از ساخت‌وساز شهری تا پروژه‌های بین‌المللی؛ گزیده‌ای از سوابق از سال ۱۳۵۰ شمسی تا امروز. | From urban construction to international projects, selected work from 1350 SH to today. |
 | آشنایی با گروه افق | Meet Ofogh Group |
 | نمای هوایی برج گنجینه افق در غروب؛ با هلی‌پد بام و رشته‌کوه البرز در پس‌زمینه. | Aerial view of the Ganjineh Ofogh tower at golden hour, with the rooftop helipad and the Alborz mountains behind. |
@@ -522,10 +523,6 @@ Check tone, grammar, half-spaces (می‌شود, خانه‌ی), numerals (۰-۹
 | واحد ۳ | Apartment 3 |
 | واحد ۴ | Apartment 4 |
 | مساحت (ارائه‌شده) | Area (as supplied) |
-| ۱۴۳٫۲۵ متر مربع | 143.25 m² |
-| ۱۵۰ متر مربع | 150 m² |
-| ۱۶۶ متر مربع | 166 m² |
-| ۱۶۲ متر مربع | 162 m² |
 | شکل پلان | Plan shape |
 | کشیده، خطی | Long, linear |
 | ال‌شکل | L-shaped |

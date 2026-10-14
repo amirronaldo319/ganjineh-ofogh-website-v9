@@ -78,8 +78,8 @@
       "How many apartments are on a floor, and how large are they?"
      ],
      "a": [
-      "در هر طبقه‌ی تیپ چهار واحد سه‌خوابه هست: ۱۴۳٫۲۵، ۱۵۰، ۱۶۶ و ۱۶۲ متر مربع (به‌ترتیب واحد ۱ تا ۴). مساحت‌ها بر پایه‌ی اطلاعات ارائه‌شده است.",
-      "Each typical floor has four three-bedroom apartments of 143.25, 150, 166 and 162 m² (Apartments 1 to 4). The areas are as supplied."
+      "در هر طبقه‌ی تیپ چهار واحد سه‌خوابه هست: {{area_fa:1}}، {{area_fa:2}}، {{area_fa:3}} و {{area_fa:4}} متر مربع (به‌ترتیب واحد ۱ تا ۴). مساحت‌ها بر پایه‌ی اطلاعات ارائه‌شده است.",
+      "Each typical floor has four three-bedroom apartments of {{area:1}}, {{area:2}}, {{area:3}} and {{area:4}} m² (Apartments 1 to 4). The areas are as supplied."
      ],
      "link": [
       "compare.html",

@@ -1500,3 +1500,17 @@ html[data-lite] img[data-lqip] { animation: none; }
 .preview-note b { display: block; margin-block-end: .3rem; color: var(--brass-ink); }
 .preview-note p { margin: 0 0 .6rem; font-size: .95rem; }
 .preview-note .channels { margin-block-start: .8rem; }
+
+
+/* image-level labels: what kind of picture this is, on the picture itself */
+.kind { position: absolute; inset-inline-start: 8px; inset-block-end: 8px; z-index: 4; max-width: calc(100% - 16px); padding: .18rem .55rem; font-size: .68rem; line-height: 1.4;
+  letter-spacing: .02em; color: #f3efe3; background: rgba(15, 26, 22, .66); border-radius: 2px; pointer-events: none; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+html[lang="fa"] .kind { font-size: .74rem; letter-spacing: 0; }
+.kind[data-kind-label="render-heli"] { background: rgba(122, 95, 56, .86); }
+@media (max-width: 560px) { .apt-card .kind, .gal .kind { font-size: .62rem; padding: .12rem .4rem; } }
+@media print { .kind { display: none; } }
+
+/* what is not published yet */
+.np__list { list-style: none; margin: .8rem 0 1rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .5rem 1.5rem; }
+.np__list li { padding-block: .5rem; border-block-end: 1px solid var(--line); display: flex; gap: .7rem; align-items: baseline; }
+.np__list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; border: 1px solid var(--brass); flex: none; translate: 0 -1px; }

@@ -235,6 +235,7 @@
       3: { area: '166', file: 'apt3', w: 1004, h: 1206, ws: [1004, 700] },
       4: { area: '162', file: 'apt4', w: 930, h: 1246, ws: [930, 700] }
     };
+    $$('.aptbtn').forEach(function (b) { var a = APTS[b.getAttribute('data-apt')]; if (a && b.getAttribute('data-area')) a.area = b.getAttribute('data-area'); });
     var curApt = 1;
     var paintApt = function (animate) {
       var a = APTS[curApt], fa = state.lang === 'fa';
@@ -482,5 +483,26 @@
     fetch(api('status'), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
       if (d && d.acceptingEnquiries) notes.forEach(function (n) { n.hidden = true; });
     }).catch(function () {});
+  })();
+  /* ───────── every picture says what kind of picture it is ───────── */
+  (function () {
+    var T = {
+      'render-heli': ['تصویرسازی مفهومی؛ هلی‌پد، تأیید مجوز نیست', 'Concept render; the helipad is not a permit'],
+      render: ['تصویرسازی مفهومی', 'Concept render'],
+      interior: ['نمونه‌ی داخلی نمایشی', 'Illustrative interior'],
+      plan: ['برش مفهومی، بدون مقیاس', 'Concept cut-away, not to scale'],
+      model: ['مطالعه‌ی مدل مفهومی', 'Concept model study'],
+      diagram: ['نمودار مفهومی', 'Concept diagram']
+    };
+    var HOSTS = '.frame, .arch, .bleed, figure, .viewer__poster, .cmp-pic, .day__inline, .res3d';
+    $$('img[data-kind]').forEach(function (img) {
+      if (img.closest('.sheet, dialog, .lb, .share')) return;
+      var host = img.closest(HOSTS), kind = img.getAttribute('data-kind');
+      if (!host || !T[kind] || host.querySelector(':scope > .kind')) return;
+      var tag = document.createElement('span');
+      tag.className = 'kind'; tag.setAttribute('data-kind-label', kind);
+      tag.textContent = T[kind][state.lang === 'fa' ? 0 : 1];
+      host.appendChild(tag);
+    });
   })();
 })();

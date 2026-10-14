@@ -12,10 +12,10 @@
   </div>
   <div class="rv" style="--d:.1s">
     <div class="aptlist" role="group" aria-label="واحدها" en-aria-label="Apartments">
-      <button class="aptbtn" type="button" data-apt="1" aria-pressed="true"><small en="Apartment 1">واحد ۱</small><strong en="143.25 <em>m²</em>">۱۴۳٫۲۵ <em>متر مربع</em></strong></button>
-      <button class="aptbtn" type="button" data-apt="2" aria-pressed="false"><small en="Apartment 2">واحد ۲</small><strong en="150 <em>m²</em>">۱۵۰ <em>متر مربع</em></strong></button>
-      <button class="aptbtn" type="button" data-apt="3" aria-pressed="false"><small en="Apartment 3">واحد ۳</small><strong en="166 <em>m²</em>">۱۶۶ <em>متر مربع</em></strong></button>
-      <button class="aptbtn" type="button" data-apt="4" aria-pressed="false"><small en="Apartment 4">واحد ۴</small><strong en="162 <em>m²</em>">۱۶۲ <em>متر مربع</em></strong></button>
+      <button class="aptbtn" type="button" data-apt="1" data-area="{{area:1}}" aria-pressed="true"><small en="Apartment 1">واحد ۱</small><strong en="{{area:1}} <em>m²</em>">{{area_fa:1}} <em>متر مربع</em></strong></button>
+      <button class="aptbtn" type="button" data-apt="2" data-area="{{area:2}}" aria-pressed="false"><small en="Apartment 2">واحد ۲</small><strong en="{{area:2}} <em>m²</em>">{{area_fa:2}} <em>متر مربع</em></strong></button>
+      <button class="aptbtn" type="button" data-apt="3" data-area="{{area:3}}" aria-pressed="false"><small en="Apartment 3">واحد ۳</small><strong en="{{area:3}} <em>m²</em>">{{area_fa:3}} <em>متر مربع</em></strong></button>
+      <button class="aptbtn" type="button" data-apt="4" data-area="{{area:4}}" aria-pressed="false"><small en="Apartment 4">واحد ۴</small><strong en="{{area:4}} <em>m²</em>">{{area_fa:4}} <em>متر مربع</em></strong></button>
     </div>
     <div class="aptview">
       <div class="frame" data-zoom id="apt-frame">
@@ -23,7 +23,7 @@
       </div>
       <div class="aptmeta">
         <h3 id="apt-name" en="Apartment 1 · Three bedrooms">واحد ۱ · سه‌خوابه</h3>
-        <span class="area num" id="apt-area" en="143.25<small>m²</small>">۱۴۳٫۲۵<small>متر مربع</small></span>
+        <span class="area num" id="apt-area" en="{{area:1}}<small>m²</small>">{{area_fa:1}}<small>متر مربع</small></span>
       </div>
       <p class="fine" style="margin-block-start:.8rem" en="Concept layout, not to scale. Area as supplied.">چیدمان مفهومی و بدون مقیاس. مساحت بر پایه‌ی اطلاعات ارائه‌شده است.</p>
       <a class="link-arrow" id="apt-more" href="residence-1.html" style="margin-block-start:1rem"><span en="Plan and details">پلان و جزئیات</span><svg class="flip" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>

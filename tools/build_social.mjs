@@ -14,6 +14,9 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('@playwright/test');
 const HOST = (JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'site.config.json'), 'utf8')).host || 'https://ganjinehofogh.ir').replace(/\/$/, '');
 const DOMAIN = HOST.replace(/^https?:\/\//, '');
+const AREAS = Object.values(JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'apartments.json'), 'utf8')).areas).map(Number);
+const AMIN = Math.min(...AREAS), AMAX = Math.max(...AREAS);
+const faNum = (n) => String(n).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]).replace('.', '٫');
 
 const FORMATS = { square: [1080, 1080], story: [1080, 1920], wide: [1280, 720] };
 // image = a file in assets/img; position tunes the crop (CSS object-position)
@@ -21,7 +24,7 @@ const CARDS = [
   { id: 'brand', image: 'hero-2200.webp', pos: '50% 30%',
     fa: ['تهران / ازگل', 'گنجینه افق', 'نور روز و زندگی روشن‌تر.'], en: ['Tehran / Ozgol', 'Ganjineh Ofogh', 'Daylight, and a brighter way to live.'] },
   { id: 'residences', image: 'living-1536.webp', pos: '50% 50%',
-    fa: ['واحدها', 'چهار واحد سه‌خوابه', 'در هر طبقه‌ی تیپ؛ از ۱۴۳٫۲۵ تا ۱۶۶ متر مربع*'], en: ['Residences', 'Four three-bedroom residences', 'On every typical floor; 143.25 to 166 m²*'] },
+    fa: ['واحدها', 'چهار واحد سه‌خوابه', `در هر طبقه‌ی تیپ؛ از ${faNum(AMIN)} تا ${faNum(AMAX)} متر مربع*`], en: ['Residences', 'Four three-bedroom residences', `On every typical floor; ${AMIN} to ${AMAX} m²*`] },
   { id: 'philosophy', image: 'panorama-1536.webp', pos: '50% 50%',
     fa: ['رویکرد طراحی', 'نور، آرامش، پیوند', 'برج گنجینه افق، ازگل تهران'], en: ['Design approach', 'Light, calm, connection', 'Ganjineh Ofogh, Ozgol, Tehran'] },
   { id: 'model3d', image: 'tower-dusk-1024.webp', pos: '50% 35%',
