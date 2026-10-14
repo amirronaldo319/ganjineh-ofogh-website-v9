@@ -1396,11 +1396,30 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
   renderer.domElement.addEventListener('webglcontextlost', function (e) { e.preventDefault(); ctxLost = true; toast(t('lost'), 6000); announce(t('lost')); }, false);
   renderer.domElement.addEventListener('webglcontextrestored', function () { ctxLost = false; try { updateEnv(); } catch (e) {} toast(t('restored'), 2500); announce(t('restored')); }, false);
 
+  // Draw on demand. Everything that can change the picture is either a running animation (tweens, intro, tour, auto-rotate,
+  // damping) or follows an input/message/asset event, so while none of those has happened for a moment the last frame
+  // is already the right one and re-rendering it 60 times a second only burns battery. A slow refresh remains as a net.
+  var IDLE_GRACE = 1200, IDLE_REFRESH = 500, wakeUntil = performance.now() + 4000, lastDraw = 0;
+  function wake(ms) { var t = performance.now() + (ms || IDLE_GRACE); if (t > wakeUntil) wakeUntil = t; }
+  ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'wheel', 'keydown', 'keyup', 'touchstart', 'touchmove', 'touchend',
+   'click', 'input', 'change', 'focusin', 'resize', 'message', 'visibilitychange', 'fullscreenchange', 'transitionend', 'animationend']
+    .forEach(function (type) { window.addEventListener(type, function () { wake(); }, { capture: true, passive: true }); });
+  controls.addEventListener('change', function () { wake(); });
+  (function () {
+    var m = THREE.DefaultLoadingManager, prev = { p: m.onProgress, l: m.onLoad };
+    m.onProgress = function () { wake(); if (prev.p) prev.p.apply(this, arguments); };
+    m.onLoad = function () { wake(); if (prev.l) prev.l.apply(this, arguments); };
+  })();
+  renderer.domElement.addEventListener('webglcontextrestored', function () { wake(4000); }, false);
+
   var frames = 0, acc = 0, last = performance.now();
   function loop() {
     requestAnimationFrame(loop);
     var now = performance.now(), dt = now - last; last = now;
     if (ctxLost) return;
+    var busy = now < wakeUntil || tweenC || tweenL || clipTween || introState || (tourActive && tourPlaying) ||
+               controls.autoRotate || Math.abs(viewShift.cur - viewShift.target) > 0.0003;
+    if (!busy && now - lastDraw < IDLE_REFRESH) return;
     introStep(now);
     if (tweenC) {
       var k = Math.min(1, Math.max(0, (now - tweenC.t0) / tweenC.dur)), e = ease(k);
@@ -1425,7 +1444,10 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
     sky.position.copy(camera.position);
     updateLabels(); tourTick(now);
     renderer.render(scene, camera);
-    // adaptive resolution (Auto mode): if the device struggles, lower the pixel ratio once or twice
+    lastDraw = now;
+    // adaptive resolution (Auto mode): if the device struggles, lower the pixel ratio once or twice.
+    // Only frames drawn while something was happening are timed; the idle refresh says nothing about the device.
+    if (!busy) return;
     frames++; acc += dt;
     if (frames === 90) {
       if (qualityMode === 'auto' && acc / frames > 34 && adapted < 2 && dpr > 1) { dpr = Math.max(1, dpr * 0.75); renderer.setPixelRatio(dpr); resize(); adapted++; }
