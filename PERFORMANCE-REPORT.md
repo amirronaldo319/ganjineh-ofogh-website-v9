@@ -135,3 +135,25 @@ Full-page heights differ by ≤1 px on 2 of 56 page/viewport combinations; the h
 
 ## 4. Gates on this branch
 Python 27/27, Cloudflare 8/8, Persian lint 0; Chrome desktop + Android e2e 399 passed / 0 failed; WebKit 340 passed / 1 failed (the iPhone `innerText` test that fails identically on the original); visual regression 168/168 against the original (the `fa index · 768 · dusk` shot is a known counter-timing flake: fails only under parallel load, passes 3/3 alone on both trees).
+
+---
+
+# Addendum 3 — sharper pictures, share cards, scheduled checks (`quality/soft-pictures`)
+
+**Sharper where hints under-claimed.** `tools/audit_sizes.mjs` now measures at 75 viewport widths (16 px steps below 1100 px, where grids reflow); `tools/apply_sizes.py --raise` adds rules for ranges where an authored hint claimed more than 25 % *less* than the picture is drawn at (tower day/dusk cards on phones, living/kitchen/bedroom tiles, site diagram, one-column galleries on tablets). Rules are compact `vw`/`px` runs and follow the narrowest context that uses a hint, so a smaller use is never over-fed.
+
+| Avg image KB/page | Original | Merged main | This branch |
+|---|---|---|---|
+| Phone 360 @3× | 958 | 748 | 761 |
+| Tablet 768 @2× | 702 | 675 | 703 |
+| Desktop 1920 @1× | 468 | 324 | 324 |
+| Placements drawn >1.25× larger than their file (tablet 768 @2×) | 18 | 18 | 6 |
+
+Tablets end up at the original weight with sharper pictures (before: 675 KB but 18 soft placements). The remaining soft placements at 1440 @2× are pictures that need a file larger than any we have (needs a bigger source render).
+Gates: Chrome e2e 399/399, sizes guard 22/22, visual regression 166/168 — the two differences are `fa project · 768 px · day/dusk`, 0.01 % of pixels, all inside the picture bands that were deliberately sharpened.
+
+**Share cards** were stale; re-rendered from the current images (idempotent: 34 up to date).
+
+**Scheduled checks** (`tools/install_scheduled_checks.sh`): `monitor.py --preview` daily 08:30 (38 checks, 0 failures on the live preview) and the weekly Lighthouse Mondays 09:00 (live baseline: performance 88–100, accessibility 100, best practices 96, SEO 100; all pages within budget).
+
+**One-page checklist** for the facts only your team can confirm: `launch/CONFIRM-IN-5-MINUTES.md`.

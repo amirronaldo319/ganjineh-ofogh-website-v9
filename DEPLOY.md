@@ -85,3 +85,15 @@ Verify after a deploy:
 curl -sI https://HOST/sw.js | grep -i cache-control               # must NOT be long-lived
 curl -sI https://HOST/assets/img/hero-1200.avif | grep -i cache-control
 ```
+
+## Scheduled checks from a Mac (while the site is on the GitHub Pages preview)
+
+```bash
+sh tools/install_scheduled_checks.sh                 # daily health check 08:30 + Lighthouse Mondays 09:00
+sh tools/install_scheduled_checks.sh https://ganjinehofogh.ir   # point them at the real domain (then drop --preview in the plist)
+sh tools/install_scheduled_checks.sh --remove
+```
+
+A failing check shows a macOS notification; every run is appended to `~/Library/Logs/ganjineh/<name>-history.log`. launchd jobs
+cannot read `~/Desktop`, so the tools are staged in `~/.ganjineh-checks` (re-run the installer after editing them). On a real server
+use the systemd timers in `deploy/` and drop `--preview`.
