@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 # Built outside the project folder: iCloud/Desktop sync can litter a rebuilt folder with "name 2" conflict copies.
 OUT = Path("/tmp/ganjineh-preview")
 INCLUDE_DIRS = ["assets", "en", "residences-3d", "tower-viewer"]
-INCLUDE_FILES = ["favicon.svg"]            # plus every *.html in the root
+INCLUDE_FILES = ["favicon.svg", "sw.js"]            # plus every *.html in the root
 
 HEADERS = """/*
   X-Robots-Tag: noindex, nofollow
@@ -26,7 +26,19 @@ HEADERS = """/*
 /assets/*
   Cache-Control: public, max-age=2592000
 
+/residences-3d/vendor/*
+  Cache-Control: public, max-age=2592000
+
+/tower-viewer/vendor/*
+  Cache-Control: public, max-age=2592000
+
+/residences-3d/images/*
+  Cache-Control: public, max-age=2592000
+
 /*.html
+  Cache-Control: no-cache
+
+/sw.js
   Cache-Control: no-cache
 """
 REDIRECTS = "/en  /en/  301\n"

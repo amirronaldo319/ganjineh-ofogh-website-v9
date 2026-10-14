@@ -127,6 +127,9 @@ def cache_policy(path: str, query: str) -> str:
     """Versioned assets (?v=N) never change, so cache them for a year; HTML always revalidates."""
     if path.startswith("/assets/"):
         return "public, max-age=31536000, immutable" if "v=" in query else "public, max-age=2592000"
+    # The 3D viewers' libraries and pictures are pinned files; everything else (HTML, sw.js, viewer code) revalidates.
+    if path.startswith(("/residences-3d/vendor/", "/tower-viewer/vendor/", "/residences-3d/images/")):
+        return "public, max-age=2592000"
     return "no-cache"
 
 

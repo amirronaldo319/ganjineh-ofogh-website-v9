@@ -721,6 +721,23 @@ def main():
     print(f"{len(built)} pages ({len(built) // 2} per language), {total / 1024:.0f} KB HTML, sitemap {len(urls) * 2} URLs, "
           f"assets {'minified' if minified else 'NOT minified (esbuild unavailable)'}: css {ASSET_VER['css']} js {ASSET_VER['site']}")
     inline_critical_css()
+    build_service_worker()
+
+
+def build_service_worker():
+    """src/sw.js -> /sw.js with a version that changes whenever any published file changes (old caches are then dropped)."""
+    digest = hashlib.sha1()
+    patterns = ("*.html", "en/*.html", "favicon.svg")
+    files = [p for pat in patterns for p in ROOT.glob(pat)]
+    for folder in ("assets", "residences-3d", "tower-viewer"):
+        files += [p for p in (ROOT / folder).rglob("*") if p.is_file() and p.name != ".DS_Store"]
+    for p in sorted(files):
+        digest.update(str(p.relative_to(ROOT)).encode())
+        digest.update(hashlib.sha1(p.read_bytes()).digest())
+    version = digest.hexdigest()[:12]
+    text = (ROOT / "src" / "sw.js").read_text(encoding="utf-8").replace("__SW_VERSION__", version)
+    (ROOT / "sw.js").write_text(text, encoding="utf-8")
+    print(f"service worker: version {version} ({len(files)} files)")
 
 
 def inline_critical_css():

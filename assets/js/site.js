@@ -505,4 +505,20 @@
       host.appendChild(tag);
     });
   })();
+  /* ───────── repeat visits: a small service worker keeps unchanging files on the device (see sw.js) ───────── */
+  (function () {
+    if (!('serviceWorker' in navigator) || !window.caches) return;
+    // Only where the page is really served over HTTPS (or explicitly asked for, for testing); never on a local preview.
+    if (location.protocol !== 'https:' && !/[?&]sw=1(&|$)/.test(location.search)) return;
+    var cn = navigator.connection;
+    if (cn && cn.saveData) return;
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        navigator.serviceWorker.register(BASE + 'sw.js').then(function () { return navigator.serviceWorker.ready; }).then(function (reg) {
+          var seen = performance.getEntriesByType('resource').map(function (e) { return e.name; });
+          if (reg.active && seen.length) reg.active.postMessage({ type: 'warm', urls: seen, pages: [location.href] });
+        }).catch(function () {});
+      }, 1500);
+    });
+  })();
 })();
