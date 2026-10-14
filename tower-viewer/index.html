@@ -205,8 +205,8 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
 .touring .opts { display: none !important; }
 .touring .sidebtns #reset-btn { opacity: .9; }
 </style>
-<div id="stage" role="img" aria-describedby="alt"></div>
-<p id="alt" class="sr-only"></p>
+<div role="main" style="display:contents"><div id="stage" role="img" data-i18n-aria="stageLabel" aria-label="Interactive 3D model of the Ganjineh Ofogh tower" aria-describedby="alt"></div>
+<p id="alt" class="sr-only"></p></div>
 <div class="vignette"></div>
 <div id="labels" hidden></div>
 <div id="live" class="sr-only" role="status" aria-live="polite"></div>
@@ -221,7 +221,7 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
   <button type="button" class="iconbtn" id="lang-btn" aria-label="Language"></button>
   <button type="button" class="iconbtn" id="info-btn" aria-expanded="false" aria-controls="sources" aria-label="Sources and assumptions">i</button>
 </div>
-<div class="sidebtns" role="group" data-i18n-aria="hudLabel" aria-label="Camera and view controls">
+<div class="sidebtns" role="region" data-i18n-aria="hudLabel" aria-label="Camera and view controls">
   <button type="button" class="iconbtn" id="tour-btn" aria-controls="tourcard" aria-expanded="false" aria-label="Tour">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>
   </button>
@@ -239,7 +239,7 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
   <div id="src-body"></div>
 </aside>
 
-<div class="dock">
+<div class="dock" role="region" data-i18n-aria="dockLabel" aria-label="Views and settings">
   <section class="card" id="tourcard" hidden aria-labelledby="tour-title">
     <div class="tour-top">
       <span class="tour-count" id="tour-count"></span>
@@ -435,7 +435,7 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
       srcTitle: 'Sources and assumptions', srcSub: 'What is measured, what is read from images, what is invented.',
       close: 'Close', lang: 'Switch to Persian', resetView: 'Reset view', skipIntro: 'Skip',
       tour: 'Tour', tourPlay: 'Play tour', tourPause: 'Pause tour', tourNext: 'Next stop', tourPrev: 'Previous stop', tourClose: 'Close tour',
-      tourStop: 'Stop {i} of {n}', hudLabel: 'Camera and view controls', controls: 'Controls',
+      tourStop: 'Stop {i} of {n}', hudLabel: 'Camera and view controls', dockLabel: 'Views and settings', stageLabel: 'Interactive 3D model of the Ganjineh Ofogh tower', controls: 'Controls',
       alt: 'Interactive 3D model of a residential tower in Ozgol, Tehran: a stepped plan, cream stone facade, a light vertical fin at one corner, balconies on every floor and a helipad on the roof. Use the controls at the bottom to change the view, the light and the floor.',
       webgl: 'This browser cannot show 3D (WebGL is turned off).', libs: 'The 3D libraries did not load. Check your connection and reload.',
       bad: 'The model could not be read.', lost: 'The 3D view was interrupted. Restoring it…', restored: 'The 3D view is back.',
@@ -453,7 +453,7 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
       srcTitle: 'منابع و فرض‌ها', srcSub: 'چه چیزی اندازه‌گیری شده، چه چیزی از تصاویر خوانده شده و چه چیزی فرضی است.',
       close: 'بستن', lang: 'تغییر به انگلیسی', resetView: 'بازگشت به نمای اول', skipIntro: 'رد کردن',
       tour: 'تور', tourPlay: 'پخش تور', tourPause: 'توقف تور', tourNext: 'ایستگاه بعدی', tourPrev: 'ایستگاه قبلی', tourClose: 'بستن تور',
-      tourStop: 'ایستگاه {i} از {n}', hudLabel: 'کنترل دوربین و نما', controls: 'کنترل‌ها',
+      tourStop: 'ایستگاه {i} از {n}', hudLabel: 'کنترل دوربین و نما', dockLabel: 'نماها و تنظیمات', stageLabel: 'مدل سه‌بعدی تعاملی برج گنجینه افق', controls: 'کنترل‌ها',
       alt: 'مدل سه‌بعدی تعاملی یک برج مسکونی در ازگل تهران: پلان پلکانی، نمای سنگ کرم، یک بدنه‌ی عمودی روشن در گوشه، بالکن در هر طبقه و هلی‌پد روی بام. با کنترل‌های پایین صفحه نما، نور و طبقه را عوض کنید.',
       webgl: 'این مرورگر نمی‌تواند نمایش سه‌بعدی را اجرا کند.', libs: 'کتابخانه‌های سه‌بعدی بارگذاری نشد. اتصال را بررسی و صفحه را دوباره باز کنید.',
       bad: 'مدل بارگذاری نشد.', lost: 'نمایش سه‌بعدی قطع شد. در حال بازیابی…', restored: 'نمایش سه‌بعدی برگشت.',
