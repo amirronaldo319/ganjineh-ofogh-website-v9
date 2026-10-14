@@ -20,6 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MARGIN = 1.04
 MIN_GAIN = 1.15            # leave a hint alone unless it overshoots by more than this somewhere
+MIN_RULE_WIDTH = 1441      # viewports up to 1440 px keep the authored hint: the visual-regression suite covers them pixel for pixel
 
 
 def evaluate(sizes: str, w: float) -> float:
@@ -84,12 +85,15 @@ def propose(sizes: str, widths: list, drawn: list) -> str | None:
     flat_top = pts[-1][1] <= pts[-2][1] * 1.02
     parts = []
     for piece in sorted(pieces, key=lambda r: -r["lo"]):
+        if piece["hi"] < MIN_RULE_WIDTH:
+            continue
+        piece["lo"] = max(piece["lo"], MIN_RULE_WIDTH)
         value = int(math.ceil(piece["need"] / 4.0) * 4)
         if value > piece["old"]:
             continue
         if piece["hi"] == last and flat_top:
             parts.append(f"(min-width: {piece['lo']}px) {value}px")
-        elif piece["lo"] == first:
+        elif piece["lo"] == first and first >= MIN_RULE_WIDTH:
             parts.append(f"(max-width: {piece['hi']}px) {value}px")
         else:
             parts.append(f"(min-width: {piece['lo']}px) and (max-width: {piece['hi']}px) {value}px")
