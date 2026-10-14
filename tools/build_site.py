@@ -446,6 +446,11 @@ IMAGE_KINDS = {'hero': 'render-heli', 'helipad': 'render-heli', 'aerial': 'rende
 TAG = re.compile(r"<img\b([^>]*?)\bdata-img=\"([\w-]+)\"([^>]*?)/?>", re.S)
 
 
+SIZES_OVERRIDES = {}
+if (ROOT / "src" / "sizes.json").exists():
+    SIZES_OVERRIDES = json.loads((ROOT / "src" / "sizes.json").read_text(encoding="utf-8"))
+
+
 def expand_img(m):
     before, name, after = m.group(1), m.group(2), m.group(3)
     if name not in META:
@@ -454,6 +459,10 @@ def expand_img(m):
     files = sorted(info["files"], key=lambda f: f["w"])
     big = files[-1]
     attrs = (before + " " + after).strip()
+    # measured tightening of `sizes` (src/sizes.json, written by tools/apply_sizes.py): never asks for a bigger file
+    authored = re.search(r'\ssizes="([^"]*)"', " " + attrs)
+    if authored and f"{name}|{authored.group(1)}" in SIZES_OVERRIDES:
+        attrs = attrs.replace(f'sizes="{authored.group(1)}"', f'sizes="{SIZES_OVERRIDES[name + "|" + authored.group(1)]}"', 1)
     eager = "data-eager" in attrs
     attrs = re.sub(r"\bdata-eager\b", "", attrs).strip()
     srcset = ", ".join(f"assets/img/{f['file']} {f['w']}w" for f in files)
@@ -580,8 +589,10 @@ def build_page(meta, body, out_name, lang):
         key, mime = ("avif", ' type="image/avif"') if modern else ("file", "")
         srcset = ", ".join(f"assets/img/{f[key]} {f['w']}w" for f in files)
         small = next((f for f in files if f["w"] >= 700), files[0])
+        preload_sizes = "(max-width: 880px) 86vw, 46vw"      # must equal the picture's own `sizes`, or the preload is wasted
+        preload_sizes = SIZES_OVERRIDES.get(f"{meta['preload']}|{preload_sizes}", preload_sizes)
         preload = (f'<link rel="preload" as="image"{mime} href="assets/img/{small[key]}" imagesrcset="{srcset}" '
-                   f'imagesizes="(max-width: 880px) 86vw, 46vw" fetchpriority="high">')
+                   f'imagesizes="{preload_sizes}" fetchpriority="high">')
     # Only the face the page's own language paints first: Vazirmatn for Persian, the serif display face for English.
     first_font = "Vazirmatn-fa-used.woff2" if lang == "fa" else "SourceSerif4-normal-latin.woff2"
     preload += f'\n<link rel="preload" href="assets/fonts/{first_font}" as="font" type="font/woff2" crossorigin>'
@@ -721,6 +732,23 @@ def main():
     print(f"{len(built)} pages ({len(built) // 2} per language), {total / 1024:.0f} KB HTML, sitemap {len(urls) * 2} URLs, "
           f"assets {'minified' if minified else 'NOT minified (esbuild unavailable)'}: css {ASSET_VER['css']} js {ASSET_VER['site']}")
     inline_critical_css()
+    build_service_worker()
+
+
+def build_service_worker():
+    """src/sw.js -> /sw.js with a version that changes whenever any published file changes (old caches are then dropped)."""
+    digest = hashlib.sha1()
+    patterns = ("*.html", "en/*.html", "favicon.svg")
+    files = [p for pat in patterns for p in ROOT.glob(pat)]
+    for folder in ("assets", "residences-3d", "tower-viewer"):
+        files += [p for p in (ROOT / folder).rglob("*") if p.is_file() and p.name != ".DS_Store"]
+    for p in sorted(files):
+        digest.update(str(p.relative_to(ROOT)).encode())
+        digest.update(hashlib.sha1(p.read_bytes()).digest())
+    version = digest.hexdigest()[:12]
+    text = (ROOT / "src" / "sw.js").read_text(encoding="utf-8").replace("__SW_VERSION__", version)
+    (ROOT / "sw.js").write_text(text, encoding="utf-8")
+    print(f"service worker: version {version} ({len(files)} files)")
 
 
 def inline_critical_css():

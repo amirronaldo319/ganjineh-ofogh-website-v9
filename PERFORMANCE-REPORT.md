@@ -96,3 +96,42 @@ Not done: desktop 1920 @1× still shows ≥1.6× overshoot for 92 placements —
 
 ## D. Real-device check
 `launch/REAL-DEVICE-CHECK.md` — a 15-minute script for one phone with an optional console snippet that reports frame times. Needs a person with a phone; nothing is collected from visitors.
+
+---
+
+# Addendum 2 — 3D viewer, caching, `sizes` hints (`perf/viewers-cache-sizes`)
+
+## 1. Tower viewer draws on demand
+The render loop re-drew the scene 60×/s even when nothing moved. It now draws while something is changing (tweens, intro, tour, auto-rotate, damping, any input/message/asset load, plus a 1.2 s grace) and refreshes at 2 Hz otherwise. (The apartment viewer already did this.)
+
+| Measured in Chrome, same scripted session on original vs new | Original | New |
+|---|---|---|
+| Settled screenshots identical (22 states: views, light presets, drag, zoom, floors, rapid/interrupted clicks, time-of-day slider, host messages, tour, auto-rotate, resize) | — | 20–22 of 22 (see below) |
+| GL draw calls over 4 s idle after load | 49,920 | 1,664 (−97 %) |
+| GL draw calls over 3 s idle after use | 21,420 | 714 (−97 %) |
+| Main-thread task time in the A/B harness | 338 ms | 189 ms (−44 %) |
+
+The two states that differed in one of three runs are timing-sensitive by nature (tour progress bar's width at a wall-clock instant; auto-rotate, which advances per frame, after 1.5 s). Behaviour change to know about: adaptive resolution now times only frames drawn while something is happening, so it reacts to real interaction rather than to the idle picture.
+
+## 2. Caching
+- Servers that can set headers (`server.py`, Cloudflare `_headers`): viewer libraries and viewer pictures now get 30-day caching; `sw.js` and HTML always revalidate.
+- GitHub Pages cannot set headers, so a **service worker** (`/sw.js`, HTTPS only) keeps pictures, fonts, 3D libraries and `?v=` files on the device; HTML and unversioned scripts stay network-first (cached copy only if the network fails or exceeds 4 s); `/api`, `/admin`, POST and Range are never touched; every build gets a new version that deletes older caches. Revisit in a revalidating setup: 27 → 3 server requests. Tests: registration, cache contents, old-cache deletion, offline revisit, API not cached, no registration on plain http (Chromium). WebKit: registration and caching pass; offline emulation in Playwright's WebKit errors out, so Safari's offline fallback is untested.
+- Moving hosts is not required for any of this; see DEPLOY.md → Caching.
+
+## 3. `sizes` hints
+`tools/audit_sizes.mjs` measured every responsive image at 17 viewport widths. Above 1440 px the layout stops growing while `31vw`-style hints keep growing, so wide monitors were served files up to 1.6× larger than drawn. `src/sizes.json` adds rules in front of the authored hints for viewports ≥1441 px only; a rule never claims more than the authored hint nor less than the measured drawn width (+4 %), and a guard test (`tests/e2e/sizes.spec.js`, 22 pages) enforces both against future layout edits.
+
+| Avg image KB/page | Original | Now |
+|---|---|---|
+| Phone 360 @3× | 958 | 748 (−22 %, from the added widths) |
+| Tablet 768 @2× | 702 | 675 (−4 %) |
+| Laptop 1440 @1× | 323 | 323 |
+| Retina laptop 1440 @2× | 791 | 756 (−4 %) |
+| Desktop 1920 @1× | 468 | 324 (−31 %) |
+
+Full-page heights differ by ≤1 px on 2 of 56 page/viewport combinations; the hero preload's `imagesizes` is kept identical to the picture's `sizes` (0 duplicate downloads in the A/B).
+
+**Found, not changed:** some authored hints claim *less* than the image is drawn at (tower-day/dusk cards on phones, living/kitchen/bedroom tiles at 600–1024 px, site diagram, a 640 px cap on a 672 px frame), so the browser picks a file one step too small and those pictures are softer than they could be. Fixing it makes them sharper and heavier — the opposite of this pass — so it is listed for your decision.
+
+## 4. Gates on this branch
+Python 27/27, Cloudflare 8/8, Persian lint 0; Chrome desktop + Android e2e 399 passed / 0 failed; WebKit 340 passed / 1 failed (the iPhone `innerText` test that fails identically on the original); visual regression 168/168 against the original (the `fa index · 768 · dusk` shot is a known counter-timing flake: fails only under parallel load, passes 3/3 alone on both trees).

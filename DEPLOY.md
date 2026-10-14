@@ -68,3 +68,20 @@ cd /srv/ganjineh/site && sudo -u ganjineh git pull && sudo systemctl restart gan
 ```
 
 Restart after a pull so new code is loaded. (The Content-Security-Policy hashes for inline scripts refresh themselves when a page changes.)
+
+## Caching: what each host can and cannot do
+
+| Host | Cache headers | What repeat visitors get |
+|---|---|---|
+| Your own server (`server.py` behind nginx, above) | Yes: `/assets/` 30 days, `?v=` files 1 year immutable, 3D viewer libraries and pictures 30 days, HTML and `sw.js` always revalidate | Fast repeat visits from the browser cache; the service worker adds offline fallback |
+| Cloudflare Pages (`tools/make_preview.py` writes `_headers`) | Yes, same rules. Note `*.pages.dev` is filtered in Iran; a custom domain proxied by Cloudflare is the workaround | As above |
+| GitHub Pages (`tools/publish_github_pages.sh`) | No: fixed `max-age=600`, cannot be changed | The **service worker** (`/sw.js`, registered over HTTPS only) keeps pictures, fonts and 3D libraries on the device; a revisit makes ~3 requests instead of ~27 in a revalidating setup |
+
+Service worker rules, in one place: pictures, fonts, models, `/vendor/` libraries and `?v=` files are cache-first; HTML and unversioned scripts/styles/JSON are network-first with the cached copy used only if the network fails or takes more than 4 s; `/api/*`, `/admin*`, POSTs, Range requests and other origins are never touched. Every build writes a new version into `sw.js`, and activating it deletes all older caches. To switch it off for everyone, publish a `sw.js` that calls `self.registration.unregister()` (or remove the registration block at the end of `assets/js/site.js`).
+
+Verify after a deploy:
+
+```bash
+curl -sI https://HOST/sw.js | grep -i cache-control               # must NOT be long-lived
+curl -sI https://HOST/assets/img/hero-1200.avif | grep -i cache-control
+```
