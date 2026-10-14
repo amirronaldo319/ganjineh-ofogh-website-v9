@@ -85,14 +85,25 @@
   var heroEl = $('.hero') || $('.phero');
   if (heroEl && finePointer) {
     var tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+    // --mx / --my are read by exactly three rules (the arch, the sun, the inner-page arch). Writing them on those elements, not on
+    // the whole hero, restyles three elements per frame instead of the hero's entire subtree; the computed values are identical.
+    var lean = $$('.hero__art .arch, .hero__sun, .phero__art .arch', heroEl);
+    if (!lean.length) lean = [heroEl];
+    // The hero never moves on the page (nothing but the fixed header sits above it), so its box is measured once and again only when
+    // it changes size. Pointer positions use page coordinates, so scrolling needs no re-measure.
+    var box = null;
+    var measure = function () { var r = heroEl.getBoundingClientRect(); box = { l: r.left + window.pageXOffset, t: r.top + window.pageYOffset, w: r.width, h: r.height }; };
+    if (window.ResizeObserver) new ResizeObserver(function () { box = null; }).observe(heroEl);
+    window.addEventListener('resize', function () { box = null; });
     var tick = function () {
       cx += (tx - cx) * 0.075; cy += (ty - cy) * 0.075;
-      heroEl.style.setProperty('--mx', cx.toFixed(3)); heroEl.style.setProperty('--my', cy.toFixed(3));
+      var mx = cx.toFixed(3), my = cy.toFixed(3);
+      for (var i = 0; i < lean.length; i++) { lean[i].style.setProperty('--mx', mx); lean[i].style.setProperty('--my', my); }
       raf = (Math.abs(tx - cx) > 0.002 || Math.abs(ty - cy) > 0.002) ? requestAnimationFrame(tick) : 0;
     };
     heroEl.addEventListener('pointermove', function (e) {
-      var r = heroEl.getBoundingClientRect();
-      tx = ((e.clientX - r.left) / r.width - 0.5) * 2; ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      if (!box) measure();
+      tx = ((e.pageX - box.l) / box.w - 0.5) * 2; ty = ((e.pageY - box.t) / box.h - 0.5) * 2;
       if (!raf) raf = requestAnimationFrame(tick);
     }, { passive: true });
     heroEl.addEventListener('pointerleave', function () { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(tick); });
