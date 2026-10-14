@@ -112,6 +112,7 @@ def next_cta(spec):
       <a class="btn btn--light" href="{href}" en="{esc(en_b)}">{fa_b}</a>
       <a class="btn btn--lineLight" href="contact.html#appointment" en="Private viewing">رزرو بازدید خصوصی</a>
     </div>
+    {preview_hint()}
     <p class="visit__more"><a class="text-link" href="brochure.html" en="Or take the brochure with you">یا بروشور را همراه ببرید</a></p></div>
   </div>
 </section>'''
@@ -324,6 +325,29 @@ def response_when():
     return f'<li class="when"><b en="Expected reply">زمان پاسخ‌گویی</b> <span en="{esc(en)}">{fa}</span></li>'
 
 
+MODE = "live" if _CFG.get("mode") == "live" else "preview"
+
+
+def preview_hint():
+    """One quiet line next to a request button while the site is a preview, so nobody discovers it after typing."""
+    if MODE != "preview":
+        return ""
+    return ('<p class="preview-hint" role="note" en="Preview: enquiry forms open at launch; nothing is sent yet.">'
+            'نسخه‌ی پیش‌نمایش: ثبت درخواست پس از آغاز پذیرش فعال می‌شود؛ فعلاً چیزی ارسال نمی‌شود.</p>')
+
+
+def preview_notice():
+    """A clear panel above the enquiry forms (and the direct channels, if any have been configured)."""
+    if MODE != "preview":
+        return ""
+    return ('<div class="preview-note" role="note"><b en="This is a preview">این نسخه‌ی پیش‌نمایش است</b>'
+            '<p en="The enquiry forms open when the project launches, so nothing you type here is sent yet. Please come back then, or use a direct channel below if one is listed.">'
+            'فرم‌های درخواست پس از آغاز پذیرش فعال می‌شوند؛ بنابراین فعلاً چیزی از آنچه می‌نویسید ارسال نمی‌شود. لطفاً آن زمان بازگردید یا اگر راه ارتباطی مستقیمی در پایین آمده، از آن استفاده کنید.</p>'
+            + channels() + '</div>')
+
+
+COMPONENTS["preview_hint"] = preview_hint
+COMPONENTS["preview_notice"] = preview_notice
 COMPONENTS["response_when"] = response_when
 COMPONENTS["share"] = share
 COMPONENTS["faq"] = faq
@@ -537,7 +561,9 @@ def build_page(meta, body, out_name, lang):
         "title": meta["title_" + lang], "desc": meta["desc_" + lang], "file": out_name, "og": og, "robots": robots, "preload": preload,
         "css": f'assets/css/site.min.css?v={ASSET_VER["css"]}',
         "jsonld": jsonld(lang) if meta["key"] == "index" else faq_jsonld(lang) if meta["key"] == "faq" else "", "scripts": "\n".join(scripts),
-        "host": HOST, "og_path": og_path, "canonical": url_fa if lang == "fa" else url_en, "url_fa": url_fa, "url_en": url_en,
+        "host": HOST, "og_path": og_path, "mode": MODE,
+        "api_meta": (f'<meta name="go-api" content="{esc(_CFG.get("api_base", "").rstrip("/"))}">' if re.match(r"^https://[\w.-]+(:\d+)?(/[\w./-]*)?$", _CFG.get("api_base", "")) else ""),
+        "mail_meta": (f'<meta name="go-mail" content="{esc(_CFG.get("email", ""))}">' if re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", _CFG.get("email", "")) else ""), "canonical": url_fa if lang == "fa" else url_en, "url_fa": url_fa, "url_en": url_en,
         "alt_href": alt_name(out_name, lang), "other_lang": other,
         "locale": "fa_IR" if lang == "fa" else "en_US", "locale_alt": "en_US" if lang == "fa" else "fa_IR",
     }

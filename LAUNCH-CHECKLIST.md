@@ -36,6 +36,9 @@ Status: V9 is a build for review, not a launch. ✅ = checked while building V9 
 
 ## Information needed before launch
 
+**Start with `launch/DECISIONS.md`**: the six decisions that stand between the preview and a site that can take a buyer's request (hosting, direct contact, who answers, the brochure).
+
+
 See also `launch/FACTS-TO-CONFIRM.md` (a fill-in table of every fact the site states) and `launch/PERSIAN-COPY.md` (all Persian copy with its English twin, for the editor).
 
 

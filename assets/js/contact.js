@@ -29,6 +29,7 @@
   }
   function paintStatus() {
     if (busy) return;
+    if (ready === false && window.ofogh.mailFallback) window.ofogh.mailFallback(form, L('درخواست از وب‌سایت گنجینه افق', 'Request from the Ganjineh Ofogh website'));
     if (unreachable) setStatus(L('ثبت درخواست در این نسخه فعال نیست. برای ارسال، وب‌سایت باید به سامانه‌ی فروش متصل باشد.', 'Requests are not active in this version. The website must be connected to the sales system to send one.'), 'unavailable');
     else if (ready === true) setStatus(L('پذیرش درخواست فعال است.', 'Requests are being accepted.'), 'ready');
     else if (ready === false) setStatus(L('ثبت درخواست در حال حاضر فعال نیست. لطفاً بعداً دوباره بررسی کنید.', 'Requests are not open at the moment. Please check again later.'), 'unavailable');
@@ -74,7 +75,7 @@
   }
   mobile.addEventListener('input', validMobile);
 
-  fetch('/api/status', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+  fetch(window.ofogh.api('status'), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
     ready = !!(data && data.acceptingEnquiries);
     label.disabled = !ready;
     paintStatus();
@@ -95,7 +96,7 @@
     label.disabled = true;
     label.textContent = L('در حال ارسال…', 'Sending…');
     setStatus(L('در حال ثبت درخواست…', 'Recording your request…'), 'pending');
-    fetch('/api/enquiries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(function (response) {
+    fetch(window.ofogh.api('enquiries'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(function (response) {
       return response.json().then(function (data) { return { ok: response.ok, data: data }; });
     }).then(function (result) {
       if (!result.ok) throw new Error(result.data.error || '');

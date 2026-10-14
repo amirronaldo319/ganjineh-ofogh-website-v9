@@ -68,7 +68,7 @@
   function verify(value) {
     var controller = typeof AbortController === 'function' ? new AbortController() : null;
     var timer = controller ? window.setTimeout(function () { controller.abort(); }, VERIFY_TIMEOUT_MS) : null;
-    return fetch('/api/enquiries/' + encodeURIComponent(value), {
+    return fetch(window.ofogh.api('enquiries/' + encodeURIComponent(value)), {
       cache: 'no-store',
       headers: { Accept: 'application/json' },
       signal: controller ? controller.signal : undefined
@@ -108,7 +108,7 @@
     var link = root.querySelector('[data-download-link]');
     if (box && link) {
       box.hidden = !result.download;
-      if (result.download) link.setAttribute('href', '/api/brochure/' + encodeURIComponent(reference));
+      if (result.download) link.setAttribute('href', window.ofogh.api('brochure/' + encodeURIComponent(reference)));
     }
   }
 

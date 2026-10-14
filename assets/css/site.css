@@ -1490,3 +1490,13 @@ html[data-lite].js .rv { opacity: 1; transform: none; }
 html[data-lite].js .rv-img img { clip-path: none; transform: none; }
 html[data-lite] .hero::after, html[data-lite] .phero::before, html[data-lite] .stars, html[data-lite] .motes, html[data-lite] .hero__art::before { display: none; }
 html[data-lite] img[data-lqip] { animation: none; }
+
+
+/* preview status, stated next to the buttons it concerns */
+.preview-hint { margin: .9rem 0 0; font-size: .84rem; color: var(--muted); display: flex; gap: .5rem; align-items: baseline; max-width: 52ch; }
+.preview-hint::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--brass); flex: none; translate: 0 -1px; }
+.visit .preview-hint { color: rgba(237, 232, 220, .72); }
+.preview-note { border: 1px solid var(--brass); background: color-mix(in srgb, var(--brass) 10%, var(--surface)); padding: 1rem 1.2rem; margin-block-end: 1.4rem; }
+.preview-note b { display: block; margin-block-end: .3rem; color: var(--brass-ink); }
+.preview-note p { margin: 0 0 .6rem; font-size: .95rem; }
+.preview-note .channels { margin-block-start: .8rem; }

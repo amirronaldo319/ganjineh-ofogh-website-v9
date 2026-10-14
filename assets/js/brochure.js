@@ -15,6 +15,7 @@
   function setStatus(message, kind) { status.textContent = message; status.dataset.kind = kind || ''; }
   function paintStatus() {
     if (busy) return;
+    if (ready === false && window.ofogh.mailFallback) window.ofogh.mailFallback(form, L('درخواست بروشور', 'Brochure request'));
     if (unreachable) setStatus(L('ثبت درخواست در این نسخه فعال نیست. برای ارسال، وب‌سایت باید به سامانه‌ی فروش متصل باشد.', 'Requests are not active in this version. The site must be connected to the sales system to send one.'), 'error');
     else if (ready === true) setStatus(hasPdf ? L('بروشور پس از ثبت، همین‌جا برای دانلود آماده می‌شود.', 'The brochure will be ready to download here as soon as you send this.')
                                                : L('فایل بروشور هنوز در وب‌سایت بارگذاری نشده است؛ پس از ثبت، تیم فروش آن را برای شما می‌فرستد.', 'The brochure file is not on the website yet; once you send this, the sales team will send it to you.'), 'ready');
@@ -46,7 +47,7 @@
   var unit = params.get('unit');
   if (unit && select && Array.prototype.some.call(select.options, function (o) { return o.value === unit; })) select.value = unit;
 
-  fetch('/api/status', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+  fetch(window.ofogh.api('status'), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
     ready = !!(data && data.acceptingEnquiries);
     hasPdf = !!(data && data.brochureAvailable);
     label.disabled = !ready;
@@ -67,7 +68,7 @@
     label.disabled = true;
     label.textContent = L('در حال ارسال…', 'Sending…');
     setStatus(L('در حال ثبت درخواست…', 'Recording your request…'), 'pending');
-    fetch('/api/enquiries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(function (response) {
+    fetch(window.ofogh.api('enquiries'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(function (response) {
       return response.json().then(function (data) { return { ok: response.ok, data: data }; });
     }).then(function (result) {
       if (!result.ok) throw new Error(result.data.error || '');

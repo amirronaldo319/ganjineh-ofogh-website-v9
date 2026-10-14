@@ -392,7 +392,34 @@
   });
 
   /* expose for the form + confirmation scripts */
-  window.ofogh = { lang: function () { return state.lang; }, onLang: function (fn) { AFTER_LANG.push(fn); }, toFa: toFa };
+  /* Where the enquiry backend lives: <meta name="go-api"> when it is another address, otherwise next to this site (relative, so a
+     project path such as /ganjineh-ofogh/ is kept). */
+  function api(path) {
+    var m = $('meta[name="go-api"]');
+    var abs = m && m.getAttribute('content');
+    return abs ? abs.replace(/\/$/, '') + '/api/' + path : BASE + 'api/' + path;
+  }
+  /* When requests cannot be sent, offer an email draft instead (only if an address has been configured). */
+  function mailFallback(form, subject) {
+    var m = $('meta[name="go-mail"]'), to = m && m.getAttribute('content');
+    var link = $('[data-mail-fallback]', form);
+    if (!to) { if (link) link.remove(); return; }
+    if (!link) {
+      link = document.createElement('a');
+      link.className = 'btn btn--ghost'; link.setAttribute('data-mail-fallback', ''); link.style.marginInlineStart = '.6rem';
+      link.textContent = state.lang === 'fa' ? 'ارسال با ایمیل' : 'Send by email instead';
+      form.appendChild(link);
+    }
+    var read = function (n) { var el = form.elements[n]; return el && el.value ? el.value.trim() : ''; };
+    var refresh = function () {
+      var body = [read('name'), read('mobile'), read('residence-interest'), read('message')].filter(Boolean).join('\n');
+      link.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    };
+    refresh();
+    link.onclick = refresh;
+    form.addEventListener('input', refresh);
+  }
+  window.ofogh = { lang: function () { return state.lang; }, onLang: function (fn) { AFTER_LANG.push(fn); }, toFa: toFa, api: api, mailFallback: mailFallback };
 
   /* ───────── go ───────── */
   setLang(state.lang, { persist: false, fromChild: true });
@@ -447,5 +474,13 @@
       t.setAttribute('aria-pressed', String(i === 0));
       t.addEventListener('click', function () { steps[i].scrollIntoView({ behavior: 'smooth', block: 'center' }); show(i); });
     });
+  })();
+  /* ───────── preview notices correct themselves: where a working backend answers, they disappear ───────── */
+  (function () {
+    var notes = $$('.preview-hint, .preview-note');
+    if (!notes.length || !window.fetch) return;
+    fetch(api('status'), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      if (d && d.acceptingEnquiries) notes.forEach(function (n) { n.hidden = true; });
+    }).catch(function () {});
   })();
 })();
