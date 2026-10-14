@@ -58,3 +58,41 @@ Honest reading: the pointer path is a real, repeatable win; load, scroll and int
 ## 6. Limits of this report
 
 Lab numbers on one Mac under CPU throttling; no real-device or real-network (including in-Iran) measurements; no field/RUM data. Real phones, Safari/WebKit scrolling and low-end GPUs for the 3D viewers are untested.
+
+---
+
+# Addendum — verification and audits (`perf/verification-and-audits`)
+
+## A. Verification gaps closed
+| Check | Result |
+|---|---|
+| Visual regression, 168 screenshots (fa/en × all pages × 320/768/1024/1440 × day/dusk) vs the original site | 168/168 within tolerance. One snapshot (`fa index · 768 · dusk`) was captured mid-counter in the original baseline and failed against its own baseline too; re-captured, then original and branch both pass |
+| WebKit (Desktop Safari + iPhone 13 profiles) | 339 passed, 2 failed — both fail identically on the untouched original tree (iPhone: WebKit `innerText` drops one space at a soft wrap in a heading while `textContent` is correct; desktop: intermittent plan-explorer click race) |
+| Chrome desktop + Android e2e | 342 passed; 1 intermittent failure of the contact-form submit under parallel load, 0/32 on re-runs, 0/16 on the original |
+| Python 27/27, Cloudflare 8/8, Persian lint 0 | pass |
+
+## B. Image weight audit (12 pages × 2 languages × 6 viewport/DPR combinations, 1,068 image placements)
+Finding: images are sized correctly almost everywhere, but the srcset ladder had large gaps (1000→2000, 1200→2200, 900→1536 px), so a device needing 1,080 px was served the 2,000 px file.
+
+Change: `tools/add_image_rungs.py` adds one intermediate width wherever neighbours were >1.6× apart (31 images, 6.9 MB of new files in the repo; visitors only download the one they need). Existing files, `sizes`, display sizes and layout are untouched.
+
+| Viewport | Avg image KB per page, before → after | Images ≥1.6× oversize |
+|---|---|---|
+| Phone 360 @3× | 958 → 748 (−22 %) | 28 → 0 |
+| Phone 412 @2.6× | 958 → 742 (−23 %) | 28 → 0 |
+| Tablet 768 @2× | 702 → 675 (−4 %) | 12 → 8 |
+| Laptop 1440 @1× | 323 → 323 | 0 → 0 |
+| Retina laptop 1440 @2× | 791 → 756 (−4 %) | 18 → 0 |
+| Desktop 1920 @1× | 468 → 453 (−3 %) | 98 → 92 |
+
+Cost to be aware of (needs your decision before it ships): serving a different file is not pixel-identical. Over 83 changed renders, PSNR vs the old file median 33 dB (min 19 dB on a foliage-heavy photo at 3×); side-by-side with a 6× amplified diff shows only fine-detail resampling noise, and 3 of 83 gallery tiles on a 360 px phone are 1 CSS px taller/shorter because intrinsic size is rounded per file. The full visual-regression suite (DPR 1) passes.
+
+Not done: desktop 1920 @1× still shows ≥1.6× overshoot for 92 placements — those are `sizes` hints that over-state the slot width, which needs a per-image layout review (a visible-risk change), and the audit's soft-image list (tablet @2× shows 0.5–0.7× pixels for a few 480–720 px files) is a quality trade-off, not a bug.
+
+## C. Font audit
+- Latin fonts were already trimmed to used glyphs; `build_fonts.py --check` confirms coverage.
+- Finding: every **English** page downloaded the whole 45 KB Persian font to paint two letters (the "فا" language button) and, on home/location, a few Persian place names.
+- Change: used-glyph subsets of the same variable font (outlines, weights and shaping features preserved): Persian pages 45 → 26 KB, English pages 45 → 16 KB. The full file remains the fallback face, so a character not in a subset (e.g. a visitor typing a rare letter) still renders in Vazirmatn. Persian-bearing elements (hero title, map labels, language button) are byte-identical in screenshots, and page heights are unchanged on all 9 pages checked.
+
+## D. Real-device check
+`launch/REAL-DEVICE-CHECK.md` — a 15-minute script for one phone with an optional console snippet that reports frame times. Needs a person with a phone; nothing is collected from visitors.

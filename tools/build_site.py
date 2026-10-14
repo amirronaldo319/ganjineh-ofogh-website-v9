@@ -583,8 +583,15 @@ def build_page(meta, body, out_name, lang):
         preload = (f'<link rel="preload" as="image"{mime} href="assets/img/{small[key]}" imagesrcset="{srcset}" '
                    f'imagesizes="(max-width: 880px) 86vw, 46vw" fetchpriority="high">')
     # Only the face the page's own language paints first: Vazirmatn for Persian, the serif display face for English.
-    first_font = "Vazirmatn-normal-arabic.woff2" if lang == "fa" else "SourceSerif4-normal-latin.woff2"
+    first_font = "Vazirmatn-fa-used.woff2" if lang == "fa" else "SourceSerif4-normal-latin.woff2"
     preload += f'\n<link rel="preload" href="assets/fonts/{first_font}" as="font" type="font/woff2" crossorigin>'
+    # English pages paint only a handful of Arabic-script characters (the "فا" language button, a few place names).
+    # A later, narrower @font-face for the same family makes them use a 16 KB file instead of the 45 KB one; it sits
+    # after the stylesheet so it wins, and characters it does not hold still resolve to the full file.
+    font_override = ""
+    if lang == "en":
+        en_face = (ROOT / "assets/fonts/fonts-en.css").read_text(encoding="utf-8").strip().replace("url(", "url(../assets/fonts/")
+        font_override = f'<style id="font-en">{en_face}</style>'
     scripts = [f'<script src="assets/js/site.min.js?v={ASSET_VER["site"]}" defer></script>',
                f'<script src="assets/js/motion.min.js?v={ASSET_VER["motion"]}" defer></script>']
     for extra in filter(None, meta.get("scripts", "").split(",")):
@@ -599,7 +606,7 @@ def build_page(meta, body, out_name, lang):
     url_en = HOST + "/en/" + path_here
     subs = {
         "key": meta["key"], "lang": lang, "dir": "rtl" if lang == "fa" else "ltr", "base": "" if lang == "fa" else "../",
-        "title": meta["title_" + lang], "desc": meta["desc_" + lang], "file": out_name, "og": og, "robots": robots, "preload": preload,
+        "title": meta["title_" + lang], "desc": meta["desc_" + lang], "file": out_name, "og": og, "robots": robots, "preload": preload, "font_override": font_override,
         "css": f'assets/css/site.min.css?v={ASSET_VER["css"]}',
         "jsonld": jsonld(lang) if meta["key"] == "index" else faq_jsonld(lang) if meta["key"] == "faq" else "", "scripts": "\n".join(scripts),
         "host": HOST, "og_path": og_path, "mode": MODE,

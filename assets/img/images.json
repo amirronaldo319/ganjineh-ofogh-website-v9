@@ -13,12 +13,28 @@
     "avif_kb": 363
    },
    {
+    "file": "hero-1624.webp",
+    "avif": "hero-1624.avif",
+    "w": 1624,
+    "h": 1624,
+    "kb": 518,
+    "avif_kb": 253
+   },
+   {
     "file": "hero-1200.webp",
     "avif": "hero-1200.avif",
     "w": 1200,
     "h": 1200,
     "kb": 354,
     "avif_kb": 171
+   },
+   {
+    "file": "hero-928.webp",
+    "avif": "hero-928.avif",
+    "w": 928,
+    "h": 928,
+    "kb": 240,
+    "avif_kb": 117
    },
    {
     "file": "hero-720.webp",
@@ -51,6 +67,14 @@
     "h": 1024,
     "kb": 354,
     "avif_kb": 172
+   },
+   {
+    "file": "panorama-1176.webp",
+    "avif": "panorama-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 236,
+    "avif_kb": 116
    },
    {
     "file": "panorama-900.webp",
@@ -93,6 +117,14 @@
     "avif_kb": 108
    },
    {
+    "file": "facade-1176.webp",
+    "avif": "facade-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 136,
+    "avif_kb": 70
+   },
+   {
     "file": "facade-900.webp",
     "avif": "facade-900.avif",
     "w": 900,
@@ -131,6 +163,14 @@
     "h": 1024,
     "kb": 282,
     "avif_kb": 137
+   },
+   {
+    "file": "plaza-1176.webp",
+    "avif": "plaza-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 188,
+    "avif_kb": 91
    },
    {
     "file": "plaza-900.webp",
@@ -173,6 +213,14 @@
     "avif_kb": 134
    },
    {
+    "file": "entrance-1176.webp",
+    "avif": "entrance-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 189,
+    "avif_kb": 91
+   },
+   {
     "file": "entrance-900.webp",
     "avif": "entrance-900.avif",
     "w": 900,
@@ -211,6 +259,14 @@
     "h": 1500,
     "kb": 778,
     "avif_kb": 367
+   },
+   {
+    "file": "garden-1416.webp",
+    "avif": "garden-1416.avif",
+    "w": 1416,
+    "h": 1062,
+    "kb": 503,
+    "avif_kb": 240
    },
    {
     "file": "garden-1000.webp",
@@ -253,6 +309,14 @@
     "avif_kb": 185
    },
    {
+    "file": "terrace-1416.webp",
+    "avif": "terrace-1416.avif",
+    "w": 1416,
+    "h": 797,
+    "kb": 221,
+    "avif_kb": 111
+   },
+   {
     "file": "terrace-1000.webp",
     "avif": "terrace-1000.avif",
     "w": 1000,
@@ -291,6 +355,14 @@
     "h": 1024,
     "kb": 348,
     "avif_kb": 168
+   },
+   {
+    "file": "villa-1176.webp",
+    "avif": "villa-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 226,
+    "avif_kb": 111
    },
    {
     "file": "villa-900.webp",
@@ -333,6 +405,14 @@
     "avif_kb": 111
    },
    {
+    "file": "studio-1176.webp",
+    "avif": "studio-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 141,
+    "avif_kb": 77
+   },
+   {
     "file": "studio-900.webp",
     "avif": "studio-900.avif",
     "w": 900,
@@ -373,6 +453,14 @@
     "avif_kb": 126
    },
    {
+    "file": "interior-view-1176.webp",
+    "avif": "interior-view-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 162,
+    "avif_kb": 81
+   },
+   {
     "file": "interior-view-900.webp",
     "avif": "interior-view-900.avif",
     "w": 900,
@@ -411,6 +499,14 @@
     "h": 1024,
     "kb": 242,
     "avif_kb": 119
+   },
+   {
+    "file": "interior-shelf-1176.webp",
+    "avif": "interior-shelf-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 162,
+    "avif_kb": 80
    },
    {
     "file": "interior-shelf-900.webp",
@@ -485,6 +581,14 @@
     "avif_kb": 118
    },
    {
+    "file": "lobby-1176.webp",
+    "avif": "lobby-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 147,
+    "avif_kb": 75
+   },
+   {
     "file": "lobby-900.webp",
     "avif": "lobby-900.avif",
     "w": 900,
@@ -523,6 +627,14 @@
     "h": 1024,
     "kb": 245,
     "avif_kb": 122
+   },
+   {
+    "file": "hall-1176.webp",
+    "avif": "hall-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 164,
+    "avif_kb": 82
    },
    {
     "file": "hall-900.webp",
@@ -565,6 +677,14 @@
     "avif_kb": 70
    },
    {
+    "file": "cinema-1272.webp",
+    "avif": "cinema-1272.avif",
+    "w": 1272,
+    "h": 1173,
+    "kb": 63,
+    "avif_kb": 42
+   },
+   {
     "file": "cinema-900.webp",
     "avif": "cinema-900.avif",
     "w": 900,
@@ -605,6 +725,14 @@
     "avif_kb": 138
    },
    {
+    "file": "fitness-1272.webp",
+    "avif": "fitness-1272.avif",
+    "w": 1272,
+    "h": 1177,
+    "kb": 161,
+    "avif_kb": 88
+   },
+   {
     "file": "fitness-900.webp",
     "avif": "fitness-900.avif",
     "w": 900,
@@ -643,6 +771,14 @@
     "h": 1418,
     "kb": 211,
     "avif_kb": 125
+   },
+   {
+    "file": "cafe-1272.webp",
+    "avif": "cafe-1272.avif",
+    "w": 1272,
+    "h": 1002,
+    "kb": 139,
+    "avif_kb": 80
    },
    {
     "file": "cafe-900.webp",
@@ -717,6 +853,14 @@
     "avif_kb": 123
    },
    {
+    "file": "living-1176.webp",
+    "avif": "living-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 161,
+    "avif_kb": 79
+   },
+   {
     "file": "living-900.webp",
     "avif": "living-900.avif",
     "w": 900,
@@ -755,6 +899,14 @@
     "h": 1024,
     "kb": 143,
     "avif_kb": 81
+   },
+   {
+    "file": "kitchen-1176.webp",
+    "avif": "kitchen-1176.avif",
+    "w": 1176,
+    "h": 784,
+    "kb": 94,
+    "avif_kb": 52
    },
    {
     "file": "kitchen-900.webp",
@@ -797,6 +949,14 @@
     "avif_kb": 46
    },
    {
+    "file": "kitchen-detail-888.webp",
+    "avif": "kitchen-detail-888.avif",
+    "w": 888,
+    "h": 717,
+    "kb": 51,
+    "avif_kb": 31
+   },
+   {
     "file": "kitchen-detail-700.webp",
     "avif": "kitchen-detail-700.avif",
     "w": 700,
@@ -827,6 +987,14 @@
     "h": 1447,
     "kb": 177,
     "avif_kb": 114
+   },
+   {
+    "file": "bedroom-1272.webp",
+    "avif": "bedroom-1272.avif",
+    "w": 1272,
+    "h": 1023,
+    "kb": 115,
+    "avif_kb": 71
    },
    {
     "file": "bedroom-900.webp",
@@ -869,6 +1037,14 @@
     "avif_kb": 112
    },
    {
+    "file": "wardrobe-1272.webp",
+    "avif": "wardrobe-1272.avif",
+    "w": 1272,
+    "h": 1193,
+    "kb": 116,
+    "avif_kb": 68
+   },
+   {
     "file": "wardrobe-900.webp",
     "avif": "wardrobe-900.avif",
     "w": 900,
@@ -907,6 +1083,14 @@
     "h": 1254,
     "kb": 106,
     "avif_kb": 67
+   },
+   {
+    "file": "bath-936.webp",
+    "avif": "bath-936.avif",
+    "w": 936,
+    "h": 936,
+    "kb": 59,
+    "avif_kb": 36
    },
    {
     "file": "bath-700.webp",
@@ -1067,6 +1251,14 @@
     "h": 768,
     "kb": 174,
     "avif_kb": 140
+   },
+   {
+    "file": "apt1-1168.webp",
+    "avif": "apt1-1168.avif",
+    "w": 1168,
+    "h": 588,
+    "kb": 102,
+    "avif_kb": 80
    },
    {
     "file": "apt1-900.webp",
@@ -1253,6 +1445,14 @@
     "avif_kb": 117
    },
    {
+    "file": "aerial-1144.webp",
+    "avif": "aerial-1144.avif",
+    "w": 1144,
+    "h": 519,
+    "kb": 154,
+    "avif_kb": 81
+   },
+   {
     "file": "aerial-900.webp",
     "avif": "aerial-900.avif",
     "w": 900,
@@ -1333,6 +1533,14 @@
     "avif_kb": 59
    },
    {
+    "file": "model-render-1096.webp",
+    "avif": "model-render-1096.avif",
+    "w": 1096,
+    "h": 1096,
+    "kb": 50,
+    "avif_kb": 41
+   },
+   {
     "file": "model-render-800.webp",
     "avif": "model-render-800.avif",
     "w": 800,
@@ -1371,6 +1579,14 @@
     "h": 1500,
     "kb": 72,
     "avif_kb": 67
+   },
+   {
+    "file": "model-section-1096.webp",
+    "avif": "model-section-1096.avif",
+    "w": 1096,
+    "h": 1096,
+    "kb": 50,
+    "avif_kb": 46
    },
    {
     "file": "model-section-800.webp",
@@ -1413,6 +1629,14 @@
     "avif_kb": 50
    },
    {
+    "file": "model-floor-1096.webp",
+    "avif": "model-floor-1096.avif",
+    "w": 1096,
+    "h": 1096,
+    "kb": 37,
+    "avif_kb": 35
+   },
+   {
     "file": "model-floor-800.webp",
     "avif": "model-floor-800.avif",
     "w": 800,
@@ -1453,6 +1677,14 @@
     "avif_kb": 30
    },
    {
+    "file": "model-shared-1096.webp",
+    "avif": "model-shared-1096.avif",
+    "w": 1096,
+    "h": 1096,
+    "kb": 23,
+    "avif_kb": 22
+   },
+   {
     "file": "model-shared-800.webp",
     "avif": "model-shared-800.avif",
     "w": 800,
@@ -1491,6 +1723,14 @@
     "h": 1500,
     "kb": 19,
     "avif_kb": 17
+   },
+   {
+    "file": "model-parking-1096.webp",
+    "avif": "model-parking-1096.avif",
+    "w": 1096,
+    "h": 1096,
+    "kb": 13,
+    "avif_kb": 12
    },
    {
     "file": "model-parking-800.webp",
