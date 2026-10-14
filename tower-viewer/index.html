@@ -297,6 +297,7 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
         <button type="button" id="t-surr" aria-pressed="true" data-i18n="mSurr">Surroundings</button>
         <button type="button" id="t-rotate" aria-pressed="false" data-i18n="mRotate">Rotate</button>
         <button type="button" id="t-src" data-i18n="mSources">Sources</button>
+        <button type="button" id="t-share" data-i18n="mShare">Copy link</button>
       </div>
     </div>
     <div class="mrow">
@@ -425,7 +426,7 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
     en: {
       kick: 'Tehran / Ozgol · 3D model', tabView: 'View', tabLight: 'Light', tabFloors: 'Floors', tabMore: 'More',
       vCorner: 'Corner', vStreet: 'Street', vBack: 'Back', vRoof: 'Roof', vPlan: 'Plan', lDay: 'Day', lGolden: 'Golden', lNight: 'Night', todAria: 'Time of day, from day through golden hour to night',
-      mFloors: 'Typical floors', mSurr: 'Surroundings', mRotate: 'Rotate', mSources: 'Sources', mQuality: 'Quality',
+      mFloors: 'Typical floors', mSurr: 'Surroundings', mRotate: 'Rotate', mSources: 'Sources', mShare: 'Copy link', linkCopied: 'Link to this view copied', mQuality: 'Quality',
       qAuto: 'Auto', qHigh: 'High', qLow: 'Battery saver', qHint: 'Auto lowers the resolution if the device struggles.',
       floor: 'Floor', typical: 'Typical floor', apt: 'Apt', apartment: 'Apartment', tapApt: 'Tap an apartment to see its layout.',
       bedrooms: 'Three bedrooms', enlarge: 'Enlarge', brochure: 'Brochure', planPhoto: 'Plan photo', check: 'Check',
@@ -443,7 +444,7 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
     fa: {
       kick: 'تهران / ازگل · مدل سه‌بعدی', tabView: 'نما', tabLight: 'نور', tabFloors: 'طبقات', tabMore: 'بیشتر',
       vCorner: 'گوشه', vStreet: 'خیابان', vBack: 'پشت', vRoof: 'بام', vPlan: 'پلان', lDay: 'روز', lGolden: 'غروب', lNight: 'شب', todAria: 'ساعت روز، از روز تا غروب و شب',
-      mFloors: 'طبقات تیپ', mSurr: 'محیط اطراف', mRotate: 'چرخش', mSources: 'منابع', mQuality: 'کیفیت',
+      mFloors: 'طبقات تیپ', mSurr: 'محیط اطراف', mRotate: 'چرخش', mSources: 'منابع', mShare: 'کپی پیوند', linkCopied: 'پیوند این نما کپی شد', mQuality: 'کیفیت',
       qAuto: 'خودکار', qHigh: 'بالا', qLow: 'صرفه‌جویی باتری', qHint: 'در حالت خودکار، اگر دستگاه کند شود وضوح تصویر کم می‌شود.',
       floor: 'طبقه', typical: 'طبقه تیپ', apt: 'واحد', apartment: 'واحد', tapApt: 'برای دیدن چیدمان، روی یک واحد بزنید.',
       bedrooms: 'سه‌خوابه', enlarge: 'بزرگ‌نمایی', brochure: 'بروشور', planPhoto: 'عکس پلان', check: 'نیازمند تأیید',
@@ -1213,6 +1214,20 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
   document.querySelectorAll('#seg-quality button').forEach(function (b) { b.onclick = function () { applyQuality(b.dataset.q, true); }; });
   var surrOn = true;
   $('t-surr').onclick = function () { surrOn = !surrOn; press(this, surrOn); setSurroundings(surrOn); };
+  // "Copy link": the named view, light preset, language and, in Floors mode, the apartment and floor
+  $('t-share').onclick = function () {
+    var u = new URL(location.href);
+    u.hash = ''; u.search = '';
+    u.searchParams.set('lang', LANG);
+    if (curPreset && curPreset !== 'day') u.searchParams.set('light', curPreset);
+    if (floorOn && selApt) { u.searchParams.set('apt', selApt); u.searchParams.set('floor', floorIdx); }
+    else if (curView) u.searchParams.set('view', curView);
+    var href = u.href;
+    var done = function () { toast(t('linkCopied'), 2200); announce(t('linkCopied')); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(href).then(done, function () { window.prompt('', href); });
+    } else { window.prompt('', href); }
+  };
   $('t-rotate').onclick = function () { controls.autoRotate = !controls.autoRotate; press(this, controls.autoRotate); };
   $('info-btn').onclick = function () { openSources($('sources').hidden); };
   $('t-src').onclick = function () { openSources(true); };
@@ -1387,7 +1402,14 @@ html[lang="fa"] .tour-title { font-family: var(--font-fa); font-weight: 700; fon
     statusEl.classList.add('gone'); statusEl.setAttribute('aria-busy', 'false');
     siteReady = true;
     var qs = new URLSearchParams(location.search);
+    // a shared link can also carry the light preset and a named view (see "Copy link" under More)
+    var wantLight = qs.get('light'), wantView = qs.get('view');
+    if (wantLight && PRESETS[wantLight]) {
+      document.querySelectorAll('[data-light]').forEach(function (x) { press(x, x.dataset.light === wantLight); });
+      setLight(wantLight, true);
+    }
     if (qs.get('apt')) openApartment(qs.get('apt'), qs.get('floor'));
+    else if (wantView && pose(wantView)) view(wantView, true);
     else if (!/nointro/.test(location.hash)) startIntro();
     loop();
   }).catch(function (e) { fail(t('bad')); console.error(e); });
