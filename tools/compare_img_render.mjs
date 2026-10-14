@@ -7,12 +7,13 @@ import path from 'node:path';
 
 const [A, B, OUT = '/tmp/imgcmp'] = process.argv.slice(2);
 const PAGES = ['index', 'residences', 'gallery', 'project', 'architecture', 'lifestyle', 'location', 'compare', 'brochure', 'developer', 'residence-1', 'residence-2'];
+const ONLY = (process.env.VPS || '').split(',').filter(Boolean);
 const VPS = [
   { n: 'p360x3', width: 360, height: 740, dpr: 3 },
   { n: 't768x2', width: 768, height: 1024, dpr: 2 },
   { n: 'l1440x2', width: 1440, height: 900, dpr: 2 },
   { n: 'd1920x1', width: 1920, height: 1080, dpr: 1 },
-];
+].filter((v) => !ONLY.length || ONLY.includes(v.n));
 const browser = await chromium.launch({ channel: process.env.PW_CHANNEL || 'chrome' });
 const stem = (u) => u.split('/').pop();
 
