@@ -1,5 +1,10 @@
 # Ganjineh Ofogh — website V9
 
+**Live preview:** https://amirronaldo319.github.io/ganjineh-ofogh/  ·  Persian (default) and English, with interactive 3D models of the tower and the four apartments.
+
+> Concept project website. Figures marked "as supplied" are awaiting approved project records; renders are illustrative. See `launch/FACTS-TO-CONFIRM.md`.
+
+
 Bilingual (Persian / English) site for برج گنجینه افق, built on V8's structure and server.
 V8 is untouched; this folder is self-contained.
 
