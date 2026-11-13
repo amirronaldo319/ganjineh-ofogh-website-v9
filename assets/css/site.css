@@ -1567,9 +1567,16 @@ html[lang="fa"] .scene__text h3 { font-weight: 600; }
   html.js:not([data-lite]) .journey__skip:hover { background: rgba(15, 26, 22, .94); border-color: rgba(237, 232, 220, .8); }
 }
 
-/* Portrait phones and tablets: the whole picture sits in an uncropped 3:2 frame and the caption flows underneath it.
-   (A landscape phone keeps the full-bleed layout above: a 3:2 frame would be taller than the screen.) */
-@media screen and (prefers-reduced-motion: no-preference) and (max-width: 880px) and (max-aspect-ratio: 1/1) {
+/* Near-square windows (tablets held upright-ish, small laptop windows): a full-bleed crop would cut a third off the picture and a
+   stacked 3:2 frame would leave no room for the caption, so the whole picture is shown, letterboxed on the dark background. */
+@media screen and (prefers-reduced-motion: no-preference) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 6/5) {
+  html.js:not([data-lite]) .scene__pic { background: var(--night); }
+  html.js:not([data-lite]) .scene__pic img { object-fit: contain; object-position: 50% 44%; scale: calc(1 + clamp(0, calc(var(--j) - var(--i) + 1), 2) * .015); }
+}
+
+/* Tall screens (phones, tablets upright; aspect 3:4 or taller): the whole picture sits in an uncropped 3:2 frame and the caption
+   flows underneath it. (Wider screens keep the full-bleed layout above: a 3:2 frame would be too tall to leave room for the caption.) */
+@media screen and (prefers-reduced-motion: no-preference) and (max-aspect-ratio: 3/4) {
   html.js:not([data-lite]) .journey__stick { display: flex; flex-direction: column; padding-block-start: calc(var(--header-h) + 6px); }
   html.js:not([data-lite]) .journey__head { position: relative; inset: auto; flex: none; padding-block-end: 14px; }
   html.js:not([data-lite]) .journey__head .eyebrow { min-block-size: 40px; margin-block-end: 0; }
@@ -1579,13 +1586,13 @@ html[lang="fa"] .scene__text h3 { font-weight: 600; }
   html.js:not([data-lite]) .scene__pic { inset: 0 0 auto 0; height: auto; aspect-ratio: 3 / 2; }
   html.js:not([data-lite]) .scene__pic::after { display: none; }
   html.js:not([data-lite]) .scene__pic img { scale: calc(1 + clamp(0, calc(var(--j) - var(--i) + 1), 2) * .015); }
-  html.js:not([data-lite]) .scene__text { inset-block-start: calc(66.67vw + 18px); inset-block-end: auto; max-width: none; text-shadow: none; }
+  html.js:not([data-lite]) .scene__text { inset-block-start: calc(66.67vw + 18px); inset-block-end: auto; max-width: min(46ch, calc(100% - 72px)); text-shadow: none; }   /* never runs under the back-to-top button */
   html.js:not([data-lite]) .journey__skip { inset-block-start: calc(var(--header-h) + 6px); min-block-size: 40px; font-size: .78rem; }
   html.js:not([data-lite]) .journey .kind { inset-inline-start: 8px; inset-inline-end: auto; inset-block-end: 8px; }
   html.js:not([data-lite]) .journey__bar { inset-inline-end: calc(var(--gutter) + 56px); }
 }
 /* short portrait screens (small phones): keep the heading for screen readers, free the room for the picture and caption */
-@media screen and (prefers-reduced-motion: no-preference) and (max-width: 880px) and (max-aspect-ratio: 1/1) and (max-height: 640px) {
+@media screen and (prefers-reduced-motion: no-preference) and (max-aspect-ratio: 3/4) and (max-height: 640px) {
   html.js:not([data-lite]) .journey__head .h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   html.js:not([data-lite]) .scene__text { inset-block-start: calc(66.67vw + 12px); }
   html.js:not([data-lite]) .scene__text .eyebrow { margin-block-end: .45rem; }

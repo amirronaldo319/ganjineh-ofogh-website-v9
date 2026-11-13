@@ -110,31 +110,65 @@ test.describe('journey · without JavaScript', () => {
   });
 });
 
-test.describe('journey · portrait phone', () => {
-  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
-  test('the whole picture is shown (not cropped) and the caption stays on screen', async ({ page }) => {
-    await page.goto('/index.html');
-    await page.waitForFunction(() => !!window.ofogh);
-    for (const j of [0, 2, 4]) {
-      await scrollTo(page, j);
-      await expect.poll(() => page.evaluate((j) => document.querySelector('#journey').dataset.scene === String(j), j)).toBe(true);
-      await page.waitForFunction((j) => { const i = document.querySelectorAll('#journey .scene__pic img')[j]; return i.complete && i.naturalWidth > 0; }, j);   // lazy-loaded
-      const m = await page.evaluate((j) => {
-        const img = document.querySelectorAll('#journey .scene__pic img')[j];
-        const text = document.querySelectorAll('#journey .scene__text')[j].getBoundingClientRect();
-        const b = img.closest('.scene__pic').getBoundingClientRect();   // the frame (the img sits inside a <picture>)
-        const stick = document.querySelector('#journey .journey__stick').getBoundingClientRect();
-        return { frameRatio: b.width / b.height, natural: img.naturalWidth / img.naturalHeight, left: b.left, right: b.right, vw: innerWidth,
-          captionBottom: text.bottom, stickBottom: stick.bottom, sideways: document.documentElement.scrollWidth - innerWidth };
-      }, j);
-      expect(Math.abs(m.frameRatio - m.natural)).toBeLessThan(0.03);   // the frame has the picture's own shape: nothing is cut off
-      expect(m.left).toBeGreaterThanOrEqual(-1);
-      expect(m.right).toBeLessThanOrEqual(m.vw + 1);
-      expect(m.captionBottom).toBeLessThanOrEqual(m.stickBottom - 20);
-      expect(m.sideways).toBeLessThanOrEqual(1);
-    }
+/** the portrait layout (aspect 3:4 or taller): whole picture in a 3:2 frame, caption underneath, nothing on top of anything else */
+for (const [name, width, height] of [['phone 390×844', 390, 844], ['phone 375×667', 375, 667], ['phone 360×740', 360, 740], ['Pixel 412×915', 412, 915], ['tablet 768×1024', 768, 1024]]) {
+  test.describe(`journey · portrait · ${name}`, () => {
+    test.use({ viewport: { width, height }, isMobile: width < 700, hasTouch: width < 700 });
+    test('the whole picture is shown (not cropped) and the caption fits, clear of the bar and the back-to-top button', async ({ page }) => {
+      await page.goto('/index.html');
+      await page.waitForFunction(() => !!window.ofogh);
+      for (const j of [0, 2, 4]) {
+        await scrollTo(page, j);
+        await expect.poll(() => page.evaluate((j) => document.querySelector('#journey').dataset.scene === String(j), j)).toBe(true);
+        await page.waitForFunction((j) => { const i = document.querySelectorAll('#journey .scene__pic img')[j]; return i.complete && i.naturalWidth > 0; }, j);   // lazy-loaded
+        await page.waitForTimeout(450);   // the back-to-top button eases in
+        const m = await page.evaluate((j) => {
+          const img = document.querySelectorAll('#journey .scene__pic img')[j];
+          const text = document.querySelectorAll('#journey .scene__text')[j].getBoundingClientRect();
+          const b = img.closest('.scene__pic').getBoundingClientRect();   // the frame (the img sits inside a <picture>)
+          const bar = document.querySelector('#journey .journey__bar').getBoundingClientRect();
+          const up = document.querySelector('.totop').getBoundingClientRect();
+          return { frameRatio: b.width / b.height, natural: img.naturalWidth / img.naturalHeight, left: b.left, right: b.right, vw: innerWidth,
+            captionBottom: text.bottom, barTop: bar.top, sideways: document.documentElement.scrollWidth - innerWidth,
+            hitsButton: text.left < up.right && text.right > up.left && text.top < up.bottom && text.bottom > up.top };
+        }, j);
+        expect(Math.abs(m.frameRatio - m.natural)).toBeLessThan(0.03);   // the frame has the picture's own shape: nothing is cut off
+        expect(m.left).toBeGreaterThanOrEqual(-1);
+        expect(m.right).toBeLessThanOrEqual(m.vw + 1);
+        expect(m.captionBottom).toBeLessThanOrEqual(m.barTop + 2);
+        expect(m.hitsButton).toBe(false);
+        expect(m.sideways).toBeLessThanOrEqual(1);
+      }
+    });
   });
-});
+}
+
+/** near-square windows: the whole picture is shown (letterboxed), never cropped, and the caption still fits */
+for (const [name, width, height] of [['841×863', 841, 863], ['1024×900', 1024, 900], ['900×1100', 900, 1100]]) {
+  test.describe(`journey · near-square · ${name}`, () => {
+    test.use({ viewport: { width, height } });
+    test('the picture is contained, not cropped, and the caption clears the bar and the back-to-top button', async ({ page }) => {
+      await page.goto('/en/index.html');
+      await page.waitForFunction(() => !!window.ofogh);
+      for (const j of [1, 2, 3]) {
+        await scrollTo(page, j);
+        await expect.poll(() => page.evaluate((j) => document.querySelector('#journey').dataset.scene === String(j), j)).toBe(true);
+        await expect(page.locator('.totop')).toHaveClass(/is-on/);
+        await page.waitForTimeout(450);
+        const m = await page.evaluate((j) => {
+          const text = document.querySelectorAll('#journey .scene__text')[j].getBoundingClientRect();
+          const bar = document.querySelector('#journey .journey__bar').getBoundingClientRect();
+          const up = document.querySelector('.totop').getBoundingClientRect();
+          return { fit: getComputedStyle(document.querySelectorAll('#journey .scene__pic img')[j]).objectFit, captionBottom: text.bottom, barTop: bar.top,
+            hitsButton: text.left < up.right && text.right > up.left && text.top < up.bottom && text.bottom > up.top };
+        }, j);
+        expect(m.fit).toBe('contain');
+        expect(m.captionBottom).toBeLessThanOrEqual(m.barTop + 2);
+        expect(m.hitsButton).toBe(false);
+      }
+    });
+  });
+}
 
 test.describe('journey · small phone', () => {
   test.use({ viewport: { width: 320, height: 568 }, isMobile: true, hasTouch: true });

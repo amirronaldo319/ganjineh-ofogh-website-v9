@@ -1,4 +1,4 @@
-/* Ganjineh Ofogh — service worker (built to /sw.js by tools/build_site.py; 464526e65cdb is a hash of the whole site).
+/* Ganjineh Ofogh — service worker (built to /sw.js by tools/build_site.py; 4e4b6039f72d is a hash of the whole site).
  *
  * Why: the static host this preview runs on cannot send long cache headers, so every repeat visit re-validates dozens
  * of pictures. This keeps the files that never change under a given build on the visitor's device.
@@ -8,12 +8,12 @@
  *                                                                      fails or takes longer than 4 s
  *   /api/*, /admin*, forms (POST), Range requests, other origins     → never touched
  *
- * Every deploy changes 464526e65cdb, so the first activation of a new build deletes every older cache: nothing from a
+ * Every deploy changes 4e4b6039f72d, so the first activation of a new build deletes every older cache: nothing from a
  * previous build can outlive it. No tracking, no analytics, nothing is sent anywhere.
  */
 'use strict';
-// built from source db8bfb61d330
-const VERSION = '464526e65cdb';
+// built from source 7bc4fa42b8d3
+const VERSION = '4e4b6039f72d';
 const CACHE = 'ofogh-' + VERSION;
 const NETWORK_TIMEOUT = 4000;
 const WARM_LIMIT = 160;
