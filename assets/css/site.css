@@ -206,9 +206,10 @@ html[lang="fa"] .hero__title .en { font-family: var(--font-display); font-size: 
 html[lang="fa"] .hero__tag { font-style: normal; font-weight: 400; line-height: 1.7; }
 .hero__cta { display: flex; flex-wrap: wrap; gap: .9rem; margin-block-start: clamp(26px, 4.4vh, 52px); }
 .hero__note { margin-block-start: 1.6rem; max-width: 44ch; }
-.hero__art { position: relative; justify-self: end; width: min(100%, 620px); aspect-ratio: 3 / 4; max-height: calc(100svh - var(--header-h) - 90px); }
-.hero__art .arch { position: absolute; inset: 0; background: var(--bg-2); box-shadow: var(--shadow); }
-.hero__art img { width: 100%; height: 118%; object-fit: cover; object-position: 50% 42%; position: absolute; inset-inline: 0; top: -9%; transform: translate3d(0, var(--py, 0px), 0) scale(1.04); will-change: transform; }
+.hero__art { position: relative; justify-self: end; width: min(100%, 620px); aspect-ratio: 1 / 1; max-height: calc(100svh - var(--header-h) - 90px); }
+.hero__art .arch { position: absolute; inset: 0; background: var(--bg-2); box-shadow: var(--shadow); border-radius: 28% 28% 0 0 / 22% 22% 0 0; }
+/* the render is square: a square frame with contain shows the whole tower (no overscale, parallax or arch crop) */
+.hero__art img { width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0; }
 .hero__sun { position: absolute; z-index: -1; width: clamp(90px, 13vw, 190px); aspect-ratio: 1; border-radius: 50%; inset-inline-end: -4%; inset-block-start: 6%;
   background: radial-gradient(circle at 35% 35%, #f4e2b4, #d9b36a 62%, #b98f4a); opacity: .85; transform: translate3d(0, var(--sy, 0px), 0); filter: blur(.3px); }
 :root[data-theme="dusk"] .hero__sun { background: radial-gradient(circle at 35% 35%, #f8efd2, #e4cf9d 60%, #c9b27a); opacity: .9; box-shadow: 0 0 120px 30px rgba(214,193,143,.25); }
@@ -561,13 +562,13 @@ html[lang="fa"] .info h3 { font-weight: 600; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
   .js .rv { opacity: 1; transform: none; }
   .js .rv-img img { clip-path: none; transform: none; }
-  .hero__art img { transform: scale(1.02) !important; }
+  .hero__art img { transform: none !important; }
 }
 @media print {
   /* Always print the day palette on white, whatever theme is on screen. */
   :root, :root[data-theme="dusk"] { --bg: #fff; --bg-2: #fff; --surface: #fff; --ink: #1d2823; --ink-2: #46514b; --muted: #5a625c;
     --accent: #1f3a31; --brass-ink: #7a5f38; --line: rgba(29, 40, 35, .22); --line-strong: rgba(29, 40, 35, .4); --shadow: none; color-scheme: light; }
-  .header, .menu, .hero__scroll, .viewer, .toast, .lb, .stickycta, .totop, .dots, .progress, .cursor, .curtain, .marquee,
+  .header, .menu, .hero__scroll, .viewer, .toast, .lb, .stickycta, .totop, .dots, .progress, .cursor, .marquee,
   .hero__art, .phero__art, .scrub__stars, .orn, .skip, .share, .tool, [data-sticky] { display: none !important; }
   html, body { background: #fff !important; color: #000; }
   * { animation: none !important; transition: none !important; box-shadow: none !important; text-shadow: none !important; }
@@ -1025,39 +1026,10 @@ html[lang="fa"] .footer__mark span { font-weight: 700; letter-spacing: 0; }
 .marquee span { color: color-mix(in srgb, var(--ink) 11%, transparent); }
 
 /* ═════════════════════════════════════════════════════════════════════════
-   V9 motion layer II: intro curtain, cursor, glide indicator, tilt, section dots, ornaments
+   V9 motion layer II: cursor, glide indicator, tilt, section dots, ornaments
    ═════════════════════════════════════════════════════════════════════════ */
 
-/* ── first-visit curtain (pure CSS timeline; motion.js only lets people skip it) ── */
-.curtain { display: none; }
-html[data-intro] .curtain { display: grid; place-items: center; align-content: center; gap: 1.1rem; position: fixed; inset: 0; z-index: 900; background: var(--night); color: var(--night-ink);
-  animation: curtain 1s var(--ease-io) 1.55s both; pointer-events: none; }
-html[data-intro] { --id: 1.5s; }
-.curtain__line { width: min(46vw, 240px); height: 1px; background: linear-gradient(90deg, transparent, #d6c18f, transparent); transform: scaleX(0); animation: introLine 1.1s var(--ease-out) .15s both; }
-.curtain__mark { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 6vw, 3.6rem); letter-spacing: .02em; opacity: 0; animation: introMark .9s var(--ease-out) .55s both; }
-html[lang="fa"] .curtain__mark { font-weight: 700; letter-spacing: 0; }
-.curtain__sub { font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; color: #d6c18f; opacity: 0; animation: introMark .9s var(--ease-out) .8s both; }
-html[lang="fa"] .curtain__sub { letter-spacing: 0; text-transform: none; font-size: .9rem; }
-@keyframes introLine { to { transform: scaleX(1); } }
-@keyframes introMark { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
-@keyframes curtain { 0% { clip-path: inset(0 0 0 0); } 99% { clip-path: inset(0 0 100% 0); visibility: visible; } 100% { clip-path: inset(0 0 100% 0); visibility: hidden; } }
-html[data-intro].intro-skip .curtain { animation-duration: .5s; animation-delay: 0s; }
-/* hero entrance waits for the curtain (the delay is part of each animation, so nothing depends on JS) */
-@media (prefers-reduced-motion: no-preference) {
-  html[data-intro] .hero__loc, html[data-intro] .hero__tag, html[data-intro] .hero__cta, html[data-intro] .hero__note, html[data-intro] .hero__scroll,
-  html[data-intro] .hero__title .en, html[data-intro] .hero__title .fa, html[data-intro] .hero__art .arch, html[data-intro] .hero__sun,
-  html[data-intro] .hero__horizon, html[data-intro] .header__in > * { animation-delay: calc(var(--d0, 0s) + var(--id)); }
-  html[data-intro] .hero__loc { --d0: .15s; } html[data-intro] .hero__title .en { --d0: .3s; } html[data-intro] .hero__title .fa { --d0: .5s; }
-  html[data-intro] .hero__tag { --d0: .75s; } html[data-intro] .hero__cta { --d0: .9s; } html[data-intro] .hero__note { --d0: 1.05s; }
-  html[data-intro] .hero__art .arch { --d0: .1s; } html[data-intro] .hero__sun { --d0: .5s; } html[data-intro] .hero__horizon { --d0: .6s; }
-  html[data-intro] .hero__scroll { --d0: 1.5s; } html[data-intro] .header__in > * { --d0: .05s; }
-}
 
-/* ── slow breathing on the hero render ── */
-@media (prefers-reduced-motion: no-preference) {
-  .js .hero__art img { animation: breathe 28s ease-in-out 2.4s infinite alternate; }
-}
-@keyframes breathe { from { scale: 1; } to { scale: 1.07; } }
 
 /* ── cursor: a ring that trails the pointer and names what is under it (fine pointers only) ── */
 .cursor { display: none; }
@@ -1119,7 +1091,7 @@ html[data-intro].intro-skip .curtain { animation-duration: .5s; animation-delay:
 
 /* ── nothing of the above under reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .curtain, .cursor { display: none !important; }
+  .cursor { display: none !important; }
   .orn path, .orn circle { stroke-dashoffset: 0; transition: none; }
   .nav__ind { transition: none; }
   .apt-card .frame { transform: none; }
@@ -1205,7 +1177,7 @@ html[dir="rtl"] .bar { transform-origin: right center; }
 .sheet { display: none; }
 @media print {
   @page { size: A4; margin: 13mm; }
-  main:has(.sheet) > :not(.sheet), .skip, .cursor, .curtain, .dots, .progress, .footer { display: none !important; }
+  main:has(.sheet) > :not(.sheet), .skip, .cursor, .dots, .progress, .footer { display: none !important; }
   html, body { background: #fff !important; }
   .sheet { display: block; color: #1a1a17; font-size: 10.5pt; line-height: 1.5; }
   .sheet__head { display: flex; justify-content: space-between; align-items: baseline; border-block-end: 1.5pt solid #8a6d2f; padding-block-end: 4mm; font-size: 11pt; }
@@ -1531,3 +1503,17 @@ html[lang="fa"] .kind { font-size: .74rem; letter-spacing: 0; }
 .np__list { list-style: none; margin: .8rem 0 1rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .5rem 1.5rem; }
 .np__list li { padding-block: .5rem; border-block-end: 1px solid var(--line); display: flex; gap: .7rem; align-items: baseline; }
 .np__list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; border: 1px solid var(--brass); flex: none; translate: 0 -1px; }
+
+/* ── tap targets (WCAG 2.2 AA asks 24px; 44px here), hero action hierarchy, visible focus ── */
+.link-arrow, .text-link { min-block-size: 44px; display: inline-flex; align-items: center; }
+footer a { display: inline-flex; align-items: center; min-block-size: 44px; }
+.hero__cta { align-items: center; column-gap: 1.4rem; }
+.hero__more { font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; color: inherit; text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; display: inline-flex; align-items: center; min-block-size: 44px; }
+html[lang="fa"] .hero__more { letter-spacing: 0; text-transform: none; font-size: .9rem; }
+.hero__more:hover { text-decoration-thickness: 2px; }
+:where(a, button, summary, input, select, textarea):focus-visible { outline: 2px solid var(--brass, #c9a96a); outline-offset: 3px; }
+.viewer__bar button, .viewer__bar a { min-block-size: 44px; }
+/* breadcrumb and table links keep their look: the padding makes the tap area 44px tall and moves nothing
+   (inline boxes ignore it for line height; the breadcrumb links are flex items, so the margin cancels it there) */
+.crumbs a { padding-block: 11px; margin-block: -11px; }
+.compare a { padding-block: 11px; }

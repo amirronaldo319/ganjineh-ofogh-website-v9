@@ -175,14 +175,11 @@
     counters.forEach(function (c) { cIO.observe(c.el); });
   }
 
-  /* ───────── scroll-linked: hero parallax + day→dusk ───────── */
-  var heroImg = $('#hero-img'), heroSun = $('#hero-sun'), scrub = $('#daydusk');
+  /* ───────── scroll-linked: hero sun parallax + day→dusk (the hero render itself stays still so it is never cropped) ───────── */
+  var heroSun = $('#hero-sun'), scrub = $('#daydusk');
   function onScrollFx() {
     var vh = window.innerHeight, y = window.scrollY;
-    if (!reduced && heroImg && y < vh * 1.2) {
-      heroImg.style.setProperty('--py', (y * 0.07).toFixed(1) + 'px');
-      if (heroSun) heroSun.style.setProperty('--sy', (y * -0.12).toFixed(1) + 'px');
-    }
+    if (!reduced && heroSun && y < vh * 1.2) heroSun.style.setProperty('--sy', (y * -0.12).toFixed(1) + 'px');
     if (scrub) {
       var r = scrub.getBoundingClientRect();
       if (r.bottom > -vh && r.top < vh * 2) {
@@ -480,6 +477,8 @@
   (function () {
     var notes = $$('.preview-hint, .preview-note');
     if (!notes.length || !window.fetch) return;
+    // GitHub Pages has no backend: skip the call (it would only log a 404) unless forms point at another address
+    if (/\.github\.io$/.test(location.hostname) && !$('meta[name="go-api"][content]:not([content=""])')) return;
     fetch(api('status'), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
       if (d && d.acceptingEnquiries) notes.forEach(function (n) { n.hidden = true; });
     }).catch(function () {});

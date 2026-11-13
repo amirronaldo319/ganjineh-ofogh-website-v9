@@ -298,7 +298,7 @@ def compare_tool():
   <div class="compare-wrap"><table class="compare cmp__table" id="cmp-table">
     <thead><tr><td class="cmp__corner"></td>{head}</tr></thead>
     <tbody><tr><th scope="row" class="cmp__blank" en="Plan">پلان</th>{pic}</tr>{body}
-    <tr><th scope="row" class="cmp__blank" en="Details">جزئیات</th>{"".join(f'<td data-apt="{a["n"]}"><a href="residence-{a["n"]}.html" en="View Apartment {a["n"]} →">مشاهده‌ی واحد {a["n_fa"]} ←</a></td>' for a in APARTMENTS)}</tr></tbody>
+    <tr><th scope="row" class="cmp__blank" en="Details">جزئیات</th>{"".join(f'<td data-apt="{a["n"]}"><a class="text-link" href="residence-{a["n"]}.html" en="View Apartment {a["n"]} →">مشاهده‌ی واحد {a["n_fa"]} ←</a></td>' for a in APARTMENTS)}</tr></tbody>
   </table></div>
   <p class="fine" en="Areas as supplied. {{area_basis_en}} Orientation, views and availability of each residence are not yet part of the supplied information; ask the sales team.">مساحت‌ها بر پایه‌ی اطلاعات ارائه‌شده است. {{area_basis_fa}} جهت‌گیری، چشم‌انداز و موجودی هر واحد هنوز جزو اطلاعات ارائه‌شده نیست؛ از تیم فروش بپرسید.</p>
 </div>'''
@@ -735,18 +735,37 @@ def main():
     build_service_worker()
 
 
-def build_service_worker():
-    """src/sw.js -> /sw.js with a version that changes whenever any published file changes (old caches are then dropped)."""
+def digest_of(files) -> str:
     digest = hashlib.sha1()
-    patterns = ("*.html", "en/*.html", "favicon.svg")
-    files = [p for pat in patterns for p in ROOT.glob(pat)]
-    for folder in ("assets", "residences-3d", "tower-viewer"):
-        files += [p for p in (ROOT / folder).rglob("*") if p.is_file() and p.name != ".DS_Store"]
     for p in sorted(files):
         digest.update(str(p.relative_to(ROOT)).encode())
         digest.update(hashlib.sha1(p.read_bytes()).digest())
-    version = digest.hexdigest()[:12]
-    text = (ROOT / "src" / "sw.js").read_text(encoding="utf-8").replace("__SW_VERSION__", version)
+    return digest.hexdigest()[:12]
+
+
+def published_files() -> list:
+    """Every file a visitor can be sent, except sw.js itself."""
+    files = [p for pat in ("*.html", "en/*.html", "favicon.svg") for p in ROOT.glob(pat)]
+    for folder in ("assets", "residences-3d", "tower-viewer"):
+        files += [p for p in (ROOT / folder).rglob("*") if p.is_file() and p.name != ".DS_Store"]
+    return files
+
+
+def source_files() -> list:
+    """What the pages and the minified assets are built from."""
+    files = [p for p in SRC.rglob("*") if p.is_file() and p.name != ".DS_Store"]
+    files += [p for p in (ROOT / "assets" / "js").glob("*.js") if not p.name.endswith(".min.js")]
+    return files + [ROOT / "assets/css/site.css", ROOT / "assets/fonts/fonts.css", ROOT / "tools/build_site.py", ROOT / "tools/build_critical.mjs"]
+
+
+def build_service_worker():
+    """src/sw.js -> /sw.js with a version that changes whenever any published file changes (old caches are then dropped).
+
+    Both fingerprints are written into sw.js, and tests/test_build_fresh.py recomputes them: a source file changed without
+    a rebuild, or a built file edited by hand, fails that test (and tools/publish_github_pages.sh refuses to publish)."""
+    files = published_files()
+    version = digest_of(files)
+    text = (ROOT / "src" / "sw.js").read_text(encoding="utf-8").replace("__SW_VERSION__", version).replace("__SOURCE__", digest_of(source_files()))
     (ROOT / "sw.js").write_text(text, encoding="utf-8")
     print(f"service worker: version {version} ({len(files)} files)")
 

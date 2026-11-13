@@ -47,6 +47,16 @@ curl -sI https://ganjinehofogh.ir/ | grep -iE "strict-transport|content-security
 curl -s https://ganjinehofogh.ir/api/status
 ```
 
+## If a CDN is put in front of Caddy
+
+The per-visitor limits (10 enquiries, 120 look-ups and 10 wrong inbox passwords per hour) use the visitor's address: the last
+entry of `X-Forwarded-For`, which Caddy writes itself (`GO_TRUST_PROXY=1`; `server.py` listens on 127.0.0.1 only, so nobody can
+reach it around Caddy and forge the header). With a CDN in front (for example ArvanCloud), Caddy sees the CDN's address instead,
+and every visitor behind one CDN server would share one limit. Before switching a CDN on, list the CDN's address ranges under
+`trusted_proxies` in the Caddyfile and pass the resolved address on with `header_up X-Forwarded-For {client_ip}` inside
+`reverse_proxy`; then check with two different networks that `journalctl -u ganjineh` shows two different addresses.
+(Not tested here: there is no CDN in this setup yet.)
+
 ## Turning on enquiries
 
 Only after an enquiry destination and a responsible person are confirmed: set `GO_ACCEPT_ENQUIRIES=1` in `/etc/systemd/system/ganjineh.service`, then `sudo systemctl daemon-reload && sudo systemctl restart ganjineh`. Export with `sudo -u ganjineh env GO_DB_PATH=/srv/ganjineh/data/enquiries.sqlite3 python3 server.py export > enquiries.csv`, and keep exports private.

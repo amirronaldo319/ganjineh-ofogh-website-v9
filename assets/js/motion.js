@@ -138,19 +138,6 @@
 
   /* ═══════════ second layer ═══════════ */
 
-  /* ───────── intro curtain: let anyone skip it ───────── */
-  var intro = $('#intro');
-  if (root.hasAttribute('data-intro') && intro) {
-    var endIntro = function () {
-      root.classList.add('intro-skip');
-      setTimeout(function () { root.removeAttribute('data-intro'); if (intro.parentNode) intro.parentNode.removeChild(intro); }, 600);
-    };
-    var autoEnd = setTimeout(function () { root.removeAttribute('data-intro'); if (intro.parentNode) intro.parentNode.removeChild(intro); }, 3300);
-    ['pointerdown', 'keydown', 'wheel'].forEach(function (ev) {
-      window.addEventListener(ev, function once() { clearTimeout(autoEnd); endIntro(); window.removeEventListener(ev, once); }, { passive: true });
-    });
-  } else if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
-
   /* ───────── cursor ring ───────── */
   var cursor = $('#cursor');
   if (cursor && finePointer && getComputedStyle(cursor).display !== 'none') {

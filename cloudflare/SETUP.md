@@ -48,6 +48,10 @@ Options: `--gate` also asks for a partner password so only people you give it to
 `--open-enquiries` lets the forms accept requests (leave it off until someone is ready to answer them);
 `--dry-run` prints every step without doing anything. The script can be run again at any time to publish an update.
 
+The inbox refuses an address for an hour after 10 wrong passwords (the count is kept in the D1 database, so it holds across
+Cloudflare's servers and for guesses sent in parallel). A correct password is never counted. If you lock yourself out, wait
+an hour or clear it: `npx wrangler d1 execute ganjineh-enquiries --remote --command "DELETE FROM limits WHERE kind = 'admin'"`.
+
 ## Which brochure PDF?
 
 I compared the PDFs on the Desktop with the figures on the site:

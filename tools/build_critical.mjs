@@ -130,8 +130,8 @@ for (const rel of pages) {
     for (const theme of THEMES) {
       const page = await ctx.newPage();
       await page.setViewportSize(view);
-      await page.addInitScript((t) => { try { localStorage.setItem('ofogh-site-theme', t); sessionStorage.removeItem('ofogh-intro'); } catch {} }, theme);
-      await page.goto(`${ORIGIN}/${rel}` + (rel === 'index.html' || rel === 'en/index.html' ? '?intro=1' : ''), { waitUntil: 'load' });
+      await page.addInitScript((t) => { try { localStorage.setItem('ofogh-site-theme', t); } catch {} }, theme);
+      await page.goto(`${ORIGIN}/${rel}`, { waitUntil: 'load' });
       const result = await page.evaluate(extract, base);
       if (result) runs.push(result);
       await page.close();

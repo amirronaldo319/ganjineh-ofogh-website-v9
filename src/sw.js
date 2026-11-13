@@ -12,6 +12,7 @@
  * previous build can outlive it. No tracking, no analytics, nothing is sent anywhere.
  */
 'use strict';
+// built from source __SOURCE__
 const VERSION = '__SW_VERSION__';
 const CACHE = 'ofogh-' + VERSION;
 const NETWORK_TIMEOUT = 4000;

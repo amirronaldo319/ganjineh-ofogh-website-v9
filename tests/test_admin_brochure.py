@@ -75,6 +75,30 @@ class BrochureTest(unittest.TestCase):
         status, _ = self.s.enquire(consent="no")
         self.assertEqual(status, 422)
 
+    def test_international_prefixes_are_accepted(self):
+        for number in ("+98 912 123 4567", "0098 912 123 4567"):
+            self.assertEqual(self.s.enquire(mobile=number)[0], 201, number)
+
+    def test_text_that_cannot_be_stored_is_refused_not_crashed_on(self):
+        # "\ud800" is half a character: valid JSON, but it cannot be written to the database or sent on
+        self.assertEqual(self.s.enquire(name="Test \ud800 Visitor")[0], 400)
+
+    def test_a_length_that_is_not_a_number_is_refused_not_crashed_on(self):
+        status, _, _ = self.s.call("POST", "/api/enquiries", "{}", {"Content-Type": "application/json", "Content-Length": "abc"})
+        self.assertEqual(status, 413)
+
+    def test_a_burst_of_enquiries_cannot_outrun_the_limit_and_refused_ones_are_not_counted(self):
+        from concurrent.futures import ThreadPoolExecutor
+        s = Server(8800)
+        try:
+            for _ in range(12):   # refused before storing: these must not use up the allowance
+                self.assertEqual(s.enquire(mobile="12345")[0], 422)
+            with ThreadPoolExecutor(30) as pool:
+                codes = list(pool.map(lambda _: s.enquire()[0], range(30)))
+            self.assertEqual((codes.count(201), codes.count(429)), (10, 20))
+        finally:
+            s.stop()
+
     def test_reference_unlocks_the_pdf_once_recorded(self):
         status, body = self.s.enquire()
         self.assertEqual(status, 201)
@@ -189,6 +213,21 @@ class AdminOffTest(unittest.TestCase):
             self.assertEqual(codes[:10], [401] * 10)
             self.assertEqual(codes[10], 429)
             self.assertEqual(s.call("GET", "/admin", headers=AUTH)[0], 429)   # even the right password waits
+        finally:
+            s.stop()
+
+    def test_parallel_guesses_cannot_outrun_the_limit_and_real_logins_are_free(self):
+        from concurrent.futures import ThreadPoolExecutor
+        s = Server(8799, GO_ADMIN_PASSWORD=PASSWORD)
+        try:
+            for _ in range(12):   # a correct password is never counted; the header-less prompt is not a guess
+                self.assertEqual(s.call("GET", "/admin", headers=AUTH)[0], 200)
+                self.assertEqual(s.call("GET", "/admin")[0], 401)
+            bad = {"Authorization": "Basic " + base64.b64encode(b"admin:no").decode()}
+            with ThreadPoolExecutor(30) as pool:
+                codes = list(pool.map(lambda _: s.call("GET", "/admin", headers=bad)[0], range(30)))
+            self.assertEqual(sorted(set(codes)), [401, 429])
+            self.assertLessEqual(codes.count(401), 10)
         finally:
             s.stop()
 

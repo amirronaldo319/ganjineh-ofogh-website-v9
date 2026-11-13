@@ -67,7 +67,8 @@
     var digits = mobile.value
       .replace(/[۰-۹]/g, function (d) { return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)); })
       .replace(/[٠-٩]/g, function (d) { return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)); })
-      .replace(/\D/g, '');
+      .replace(/\D/g, '')
+      .replace(/^0098/, '98'); // 0098… = +98… (same cases as the server: tests/fixtures/mobiles.json)
     var valid = /^0?9\d{9}$/.test(digits) || /^989\d{9}$/.test(digits);
     mobile.setCustomValidity(valid || !mobile.value ? '' : L('شماره موبایل معتبر وارد کنید.', 'Enter a valid mobile number.'));
     mobileError.textContent = mobile.validationMessage;

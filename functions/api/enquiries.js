@@ -1,4 +1,4 @@
-import { PHONE_RE, ROUTES, UNITS, clean, clientHash, json, limited, normalizeDigits, notify, sameOrigin } from './../_lib.js';
+import { ROUTES, UNITS, clean, clientHash, json, limited, normalizeMobile, notify, sameOrigin } from './../_lib.js';
 
 const refCode = () => [...crypto.getRandomValues(new Uint8Array(6))].map((b) => b.toString(16).padStart(2, '0')).join('').toUpperCase();
 
@@ -20,11 +20,11 @@ export async function onRequestPost(context) {
 
   const route = clean(data.route, 20);
   const name = clean(data.name, 100);
-  const mobile = normalizeDigits(clean(data.mobile, 30)).replace(/\D/g, '');
+  const mobile = normalizeMobile(data.mobile);
   const email = clean(data.email, 200);
   const unit = clean(data['residence-interest'], 20);
   const consent = data.consent === 'yes';
-  if (!ROUTES.includes(route) || !UNITS.includes(unit) || name.length < 2 || name.length > 100 || !PHONE_RE.test(mobile) || !consent)
+  if (!ROUTES.includes(route) || !UNITS.includes(unit) || name.length < 2 || name.length > 100 || !mobile || !consent)
     return json({ error: 'نام، شماره موبایل و رضایت ثبت اطلاعات را بررسی کنید.' }, 422);
   if (route === 'brochure' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: 'برای درخواست بروشور، ایمیل معتبر وارد کنید.' }, 422);
   const visitType = route === 'visit' ? clean(data['visit-type'], 20) : '';

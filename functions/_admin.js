@@ -1,5 +1,7 @@
 // The sales inbox: one server-rendered Persian page, no JavaScript on the page, no third-party requests.
-import { STATUSES, basicAuth, csrfToken, escapeHtml, json, unauthorized } from './_lib.js';
+import { STATUSES, basicAuth, clientHash, csrfToken, escapeHtml, json, unauthorized } from './_lib.js';
+
+const ADMIN_FAILS_PER_HOUR = 10;
 
 const ROUTE_LABELS = { visit: 'بازدید', brochure: 'بروشور (ایمیل)', download: 'دانلود بروشور', advisor: 'تماس مشاور' };
 const UNIT_LABELS = { 'residence-1': 'واحد ۱', 'residence-2': 'واحد ۲', 'residence-3': 'واحد ۳', 'residence-4': 'واحد ۴',
@@ -19,8 +21,22 @@ export async function guard(context) {
   // Basic auth carries the password on every request, so it is only accepted over HTTPS (or the local dev server).
   const url = new URL(request.url);
   if (url.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(url.hostname)) return new Response('Not found', { status: 404 });
-  const ok = await basicAuth(request, env.ADMIN_USER || 'admin', env.ADMIN_PASSWORD);
-  return ok ? null : unauthorized('Ganjineh Ofogh sales');
+  // Like server.py: 10 wrong passwords per address per hour, then refuse even the right one until the hour passes.
+  // The count lives in D1 (shared by every instance); CF-Connecting-IP is set by Cloudflare and cannot be forged through it.
+  const ip = await clientHash(request);
+  const now = Math.floor(Date.now() / 1000);
+  const attempts = async () => (await env.DB.prepare('SELECT COUNT(*) AS n FROM limits WHERE kind = ? AND ip = ? AND at > ?').bind('admin', ip, now - 3600).first()).n;
+  const tooMany = () => new Response('Too many attempts', { status: 429, headers: { 'cache-control': 'no-store', 'retry-after': '3600' } });
+  if (await attempts() >= ADMIN_FAILS_PER_HOUR) return tooMany();   // locked out: answered without a write
+  // the browser's first, header-less request is how basic auth asks for the password: not a guess
+  if (!request.headers.has('Authorization')) return unauthorized('Ganjineh Ofogh sales');
+  // Record the guess BEFORE checking it: guesses sent in parallel then see each other's rows, so a burst cannot get
+  // more than the allowance checked. A correct password takes its own row back.
+  const { id } = await env.DB.prepare('INSERT INTO limits (kind, ip, at) VALUES (?, ?, ?) RETURNING rowid AS id').bind('admin', ip, now).first();
+  if (await attempts() > ADMIN_FAILS_PER_HOUR) return tooMany();
+  if (!(await basicAuth(request, env.ADMIN_USER || 'admin', env.ADMIN_PASSWORD))) return unauthorized('Ganjineh Ofogh sales');
+  await env.DB.prepare('DELETE FROM limits WHERE rowid = ?').bind(id).run();
+  return null;
 }
 
 export async function rows(env, status, route) {

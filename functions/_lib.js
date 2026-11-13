@@ -19,6 +19,13 @@ export function normalizeDigits(value) {
   return String(value).replace(/[۰-۹]/g, (d) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
 }
 
+/** An Iranian mobile number in the one stored form, 09xxxxxxxxx, or '' when the input is not one.
+ *  The same rule as server.py normalize_mobile; both are checked against tests/fixtures/mobiles.json. */
+export function normalizeMobile(value) {
+  const digits = normalizeDigits(clean(value, 30)).replace(/\D/g, '').replace(/^0098/, '98');
+  return PHONE_RE.test(digits) ? '0' + digits.slice(-10) : '';
+}
+
 export async function sha256Hex(text) {
   const bytes = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)));
   return [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
@@ -38,10 +45,10 @@ export const clientHash = (request) => sha256Hex('ganjineh|' + (request.headers.
 export async function limited(env, kind, ipHash, max, windowSeconds = 3600) {
   const now = Math.floor(Date.now() / 1000);
   await env.DB.prepare('DELETE FROM limits WHERE at < ?').bind(now - windowSeconds).run();
-  const { n } = await env.DB.prepare('SELECT COUNT(*) AS n FROM limits WHERE kind = ? AND ip = ?').bind(kind, ipHash).first();
-  if (n >= max) return true;
+  const used = async () => (await env.DB.prepare('SELECT COUNT(*) AS n FROM limits WHERE kind = ? AND ip = ?').bind(kind, ipHash).first()).n;
+  if (await used() >= max) return true;   // over the limit: answered without a write
   await env.DB.prepare('INSERT INTO limits (kind, ip, at) VALUES (?, ?, ?)').bind(kind, ipHash, now).run();
-  return false;
+  return await used() > max;              // counted again after recording: requests sent in parallel see each other's rows
 }
 
 export function sameOrigin(request) {

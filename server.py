@@ -48,7 +48,7 @@ ALLOWED_UNITS = {"", "residence-1", "residence-2", "residence-3", "residence-4",
 # Source, tests and deployment files are never served, even by this preview server.
 PRIVATE_PREFIXES = ("/src/", "/tests/", "/tools/", "/deploy/", "/node_modules/", "/.git", "/__pycache__/", "/test-results/", "/reports/")
 FRAMEABLE = ("/residences-3d/", "/tower-viewer/")
-PHONE_RE = re.compile(r"^(?:0?9\d{9}|989\d{9})$")
+PHONE_RE = re.compile(r"^(?:0?9[0-9]{9}|989[0-9]{9})$")
 REFERENCE_RE = re.compile(r"^[A-F0-9]{12}$")
 REFERENCE_ROUTE = "/api/enquiries/"
 LOOKUP_LIMIT = defaultdict(deque)
@@ -90,14 +90,41 @@ def notify(record: dict) -> None:
         threading.Thread(target=run, daemon=True).start()
 
 
-def allow(history: deque, limit: int, window: float = 3600) -> bool:
+SWEEP_EVERY = 600
+_SWEPT = [0.0]
+_LIMITS = threading.Lock()   # requests run on threads: every read or change of the three tables happens under this
+
+
+def sweep(now: float, window: float = 3600) -> None:
+    """Forget addresses with nothing inside the window, so the three tables do not grow with every visitor ever seen."""
+    if now - _SWEPT[0] < SWEEP_EVERY:
+        return
+    _SWEPT[0] = now
+    for store in (LIMIT, LOOKUP_LIMIT, ADMIN_FAILS):
+        for key, history in list(store.items()):
+            if not history or now - history[-1] > window:
+                store.pop(key, None)
+
+
+def allow(store: dict, key: str, limit: int, window: float = 3600, record: bool = True) -> bool:
+    """True while `key` has fewer than `limit` uses inside the window; counts this use unless record=False."""
     now = time.monotonic()
-    while history and now - history[0] > window:
-        history.popleft()
-    if len(history) >= limit:
-        return False
-    history.append(now)
-    return True
+    with _LIMITS:
+        history = store[key]
+        while history and now - history[0] > window:
+            history.popleft()
+        allowed = len(history) < limit
+        if allowed and record:
+            history.append(now)
+        sweep(now)   # after counting, so the address being counted is never the one forgotten
+    return allowed
+
+
+def take_back(store: dict, key: str) -> None:
+    """Un-count the latest use of `key`: a correct password, or an enquiry that was refused and not stored."""
+    with _LIMITS:
+        if store.get(key):
+            store[key].pop()
 
 
 def inline_script_hashes() -> str:
@@ -150,11 +177,16 @@ def gzipped(file: Path) -> bytes:
     return body
 
 
-_HASH_CACHE = {"stamp": None, "value": ""}
+_HASH_CACHE = {"stamp": None, "value": "", "checked": 0.0}
 
 
 def current_script_hashes() -> str:
     """Inline-script hashes, recomputed whenever a page changes on disk so edits never need a server restart."""
+    # shortcut: the 40 pages are re-checked at most once a second, so a hash can lag an edit by 1 s; restart to be exact
+    now = time.monotonic()
+    if _HASH_CACHE["stamp"] is not None and now - _HASH_CACHE["checked"] < 1:
+        return _HASH_CACHE["value"]
+    _HASH_CACHE["checked"] = now
     stamp = tuple(sorted((str(p), p.stat().st_mtime_ns) for pattern in ("*.html", "en/*.html", "residences-3d/*.html", "tower-viewer/*.html")
                          for p in ROOT.glob(pattern)))
     if stamp != _HASH_CACHE["stamp"]:
@@ -192,20 +224,36 @@ def normalize_digits(value: str) -> str:
     return value.translate(str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789"))
 
 
+def normalize_mobile(value: object) -> str:
+    """An Iranian mobile number in the one stored form, 09xxxxxxxxx, or "" when the input is not one.
+
+    Persian and Arabic digits, spaces and separators are fine; 0, +98, 98 and 0098 are the same prefix.
+    The same cases are checked in every runtime: tests/fixtures/mobiles.json.
+    """
+    digits = re.sub(r"^0098", "98", re.sub(r"[^0-9]", "", normalize_digits(clean(value, 30))))
+    return "0" + digits[-10:] if PHONE_RE.fullmatch(digits) else ""
+
+
+_SCHEMA = threading.Lock()
+
+
 def database() -> sqlite3.Connection:
     DB.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     connection = sqlite3.connect(DB)
-    connection.execute("""CREATE TABLE IF NOT EXISTS enquiries (
-        reference TEXT PRIMARY KEY, created_at TEXT NOT NULL, route TEXT NOT NULL,
-        name TEXT NOT NULL, mobile TEXT NOT NULL, email TEXT, unit TEXT,
-        visit_type TEXT, visit_date TEXT, visit_time TEXT, message TEXT,
-        page TEXT, source TEXT, campaign TEXT, consent INTEGER NOT NULL
-    )""")
-    have = {row[1] for row in connection.execute("PRAGMA table_info(enquiries)")}
-    for column, ddl in (("status", "TEXT NOT NULL DEFAULT 'new'"), ("note", "TEXT NOT NULL DEFAULT ''"), ("downloaded_at", "TEXT")):
-        if column not in have:
-            connection.execute(f"ALTER TABLE enquiries ADD COLUMN {column} {ddl}")
-    connection.commit()
+    # One thread at a time: on a new database two requests at once would both add the same column, and the loser's
+    # enquiry would be lost to "duplicate column name".
+    with _SCHEMA:
+        connection.execute("""CREATE TABLE IF NOT EXISTS enquiries (
+            reference TEXT PRIMARY KEY, created_at TEXT NOT NULL, route TEXT NOT NULL,
+            name TEXT NOT NULL, mobile TEXT NOT NULL, email TEXT, unit TEXT,
+            visit_type TEXT, visit_date TEXT, visit_time TEXT, message TEXT,
+            page TEXT, source TEXT, campaign TEXT, consent INTEGER NOT NULL
+        )""")
+        have = {row[1] for row in connection.execute("PRAGMA table_info(enquiries)")}
+        for column, ddl in (("status", "TEXT NOT NULL DEFAULT 'new'"), ("note", "TEXT NOT NULL DEFAULT ''"), ("downloaded_at", "TEXT")):
+            if column not in have:
+                connection.execute(f"ALTER TABLE enquiries ADD COLUMN {column} {ddl}")
+        connection.commit()
     return connection
 
 
@@ -311,7 +359,7 @@ class Handler(SimpleHTTPRequestHandler):
         """Report only whether a reference exists; enquiry contents are never returned."""
         if not REFERENCE_RE.fullmatch(reference):
             return self.json_response(400, {"error": "شماره پیگیری معتبر نیست."})
-        if not allow(LOOKUP_LIMIT[self.client_ip()], LOOKUPS_PER_HOUR):
+        if not allow(LOOKUP_LIMIT, self.client_ip(), LOOKUPS_PER_HOUR):
             return self.json_response(429, {"error": "درخواست‌های زیادی ارسال شده است. بعداً دوباره تلاش کنید."})
         found = None
         if DB.exists():
@@ -326,7 +374,7 @@ class Handler(SimpleHTTPRequestHandler):
 
     def send_brochure(self, reference: str):
         """The PDF is served only to someone holding the reference of a stored brochure request."""
-        if not REFERENCE_RE.fullmatch(reference) or not allow(LOOKUP_LIMIT[self.client_ip()], LOOKUPS_PER_HOUR):
+        if not REFERENCE_RE.fullmatch(reference) or not allow(LOOKUP_LIMIT, self.client_ip(), LOOKUPS_PER_HOUR):
             return self.json_response(404, {"error": "not found"})
         if not BROCHURE.is_file() or not DB.exists():
             return self.json_response(404, {"error": "not found"})
@@ -355,20 +403,20 @@ class Handler(SimpleHTTPRequestHandler):
         return self.client_address[0] in ("127.0.0.1", "::1")
 
     def admin_authenticated(self) -> bool:
-        failures, now = ADMIN_FAILS[self.client_ip()], time.monotonic()
-        while failures and now - failures[0] > 3600:
-            failures.popleft()
-        if len(failures) >= 10:
+        header = self.headers.get("Authorization", "")
+        ip = self.client_ip()
+        # A guess is counted before it is checked, so guesses sent in parallel cannot outrun the limit; a correct one is
+        # taken back below. The browser's first, header-less request only asks for the password and is not a guess.
+        if not allow(ADMIN_FAILS, ip, 10, record=bool(header)):
             self.json_response(429, {"error": "too many attempts"})
             return False
-        header = self.headers.get("Authorization", "")
         try:
             user, _, password = base64.b64decode(header.split(" ", 1)[1]).decode("utf-8").partition(":") if header.startswith("Basic ") else ("", "", "")
         except (ValueError, UnicodeError, IndexError):
             user = password = ""
         if hmac.compare_digest(user.encode(), ADMIN_USER.encode()) and hmac.compare_digest(password.encode(), ADMIN_PASSWORD.encode()):
+            take_back(ADMIN_FAILS, ip)
             return True
-        failures.append(now)
         self.send_response(401)
         self.send_header("WWW-Authenticate", 'Basic realm="Ganjineh Ofogh sales", charset="UTF-8"')
         self.send_header("Content-Length", "0")
@@ -401,13 +449,20 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.admin_reply(200, admin.page(connection, status, route, ADMIN_PASSWORD, query.get("saved", [""])[0] and "ذخیره شد."))
         return self.send_error(404)
 
+    def body_size(self) -> int:
+        """The declared body length; 0 (which both callers refuse) when the header is missing or not a number."""
+        try:
+            return int(self.headers.get("Content-Length", "0") or "0")
+        except ValueError:
+            return 0
+
     def admin_post(self):
         if not self.admin_allowed() or not self.admin_authenticated():
             return
         origin = self.headers.get("Origin")
         if origin and urlsplit(origin).netloc != self.headers.get("Host"):
             return self.json_response(403, {"error": "origin"})
-        size = int(self.headers.get("Content-Length", "0") or "0")
+        size = self.body_size()
         if not 1 <= size <= 4096:
             return self.json_response(413, {"error": "size"})
         form = {k: v[0] for k, v in parse_qs(self.rfile.read(size).decode("utf-8", "replace")).items()}
@@ -435,30 +490,34 @@ class Handler(SimpleHTTPRequestHandler):
             return self.json_response(403, {"error": "درخواست از این مبدأ پذیرفته نمی‌شود."})
         if self.headers.get("Content-Type", "").split(";")[0] != "application/json":
             return self.json_response(415, {"error": "قالب درخواست معتبر نیست."})
-        size = int(self.headers.get("Content-Length", "0") or "0")
+        size = self.body_size()
         if not 1 <= size <= 8192:
             return self.json_response(413, {"error": "حجم درخواست معتبر نیست."})
-        now = time.monotonic()
-        history = LIMIT[self.client_ip()]
-        while history and now - history[0] > 3600:
-            history.popleft()
-        if len(history) >= 10:
+        ip = self.client_ip()
+        # Counted before the work, so posts sent in parallel cannot outrun the limit; given back if nothing was stored.
+        if not allow(LIMIT, ip, 10):
             return self.json_response(429, {"error": "درخواست‌های زیادی ثبت شده است. بعداً دوباره تلاش کنید."})
+        if not self.store_enquiry(size):
+            take_back(LIMIT, ip)
+
+    def store_enquiry(self, size: int) -> bool:
+        """Check one enquiry, store it and answer the visitor. True only when it was stored."""
         try:
             data = json.loads(self.rfile.read(size))
             if not isinstance(data, dict):
                 raise ValueError()
-        except (ValueError, UnicodeError):
+            json.dumps(data, ensure_ascii=False).encode("utf-8")   # half characters ("\ud800") cannot be stored or notified
+        except (ValueError, UnicodeError, RecursionError):
             return self.json_response(400, {"error": "اطلاعات درخواست خوانده نشد."})
         if clean(data.get("website")):
             return self.json_response(400, {"error": "درخواست پذیرفته نشد."})
         route = clean(data.get("route"), 20)
         name = clean(data.get("name"), 100)
-        mobile = re.sub(r"\D", "", normalize_digits(clean(data.get("mobile"), 30)))
+        mobile = normalize_mobile(data.get("mobile"))
         email = clean(data.get("email"), 200)
         unit = clean(data.get("residence-interest"), 20)
         consent = data.get("consent") == "yes"
-        if route not in ALLOWED_ROUTES or unit not in ALLOWED_UNITS or not 2 <= len(name) <= 100 or not PHONE_RE.fullmatch(mobile) or not consent:
+        if route not in ALLOWED_ROUTES or unit not in ALLOWED_UNITS or not 2 <= len(name) <= 100 or not mobile or not consent:
             return self.json_response(422, {"error": "نام، شماره موبایل و رضایت ثبت اطلاعات را بررسی کنید."})
         if route == "brochure" and not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", email):
             return self.json_response(422, {"error": "برای درخواست بروشور، ایمیل معتبر وارد کنید."})
@@ -479,11 +538,11 @@ class Handler(SimpleHTTPRequestHandler):
         with database() as connection:
             connection.execute("INSERT INTO enquiries (reference, created_at, route, name, mobile, email, unit, visit_type, visit_date, "
                                "visit_time, message, page, source, campaign, consent) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", row)
-        history.append(now)
         notify({"reference": reference, "created_at": row[1], "route": route, "name": name, "mobile": mobile, "email": email,
                 "residence": unit, "visit_type": visit_type, "visit_date": visit_date, "visit_time": visit_time,
                 "message": clean(data.get("message"), 2000), "page": clean(data.get("page"), 200)})
-        return self.json_response(201, {"reference": reference})
+        self.json_response(201, {"reference": reference})
+        return True
 
 
 def export_csv():

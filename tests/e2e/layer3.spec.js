@@ -9,7 +9,7 @@ test.describe('motion layer III', () => {
 
   test('the header turns light-on-dark over dark bands and stays readable', async ({ page }) => {
     await page.addInitScript(() => { try { localStorage.setItem('ofogh-site-theme', 'day'); } catch {} });
-    await page.goto('/index.html?intro=0');
+    await page.goto('/index.html');
     await page.waitForFunction(() => !!window.ofogh);
     const header = page.locator('#header');
     await expect(header).not.toHaveClass(/is-dark/);

@@ -33,7 +33,7 @@
 {{font_override}}
 <script>
   // Language is the page's own (pages exist per language). A stored choice sends a visitor to the matching
-  // language of this page; theme and the home-page intro are decided here too, before first paint.
+  // language of this page; the theme is decided here too, before first paint.
   (function () {
     var d = document.documentElement, lang = d.lang, theme = 'day';
     try {
@@ -52,14 +52,6 @@
       if (cn && (cn.saveData || /(^|-)2g$|^3g$/.test(cn.effectiveType || ''))) d.dataset.lite = '1';
     } catch (e) {}
     d.classList.remove('no-js'); d.classList.add('js');
-    // First visit of the session, home page only: a short curtain intro (never under reduced motion or automation).
-    try {
-      var force = /[?&]intro=1/.test(location.search);
-      if (d.dataset.page === 'index' && (force || (!sessionStorage.getItem('ofogh-intro') && !navigator.webdriver)) &&
-          !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
-        d.dataset.intro = '1'; sessionStorage.setItem('ofogh-intro', '1');
-      }
-    } catch (e) {}
   })();
 </script>
 {{jsonld}}

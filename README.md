@@ -9,11 +9,24 @@ Bilingual (Persian / English) site for برج گنجینه افق, built on V8's
 V8 is untouched; this folder is self-contained.
 
 ```bash
-python3 server.py           # http://127.0.0.1:8000/   (restart once after updating: the CSP hashes now refresh themselves)
+python3 server.py           # http://127.0.0.1:8000/   (the CSP hashes follow page edits within a second; no restart needed)
 python3 tools/build_site.py # rebuild the HTML pages and minified assets from src/ after any edit
 python3 -m unittest tests/test_notify.py          # enquiry notification (webhook) test
 npm test                                          # end-to-end suite (needs node_modules; see Testing)
 ```
+
+## Where changes go, and publishing the preview
+
+**This folder is the only place to change the site.** The public preview repo (`amirronaldo319/ganjineh-ofogh`, GitHub Pages) holds generated files only. A fix typed straight into it is replaced by the next publish, and until then returning visitors keep the old cached file, because its `?v=` tag and the service-worker version did not change.
+
+```bash
+python3 tools/build_site.py                      # after any edit to src/, assets/css/site.css or assets/js/*.js
+python3 -m unittest tests/test_build_fresh.py    # the built pages match the source, and no built file was edited by hand (CI runs it too)
+sh tools/publish_github_pages.sh                 # DRY RUN: lists what would change in the preview; publishes nothing
+sh tools/publish_github_pages.sh --push          # publishes as one new commit on top of the preview's history; asks you to confirm
+```
+
+The publish never force-pushes. It refuses when this folder has uncommitted changes or a stale build, and it warns when the preview's last commit was not made by the script (someone edited it by hand). To undo a publish, `git revert` its commit in a clone of the preview repo and push, or check out the earlier commit here and publish again. Two builds of the same source can differ inside the inlined first-screen CSS of a few pages (the capture step is timing-sensitive); nothing else differs.
 
 ## Languages and URLs
 
@@ -182,6 +195,7 @@ npm test                                                   # end-to-end: Chrome 
 PW_CHANNEL=chrome PW_CHROME_ONLY=1 npx playwright test    # Chrome projects only
 npm run test:visual                                        # screenshots: every page, 4 widths, Day + Dusk
 npm run test:visual:update                                 # accept a deliberate design change as the new baseline
+node --test tests/mobile.test.mjs                          # the mobile-number rule: Cloudflare backend and both forms, against tests/fixtures/mobiles.json
 ```
 
 Last run: Chrome projects 166 passed (2 skips); Safari desktop + iPhone 13 (WebKit) all passed except the Chromium-only tests, which are skipped; visual 160 of 160 identical on a second run. Python: `python3 -m unittest discover -s tests` (notifier, brochure + inbox, monitor).
@@ -217,7 +231,6 @@ All motion lives in `assets/js/motion.js` and the last block of `assets/css/site
 - **Lines and shapes draw themselves:** section rules, map roads, plan pins; counters count up; a drifting typographic band; a footer wordmark.
 - **Interaction:** tab panels lift a veil off the image, the plan explorer wipes between apartments, gallery tiles re-enter in sequence on filtering, the lightbox grows out of the thumbnail and slides between images.
 - **Transitions:** page-to-page crossfade (cross-document View Transitions, Chromium/Safari 18+), a circle that opens from the button when switching Day ⇄ Dusk, a crossfade when switching language.
-- **First visit:** a short curtain (a hairline draws, the wordmark appears, the curtain lifts onto the hero entrance), once per session on the home page, skippable with any key or click; `?intro=1` replays it.
 - **Cursor and navigation:** a trailing ring that names what is under it (View / Select); one hairline glides between nav links; apartment cards tilt toward the pointer; a dot index of the home page's sections; in-page links glide with a long even ease; the typographic band speeds up while you scroll; images alternate their wipe direction; a brand arch-and-sun ornament draws itself.
 - **Polish:** scroll-progress hairline, paper grain, thin brass scrollbar, buttons with a sweeping fill, links that underline from the reading edge.
 

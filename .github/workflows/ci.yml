@@ -25,6 +25,8 @@ jobs:
         run: python3 -m unittest discover -s tests -p "test_*.py"
       - name: Persian typography lint
         run: python3 tools/lint_persian.py
+      - name: Mobile-number rule (Cloudflare backend and the two forms)
+        run: node --test tests/mobile.test.mjs
 
   cloudflare:
     # The Pages Functions backend against a local workerd; it needs a built preview and downloads wrangler.

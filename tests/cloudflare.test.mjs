@@ -61,6 +61,10 @@ test('static pages are still served', async () => {
   assert.equal((await fetchT(main + '/en/')).status, 200);
 });
 
+test('+98 and 0098 numbers are accepted', async () => {
+  for (const mobile of ['+98 912 123 4567', '0098 912 123 4567']) assert.equal((await post(main, visitor({ mobile }))).status, 201, mobile);
+});
+
 test('validation refuses bad input', async () => {
   assert.equal((await post(main, visitor({ mobile: '12345' }))).status, 422);
   assert.equal((await post(main, visitor({ consent: 'no' }))).status, 422);
@@ -128,12 +132,40 @@ test('the sales inbox: login, list, update, export, download record', async () =
   assert.ok((await (await fetchT(main + '/admin', { headers: AUTH })).text()).includes('دانلود شد'));
 });
 
+test('the sales inbox locks an address out after 10 wrong passwords', async () => {
+  const from = ip();
+  const wrong = { ...from, authorization: 'Basic ' + Buffer.from('admin:guess').toString('base64') };
+  assert.equal((await fetchT(main + '/admin', { headers: from })).status, 401);   // the login prompt itself is not a guess
+  for (let i = 0; i < 10; i++) assert.equal((await fetchT(main + '/admin', { headers: wrong })).status, 401);
+  assert.equal((await fetchT(main + '/admin', { headers: { ...from, ...AUTH } })).status, 429);
+  assert.equal((await fetchT(main + '/admin', { headers: { ...ip(), ...AUTH } })).status, 200);   // other addresses are unaffected
+});
+
+test('guesses sent in parallel get no more than the allowance checked', async () => {
+  const wrong = { ...ip(), authorization: 'Basic ' + Buffer.from('admin:guess').toString('base64') };
+  const statuses = await Promise.all(Array.from({ length: 30 }, () => fetchT(main + '/admin', { headers: wrong }).then((r) => r.status)));
+  assert.ok(statuses.every((s) => s === 401 || s === 429), String(statuses));
+  assert.ok(statuses.filter((s) => s === 401).length <= 10, `${statuses.filter((s) => s === 401).length} guesses were checked`);
+});
+
+test('a correct password is never counted, however often the inbox is opened', async () => {
+  const from = ip();
+  for (let i = 0; i < 12; i++) assert.equal((await fetchT(main + '/admin', { headers: { ...from, ...AUTH } })).status, 200);
+});
+
 test('enquiries are rate-limited per visitor', async () => {
   const fixed = { 'cf-connecting-ip': '10.9.9.9' };
   const codes = [];
   for (let i = 0; i < 12; i++) codes.push((await post(main, visitor(), fixed)).status);
   assert.deepEqual(codes.slice(0, 10), Array(10).fill(201));
   assert.equal(codes[10], 429);
+});
+
+test('a burst of enquiries from one visitor cannot outrun the limit', async () => {
+  const fixed = { 'cf-connecting-ip': '10.9.9.10' };
+  const codes = await Promise.all(Array.from({ length: 30 }, () => post(main, visitor(), fixed).then((r) => r.status)));
+  assert.ok(codes.every((c) => c === 201 || c === 429), String(codes));
+  assert.ok(codes.filter((c) => c === 201).length <= 10, `${codes.filter((c) => c === 201).length} enquiries were stored`);
 });
 
 test('without ACCEPT_ENQUIRIES the form is closed; without ADMIN_PASSWORD there is no inbox', async () => {

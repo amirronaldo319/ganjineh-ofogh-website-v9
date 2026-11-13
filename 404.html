@@ -28,13 +28,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://ganjinehofogh.ir/assets/img/og.jpg">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/assets/css/site.min.css?v=472f889e">
+<link rel="stylesheet" href="/assets/css/site.min.css?v=d6d8069a">
 
 <link rel="preload" href="/assets/fonts/Vazirmatn-fa-used.woff2" as="font" type="font/woff2" crossorigin>
 
 <script>
   // Language is the page's own (pages exist per language). A stored choice sends a visitor to the matching
-  // language of this page; theme and the home-page intro are decided here too, before first paint.
+  // language of this page; the theme is decided here too, before first paint.
   (function () {
     var d = document.documentElement, lang = d.lang, theme = 'day';
     try {
@@ -53,20 +53,11 @@
       if (cn && (cn.saveData || /(^|-)2g$|^3g$/.test(cn.effectiveType || ''))) d.dataset.lite = '1';
     } catch (e) {}
     d.classList.remove('no-js'); d.classList.add('js');
-    // First visit of the session, home page only: a short curtain intro (never under reduced motion or automation).
-    try {
-      var force = /[?&]intro=1/.test(location.search);
-      if (d.dataset.page === 'index' && (force || (!sessionStorage.getItem('ofogh-intro') && !navigator.webdriver)) &&
-          !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
-        d.dataset.intro = '1'; sessionStorage.setItem('ofogh-intro', '1');
-      }
-    } catch (e) {}
   })();
 </script>
 
 </head>
 <body>
-<div class="curtain" id="intro" aria-hidden="true"><span class="curtain__line"></span><span class="curtain__mark">گنجینه افق</span><span class="curtain__sub">تهران / ازگل</span></div>
 <a class="skip" href="#main">رفتن به محتوای اصلی</a>
 <header class="header" id="header">
   <div class="wrap header__in">
@@ -193,7 +184,7 @@
   </div>
 </dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="/assets/js/site.min.js?v=19630816" defer></script>
-<script src="/assets/js/motion.min.js?v=ba562821" defer></script>
+<script src="/assets/js/site.min.js?v=dc2f866c" defer></script>
+<script src="/assets/js/motion.min.js?v=484d5f84" defer></script>
 </body>
 </html>
