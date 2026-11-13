@@ -66,7 +66,7 @@
   100% { opacity: 0; translate: 0px -54px; }
 }@keyframes heroExitArt { 
   100% { scale: 1.06; translate: 0px 36px; }
-}</style><link rel="stylesheet" href="../assets/css/site.min.css?v=d6d8069a" media="print" data-full><script>(function(){var l=document.querySelector('link[data-full]');function f(){l.media='all'}if(l.sheet&&l.sheet.cssRules.length)f();else l.addEventListener('load',f)})()</script><noscript><link rel="stylesheet" href="../assets/css/site.min.css?v=d6d8069a"></noscript>
+}</style><link rel="stylesheet" href="../assets/css/site.min.css?v=8b2fced2" media="print" data-full><script>(function(){var l=document.querySelector('link[data-full]');function f(){l.media='all'}if(l.sheet&&l.sheet.cssRules.length)f();else l.addEventListener('load',f)})()</script><noscript><link rel="stylesheet" href="../assets/css/site.min.css?v=8b2fced2"></noscript>
 <link rel="preload" as="image" type="image/avif" href="../assets/img/hero-720.avif" imagesrcset="../assets/img/hero-480.avif 480w, ../assets/img/hero-720.avif 720w, ../assets/img/hero-928.avif 928w, ../assets/img/hero-1200.avif 1200w, ../assets/img/hero-1624.avif 1624w, ../assets/img/hero-2200.avif 2200w" imagesizes="(min-width: 1537px) 616px, (max-width: 880px) 86vw, 46vw" fetchpriority="high">
 <link rel="preload" href="../assets/fonts/SourceSerif4-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style id="font-en">@font-face{font-family:'Vazirmatn';font-style:normal;font-weight:300 800;font-display:swap;src:url(../assets/fonts/Vazirmatn-en-used.woff2) format('woff2');unicode-range:U+0627-0628, U+062A, U+062C, U+062E-062F, U+0631-0635, U+0639, U+0641-0642, U+0644-0648, U+0660, U+0669, U+06AF, U+06CC, U+06F0, U+06F9, U+200C;}</style>
@@ -224,6 +224,41 @@
 </section>
 
 <div class="marquee" aria-hidden="true"><div class="marquee__track"><span><span class="mw" data-w="Light"></span><b></b></span><span><span class="mw" data-w="Calm"></span><b></b></span><span><span class="mw" data-w="Connection"></span><b></b></span><span><span class="mw" data-w="Light"></span><b></b></span><span><span class="mw" data-w="Calm"></span><b></b></span><span><span class="mw" data-w="Connection"></span><b></b></span><span><span class="mw" data-w="Light"></span><b></b></span><span><span class="mw" data-w="Calm"></span><b></b></span><span><span class="mw" data-w="Connection"></span><b></b></span><span><span class="mw" data-w="Light"></span><b></b></span><span><span class="mw" data-w="Calm"></span><b></b></span><span><span class="mw" data-w="Connection"></span><b></b></span><span><span class="mw" data-w="Light"></span><b></b></span><span><span class="mw" data-w="Calm"></span><b></b></span><span><span class="mw" data-w="Connection"></span><b></b></span><span><span class="mw" data-w="Light"></span><b></b></span><span><span class="mw" data-w="Calm"></span><b></b></span><span><span class="mw" data-w="Connection"></span><b></b></span><span><span class="mw" data-w="Light"></span><b></b></span><span><span class="mw" data-w="Calm"></span><b></b></span><span><span class="mw" data-w="Connection"></span><b></b></span><span><span class="mw" data-w="Light"></span><b></b></span><span><span class="mw" data-w="Calm"></span><b></b></span><span><span class="mw" data-w="Connection"></span><b></b></span></div></div>
+
+<!-- ═════════ a walk through the project: five existing renders, one scroll ═════════
+     Pinned and scroll-driven when JS runs and motion is allowed; otherwise a plain list (see .journey in site.css). -->
+<section class="journey" id="journey" aria-labelledby="journey-title" style="--n:5">
+  <div class="journey__stick">
+    <a class="journey__skip" href="#daydusk">Skip this section</a>
+    <div class="journey__head wrap">
+      <span class="eyebrow">A look around</span>
+      <h2 class="h2" id="journey-title">A new way to live in Tehran.</h2>
+    </div>
+    <div class="journey__stage">
+      <article class="scene" style="--i:0">
+        <figure class="scene__pic"><picture><source type="image/avif" srcset="../assets/img/panorama-480.avif 480w, ../assets/img/panorama-720.avif 720w, ../assets/img/panorama-900.avif 900w, ../assets/img/panorama-1176.avif 1176w, ../assets/img/panorama-1536.avif 1536w" sizes="100vw"><img src="../assets/img/panorama-1536.webp" srcset="../assets/img/panorama-480.webp 480w, ../assets/img/panorama-720.webp 720w, ../assets/img/panorama-900.webp 900w, ../assets/img/panorama-1176.webp 1176w, ../assets/img/panorama-1536.webp 1536w" width="1536" height="1024" decoding="async" loading="lazy" style="background-color:#806c57;background-image:url(data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAACQAwCdASoUAA0APwlwr1ArpiQisAgBcCEJQBOmUABfPhB/jxoAAP60DTs4MwFQZgqxlH0rIF4LkqvI0uk8HeH6Aq9eXFUjHiOsbfW8BCIZTkgYiy/s2HsAAAA=);background-size:cover" data-lqip data-kind="render" sizes="100vw" alt="Ganjineh Ofogh on the city skyline with the snow-capped range behind."></picture></figure>
+        <div class="scene__text"><span class="eyebrow">The city</span><h3>The tower, between city and mountains</h3><p>A first look from a distance: the tower on the city skyline, with the snow-capped range behind it.</p></div>
+      </article>
+      <article class="scene" style="--i:1">
+        <figure class="scene__pic"><picture><source type="image/avif" srcset="../assets/img/entrance-480.avif 480w, ../assets/img/entrance-720.avif 720w, ../assets/img/entrance-900.avif 900w, ../assets/img/entrance-1176.avif 1176w, ../assets/img/entrance-1536.avif 1536w" sizes="100vw"><img src="../assets/img/entrance-1536.webp" srcset="../assets/img/entrance-480.webp 480w, ../assets/img/entrance-720.webp 720w, ../assets/img/entrance-900.webp 900w, ../assets/img/entrance-1176.webp 1176w, ../assets/img/entrance-1536.webp 1536w" width="1536" height="1024" decoding="async" loading="lazy" style="background-color:#89684a;background-image:url(data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAwBACdASoUAA0APwlurk+rpiQiMAgBcCEJZACdMoRwAB9d5uVqXN9u8wAAzjdX0wks1kxgam04MLRAHfj1Oyz2U5eRhhzTFIqk1w8p19muPRsqs8ZbtULEj2+jy8aAAAA=);background-size:cover" data-lqip data-kind="render" sizes="100vw" alt="The curved entrance canopy with warm downlights, planters and a glass drum."></picture></figure>
+        <div class="scene__text"><span class="eyebrow">Arrival</span><h3>A curved canopy at the entrance</h3><p>The curved entrance canopy with warm downlights, planters and a glass drum.</p></div>
+      </article>
+      <article class="scene" style="--i:2">
+        <figure class="scene__pic"><picture><source type="image/avif" srcset="../assets/img/facade-480.avif 480w, ../assets/img/facade-720.avif 720w, ../assets/img/facade-900.avif 900w, ../assets/img/facade-1176.avif 1176w, ../assets/img/facade-1536.avif 1536w" sizes="100vw"><img src="../assets/img/facade-1536.webp" srcset="../assets/img/facade-480.webp 480w, ../assets/img/facade-720.webp 720w, ../assets/img/facade-900.webp 900w, ../assets/img/facade-1176.webp 1176w, ../assets/img/facade-1536.webp 1536w" width="1536" height="1024" decoding="async" loading="lazy" style="background-color:#937b63;background-image:url(data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADwAwCdASoUAA0APwlurk+rpiQiMAgBcCEJZgCdMoACNj4uPdUVGgacAP6zKkPFDQEsWH0sDpQlp8eaIRNu1TkSCYjOzga7i0/9vaM5JDz0xs7habFHKkD2TvIAKKeIcgDBHcWuNYwAAA==);background-size:cover" data-lqip data-kind="render" sizes="100vw" alt="Close view of the façade: pale stone, glazed openings and balconies planted with greenery at golden hour."></picture></figure>
+        <div class="scene__text"><span class="eyebrow">Façade</span><h3>Pale stone, glass and greenery</h3><p>A close view of the façade: pale stone, glazed openings and planted balconies at golden hour.</p></div>
+      </article>
+      <article class="scene" style="--i:3">
+        <figure class="scene__pic"><picture><source type="image/avif" srcset="../assets/img/terrace-480.avif 480w, ../assets/img/terrace-720.avif 720w, ../assets/img/terrace-1000.avif 1000w, ../assets/img/terrace-1416.avif 1416w, ../assets/img/terrace-2000.avif 2000w" sizes="100vw"><img src="../assets/img/terrace-2000.webp" srcset="../assets/img/terrace-480.webp 480w, ../assets/img/terrace-720.webp 720w, ../assets/img/terrace-1000.webp 1000w, ../assets/img/terrace-1416.webp 1416w, ../assets/img/terrace-2000.webp 2000w" width="2000" height="1126" decoding="async" loading="lazy" style="background-color:#78685f;background-image:url(data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAAAQBACdASoUAAsAPwlwr1ArpiQisAgBcCEJZACdMoGv/gI/j/GFwXjj6AD+cqu+Q/s2GVUw0dW6uca38tF39cfEmZLvTTGzldGFUgFAOVgvP5inqX6Ql8C+gVsAAA==);background-size:cover" data-lqip data-kind="render" sizes="100vw" alt="A terrace at sunset with seating and a mountain view."></picture></figure>
+        <div class="scene__text"><span class="eyebrow">Terrace</span><h3>A terrace facing the mountains</h3><p>A terrace at sunset with seating and a mountain view.</p></div>
+      </article>
+      <article class="scene" style="--i:4">
+        <figure class="scene__pic"><picture><source type="image/avif" srcset="../assets/img/interior-view-480.avif 480w, ../assets/img/interior-view-720.avif 720w, ../assets/img/interior-view-900.avif 900w, ../assets/img/interior-view-1176.avif 1176w, ../assets/img/interior-view-1536.avif 1536w" sizes="100vw"><img src="../assets/img/interior-view-1536.webp" srcset="../assets/img/interior-view-480.webp 480w, ../assets/img/interior-view-720.webp 720w, ../assets/img/interior-view-900.webp 900w, ../assets/img/interior-view-1176.webp 1176w, ../assets/img/interior-view-1536.webp 1536w" width="1536" height="1024" decoding="async" loading="lazy" style="background-color:#a4896d;background-image:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAACQAwCdASoUAA0APwlurk+rpiQiMAgBcCEJQBOgArngNWSj+JzAAPjZY4z/5PqKeU16bNPQUt2FP7TIhYoZurLbCTgM/nm5P0uux7g4R5GNrWNyvPfa04ZJao2S7U4Xb5AAAA==);background-size:cover" data-lqip data-kind="interior" sizes="100vw" alt="A living room opening to a terrace with a mountain outlook."></picture></figure>
+        <div class="scene__text"><span class="eyebrow">Inside</span><h3>A living room opening to the terrace</h3><p>A living room opening to a terrace with a mountain outlook; an illustrative interior.</p></div>
+      </article>
+    </div>
+    <div class="scrub__bar journey__bar" aria-hidden="true"><span>The city</span><span class="line"><i></i></span><span>Inside</span></div>
+  </div>
+</section>
 
 <!-- ═════════ day → dusk ═════════ -->
 <section class="scrub" id="daydusk" aria-labelledby="scrub-title">
@@ -575,7 +610,7 @@
   </div>
 </dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="../assets/js/site.min.js?v=dc2f866c" defer></script>
+<script src="../assets/js/site.min.js?v=5a4a4728" defer></script>
 <script src="../assets/js/motion.min.js?v=484d5f84" defer></script>
 </body>
 </html>

@@ -57,6 +57,19 @@ and `cloudflare/SETUP.md` the 10-minute guide. It is covered by `node --test tes
 
 The public address is `host` in `src/site.config.json`; canonical links, hreflang, the sitemap, `robots.txt` and the social cards follow it.
 
+## The walk on the home page (#journey)
+
+Five existing renders (city → arrival → façade → terrace → inside) that you scroll through, pinned on screen, between the intro and the day-to-dusk section. It is built from the same stills as the rest of the site, so it adds no new facts and no new files to download beyond those pictures.
+
+- **Where:** `src/pages/index.html` (`#journey`), styles at the end of `assets/css/site.css`, one small block in `assets/js/site.js` (`onScrollFx`). No library: the script only writes `--j` (the position, 0 to 4) on the section, and CSS does the fading, the slow push-in and the captions.
+- **It reverses by itself:** the same scroll position always gives the same picture. Each scene fades in over the one before it, so there is never a dip to black.
+- **Always skippable:** a visible "Skip this section" link jumps to the day-to-dusk section.
+- **A plain list instead** (no pinning, every picture and caption in order) without JavaScript, with reduced motion, on Data Saver / slow connections, and in print.
+- **Phones:** portrait screens show the whole picture in a 3:2 frame with the caption underneath (nothing cut off); small and landscape phones drop the visible heading (kept for screen readers) to make room.
+- **Honesty:** every picture carries its "Concept render" / "Illustrative interior" label like everywhere else; captions reuse the wording the site already uses for those pictures.
+- **To change it:** edit the five `<article class="scene" style="--i:N">` blocks, keep `--i` counting from 0, and set `--n` on the `<section>` to the number of scenes. Use pictures that already have a kind in `tools/build_site.py` (`IMAGE_KINDS`), and keep `sizes="100vw"` (the sizes test checks it).
+- **Not here yet (needs source material):** a real camera flythrough or an exterior-to-interior move. That needs rendered frames or footage of the building; the stills cannot honestly fake one. `tests/e2e/journey.spec.js` covers advance, reverse, skip, labels, phones and the fallbacks.
+
 ## Motion layer III
 
 Added on top of layers I–II (all compositor-only; nothing runs under `prefers-reduced-motion`):

@@ -177,9 +177,19 @@
 
   /* ───────── scroll-linked: hero sun parallax + day→dusk (the hero render itself stays still so it is never cropped) ───────── */
   var heroSun = $('#hero-sun'), scrub = $('#daydusk');
+  var journey = $('#journey'), journeyScenes = journey ? journey.querySelectorAll('.scene').length : 0, journeyAt = -1;
   function onScrollFx() {
     var vh = window.innerHeight, y = window.scrollY;
     if (!reduced && heroSun && y < vh * 1.2) heroSun.style.setProperty('--sy', (y * -0.12).toFixed(1) + 'px');
+    /* journey: position of the walk, 0 (first scene) … n-1 (last), 60% of a screen of scrolling per scene; CSS does the rest */
+    if (journey && !reduced && !root.hasAttribute('data-lite')) {
+      var jr = journey.getBoundingClientRect();
+      if (jr.bottom > -vh && jr.top < vh * 2) {
+        var j = clamp(-jr.top / (vh * 0.6), 0, journeyScenes - 1);
+        journey.style.setProperty('--j', j.toFixed(3));
+        if (Math.round(j) !== journeyAt) { journeyAt = Math.round(j); journey.dataset.scene = journeyAt; }
+      }
+    }
     if (scrub) {
       var r = scrub.getBoundingClientRect();
       if (r.bottom > -vh && r.top < vh * 2) {

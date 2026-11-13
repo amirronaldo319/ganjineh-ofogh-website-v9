@@ -1517,3 +1517,87 @@ html[lang="fa"] .hero__more { letter-spacing: 0; text-transform: none; font-size
    (inline boxes ignore it for line height; the breadcrumb links are flex items, so the margin cancels it there) */
 .crumbs a { padding-block: 11px; margin-block: -11px; }
 .compare a { padding-block: 11px; }
+
+/* ═════════════════════════════════════════════════════════════════════════
+   Journey: a walk through five existing renders (city → arrival → façade → terrace → inside).
+   BASE = a plain stack of picture + caption: what you get without JavaScript, with reduced motion, in lite mode and in print.
+   PINNED (below) only adds position, opacity and scale; nothing in it is needed to read the content.
+   ═════════════════════════════════════════════════════════════════════════ */
+.journey { position: relative; padding-block: clamp(56px, 8vw, 120px); }
+.journey__head { margin-block-end: clamp(24px, 4vw, 56px); }
+.journey__head .h2 { max-width: 20ch; }
+.journey__skip, .journey__bar { display: none; }
+.journey__stage { display: grid; gap: clamp(36px, 6vw, 88px); max-width: calc(var(--wrap) + var(--gutter) * 2); margin-inline: auto; padding-inline: var(--gutter); }
+.scene { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(20px, 4vw, 64px); align-items: center; }
+.scene:nth-child(even) .scene__pic { order: 2; }
+.scene__pic { position: relative; margin: 0; aspect-ratio: 3 / 2; overflow: hidden; background: var(--bg-2); }
+.scene__pic img { width: 100%; height: 100%; object-fit: cover; }
+.scene__text .eyebrow { margin-block-end: .9rem; }
+.scene__text h3 { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.6rem, 2.8vw, 2.5rem); line-height: 1.15; margin-block-end: .7rem; }
+html[lang="fa"] .scene__text h3 { font-weight: 600; }
+@media (max-width: 880px) { .scene { grid-template-columns: 1fr; } .scene:nth-child(even) .scene__pic { order: 0; } }
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  html.js:not([data-lite]) .journey { --j: 0; --p: calc(var(--j) / (var(--n) - 1)); padding: 0; background: var(--night); color: var(--night-ink);
+    height: calc(100svh + (var(--n) - 1) * 60svh + 25svh); }   /* 60svh of scrolling per scene, then a short hold on the last one */
+  html.js:not([data-lite]) .journey__stick { position: sticky; inset-block-start: 0; height: 100svh; overflow: hidden; isolation: isolate; }
+  html.js:not([data-lite]) .journey__head { position: absolute; inset-inline: 0; inset-block-start: calc(var(--header-h) + 8px); margin: 0; z-index: 11; }
+  html.js:not([data-lite]) .journey__head .h2 { color: var(--night-ink); font-size: clamp(1.5rem, 2.6vw, 2.3rem); text-shadow: 0 1px 3px rgba(8, 14, 12, .5), 0 2px 24px rgba(8, 14, 12, .6); }
+  html.js:not([data-lite]) .journey__head .eyebrow { color: #e3cf9f; margin-block-end: .6rem; text-shadow: 0 1px 8px rgba(8, 14, 12, .7); }
+  html.js:not([data-lite]) .journey__stage { position: absolute; inset: 0; display: block; max-width: none; width: 100%; margin: 0; padding: 0; }
+  html.js:not([data-lite]) .scene { position: absolute; inset: 0; display: block; }
+  /* each scene fades in over the one before it (which stays fully opaque beneath: no dip to black) and pushes in slowly.
+     Stacking: pictures 1…n, then every caption and control (11-12), so nothing can end up behind a later scene. */
+  html.js:not([data-lite]) .scene__pic { position: absolute; inset: 0; aspect-ratio: auto; order: 0; z-index: calc(var(--i) + 1); opacity: clamp(0, calc(var(--j) - var(--i) + 1), 1); }
+  html.js:not([data-lite]) .scene__pic img { object-position: 50% 46%; scale: calc(1.02 + clamp(0, calc(var(--j) - var(--i) + 1), 2) * .035); }
+  /* the reading gradient lives inside each picture, under its "concept render" label, so the label stays crisp */
+  html.js:not([data-lite]) .scene__pic::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    background: linear-gradient(to top, rgba(8, 14, 12, .92), rgba(8, 14, 12, .6) 30%, rgba(8, 14, 12, .16) 58%, rgba(8, 14, 12, 0) 72%), linear-gradient(to bottom, rgba(8, 14, 12, .62), rgba(8, 14, 12, 0) 30%); }
+  html.js:not([data-lite]) .scene__text { position: absolute; z-index: 11; inset-inline: var(--gutter); inset-block-end: 84px; max-width: 34ch;
+    opacity: clamp(0, calc(1 - max(var(--j) - var(--i), var(--i) - var(--j)) * 2.4), 1); translate: 0 calc((var(--i) - var(--j)) * 26px);
+    text-shadow: 0 1px 2px rgba(8, 14, 12, .5), 0 2px 22px rgba(8, 14, 12, .55); }
+  html.js:not([data-lite]) .scene__text .eyebrow { color: #e3cf9f; }
+  html.js:not([data-lite]) .scene__text h3 { text-wrap: balance; }
+  html.js:not([data-lite]) .scene__text p { color: rgba(237, 232, 220, .92); }
+  html.js:not([data-lite]) .journey .kind { inset-inline-start: auto; inset-inline-end: var(--gutter); inset-block-end: 104px; z-index: 4; }   /* above the bar and the back-to-top button */
+  html.js:not([data-lite]) .journey__bar { display: flex; z-index: 11; inset-inline-end: calc(var(--gutter) + 64px); }   /* clear of the back-to-top button */
+  html.js:not([data-lite]) .journey__skip { display: inline-flex; align-items: center; position: absolute; z-index: 12; inset-block-start: calc(var(--header-h) + 12px); inset-inline-end: var(--gutter);
+    min-block-size: 44px; padding-inline: 1.1rem; font-size: .82rem; color: var(--night-ink); text-decoration: none; background: rgba(15, 26, 22, .78);
+    border: 1px solid rgba(237, 232, 220, .45); border-radius: 999px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: background .2s, border-color .2s; }
+  html.js:not([data-lite]) .journey__skip:hover { background: rgba(15, 26, 22, .94); border-color: rgba(237, 232, 220, .8); }
+}
+
+/* Portrait phones and tablets: the whole picture sits in an uncropped 3:2 frame and the caption flows underneath it.
+   (A landscape phone keeps the full-bleed layout above: a 3:2 frame would be taller than the screen.) */
+@media screen and (prefers-reduced-motion: no-preference) and (max-width: 880px) and (max-aspect-ratio: 1/1) {
+  html.js:not([data-lite]) .journey__stick { display: flex; flex-direction: column; padding-block-start: calc(var(--header-h) + 6px); }
+  html.js:not([data-lite]) .journey__head { position: relative; inset: auto; flex: none; padding-block-end: 14px; }
+  html.js:not([data-lite]) .journey__head .eyebrow { min-block-size: 40px; margin-block-end: 0; }
+  html.js:not([data-lite]) .journey__head .eyebrow::before { display: none; }   /* room for the skip button on a 320px screen */
+  html.js:not([data-lite]) .journey__head .h2 { font-size: 1.4rem; max-width: none; text-shadow: none; }
+  html.js:not([data-lite]) .journey__stage { position: relative; inset: auto; flex: 1 1 auto; min-height: 0; }
+  html.js:not([data-lite]) .scene__pic { inset: 0 0 auto 0; height: auto; aspect-ratio: 3 / 2; }
+  html.js:not([data-lite]) .scene__pic::after { display: none; }
+  html.js:not([data-lite]) .scene__pic img { scale: calc(1 + clamp(0, calc(var(--j) - var(--i) + 1), 2) * .015); }
+  html.js:not([data-lite]) .scene__text { inset-block-start: calc(66.67vw + 18px); inset-block-end: auto; max-width: none; text-shadow: none; }
+  html.js:not([data-lite]) .journey__skip { inset-block-start: calc(var(--header-h) + 6px); min-block-size: 40px; font-size: .78rem; }
+  html.js:not([data-lite]) .journey .kind { inset-inline-start: 8px; inset-inline-end: auto; inset-block-end: 8px; }
+  html.js:not([data-lite]) .journey__bar { inset-inline-end: calc(var(--gutter) + 56px); }
+}
+/* short portrait screens (small phones): keep the heading for screen readers, free the room for the picture and caption */
+@media screen and (prefers-reduced-motion: no-preference) and (max-width: 880px) and (max-aspect-ratio: 1/1) and (max-height: 640px) {
+  html.js:not([data-lite]) .journey__head .h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  html.js:not([data-lite]) .scene__text { inset-block-start: calc(66.67vw + 12px); }
+  html.js:not([data-lite]) .scene__text .eyebrow { margin-block-end: .45rem; }
+  html.js:not([data-lite]) .scene__text h3 { font-size: 1.25rem; margin-block-end: .4rem; }
+  html.js:not([data-lite]) .scene__text p { font-size: .85rem; line-height: 1.45; }
+}
+/* short landscape screens (phones on their side): no room for a heading above the caption, so the heading stays for screen readers only */
+@media screen and (prefers-reduced-motion: no-preference) and (max-height: 520px) and (min-aspect-ratio: 1/1) {
+  html.js:not([data-lite]) .journey__head { position: absolute; inset: auto; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  html.js:not([data-lite]) .scene__text { inset-block-end: 62px; max-width: 46ch; }
+  html.js:not([data-lite]) .scene__text .eyebrow { margin-block-end: .4rem; }
+  html.js:not([data-lite]) .scene__text h3 { font-size: 1.3rem; margin-block-end: .35rem; }
+  html.js:not([data-lite]) .scene__text p { font-size: .85rem; line-height: 1.45; }
+  html.js:not([data-lite]) .journey .kind { inset-block-end: 66px; }
+}
